@@ -16,6 +16,10 @@
       ]
     ],
     "name": "my-app",
-    "slug": "my-app"
+    "slug": "my-app",
+    "userInterfaceStyle": "automatic",
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }
