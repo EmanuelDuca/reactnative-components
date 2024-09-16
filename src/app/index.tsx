@@ -7,6 +7,11 @@ export default function Page() {
   return (
     <View className="flex flex-1 bg-white dark:bg-black">
       <Header />
+      <View className="h-32 w-full px-4 bg-purple-500 dark:bg-yellow-500 justify-center items-center">
+        <Text className="text-white font-mono font-bold text-2xl">
+          Welcome to this video!
+        </Text>
+      </View>
       <Content />
       <Footer />
     </View>
@@ -33,7 +38,7 @@ function Content() {
               <Link
                 suppressHighlighting
                 className="flex h-9 items-center justify-center overflow-hidden rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 web:shadow ios:shadow transition-colors hover:bg-gray-900/90 active:bg-gray-400/90 web:focus-visible:outline-none web:focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-                href="/"
+                href="/second"
               >
                 Explore
               </Link>
@@ -50,24 +55,27 @@ function Header() {
   return (
     <View style={{ paddingTop: top }}>
       <View className="px-4 lg:px-6 h-14 flex items-center flex-row justify-between ">
-        <Link className="font-bold flex-1 items-center justify-center" href="/">
+        <Link
+          className="text-black dark:text-white font-bold flex-1 items-center justify-center"
+          href="/"
+        >
           ACME
         </Link>
         <View className="flex flex-row gap-4 sm:gap-6">
           <Link
-            className="text-md font-medium hover:underline web:underline-offset-4"
+            className="text-black dark:text-white text-md font-medium hover:underline web:underline-offset-4"
             href="/"
           >
             About
           </Link>
           <Link
-            className="text-md font-medium hover:underline web:underline-offset-4"
+            className="text-black dark:text-white text-md font-medium hover:underline web:underline-offset-4"
             href="/"
           >
             Product
           </Link>
           <Link
-            className="text-md font-medium hover:underline web:underline-offset-4"
+            className="text-black dark:text-white text-md font-medium hover:underline web:underline-offset-4"
             href="/"
           >
             Pricing
