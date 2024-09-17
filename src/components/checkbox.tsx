@@ -94,7 +94,7 @@ export const checkboxIndicatorVariants = cva(
       variant: {
         default: "border-neutral-200",
         disabled: "bg-green-500 border-neutral-300",
-        validation: "bg-white border-red-700",
+        validation: "bg-background border-red-700",
       },
       checked: {
         false: undefined,
@@ -141,7 +141,7 @@ export const checkboxIndicatorVariants = cva(
       {
         variant: "validation",
         checked: false,
-        className:"bg-white border-red-700"
+        className:"border-destructive-foreground"
       }
     ],
     defaultVariants: {
@@ -169,33 +169,16 @@ CheckboxIndicator.displayName = "CheckboxIndicator";
 
 /// The code bellow is for Label component
 
-const checkboxLabelVariants = cva("text-sm font-semibold text-neutral-800 dark:text-neutral-100", {
-  variants: {
-    variant: {
-      default: "",
-      checked: "",
-      disabled: "",
-      validation: "",
-    },
-  },
-  defaultVariants: {
-    variant: "default",
-  },
-});
-
-export type CheckboxLabelProps = TextProps &
-  VariantProps<typeof checkboxLabelVariants>;
+export type CheckboxLabelProps = TextProps
 
 export const CheckboxLabel = React.forwardRef<Text, CheckboxLabelProps>(
-  ({ className, children, ...props }, ref) => {
-    const { hovered, checked, variant } = React.useContext(CheckboxContext);
+  ({ className, ...props }, ref) => {
     return (
       <Text
         ref={ref}
-        className={cn(checkboxLabelVariants({ variant }), className)}
-      >
-        {children}
-      </Text>
+        className={cn('text-sm font-semibold text-foreground', className)}
+        {...props}
+      />
     );
   }
 );
@@ -203,7 +186,7 @@ CheckboxLabel.displayName = "CheckboxName";
 
 ///The code bellow is for Description Component
 
-const checkboxDescriptionVariants = cva("text-sm font-normal text-neutral-600 dark:text-neutral-100", {
+const checkboxDescriptionVariants = cva("text-sm font-normal text-accent-foreground", {
   variants: {
     variant: {
       default: "",
