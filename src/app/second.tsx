@@ -3,8 +3,9 @@ import {
   CheckboxIndicator,
   CheckboxLabel,
   CheckboxDescription,
-  CheckboxContent
+  CheckboxContent,
 } from "@/components/checkbox";
+
 import { Button, ButtonText } from "@usekeyhole/nativewind";
 import { Link } from "expo-router";
 import * as React from "react";
@@ -21,6 +22,10 @@ export default function Page() {
       <Content />
     </View>
   );
+}
+
+function Event(){
+  console.log("Change event in the component");
 }
 
 function Content() {
@@ -50,7 +55,7 @@ function Content() {
             </View>
             <View className="gap-6">
               
-              <Checkbox>
+              <Checkbox onChange={Event}>
                 <CheckboxIndicator/>
                 <CheckboxContent>
                       <CheckboxLabel>Accept terms and conditions</CheckboxLabel>
@@ -59,70 +64,47 @@ function Content() {
               </Checkbox>
               
               <Text>List of Variants of Checkbox</Text>
-              <Checkbox>
+              <Checkbox onChange={Event}>
                 <CheckboxIndicator/>
                 <CheckboxContent>
                       <CheckboxLabel>Default Indicator</CheckboxLabel>
                 </CheckboxContent>
               </Checkbox>
 
-              <Checkbox checked>
+              <Checkbox checked onChange={Event}>
                 <CheckboxIndicator/>
                 <CheckboxContent>
                       <CheckboxLabel>Checked Indicator</CheckboxLabel>
                 </CheckboxContent>
               </Checkbox>
 
-              <Checkbox disabled>
+              <Checkbox disabled onChange={Event}>
                 <CheckboxIndicator/>
                 <CheckboxContent>
                       <CheckboxLabel>Disabled Indicator</CheckboxLabel>
                 </CheckboxContent>
               </Checkbox>
 
-              <Checkbox variant={'validation'}>
+              <Checkbox variant={'validation'} onChange={Event}>
                 <CheckboxIndicator/>
                 <CheckboxContent>
                       <CheckboxLabel>Validation Indicator</CheckboxLabel>
                 </CheckboxContent>
               </Checkbox>
 
-              <Checkbox checked disabled>
+              <Checkbox onChange={Event} checked disabled>
                 <CheckboxIndicator/>
                 <CheckboxContent>
                       <CheckboxLabel>Chcecked disabled</CheckboxLabel>
                 </CheckboxContent>
               </Checkbox>
-
-              {/* <CheckboxForm>
-                <CheckboxFormInfo>
-                  <CheckboxFormLabel>Label</CheckboxFormLabel>
-                  <CheckboxFormLabel>Description</CheckboxFormLabel>
-                </CheckboxFormInfo>
-
-                <CheckboxFormContent>
-                  <Checkbox checked disabled>
-                    <CheckboxIndicator/>
-                    <CheckboxContent>
-                          <CheckboxLabel>Validation Indicator</CheckboxLabel>
-                    </CheckboxContent>
-                  </Checkbox>
-                  
-                  <Checkbox checked disabled>
-                    <CheckboxIndicator/>
-                    <CheckboxContent>
-                          <CheckboxLabel>Validation Indicator</CheckboxLabel>
-                    </CheckboxContent>
-                  </Checkbox>
-                </CheckboxFormContent>
-                
-                <Button></Button>
-              </CheckboxForm> */}
               
 
-              <Button size="lg" variant="brand-solid">
+              <Button size="lg" variant="brand-solid" onChange={Event}>
                 <ButtonText>Button</ButtonText>
               </Button>
+
+
             </View>
           </View>
         </View>

@@ -2,8 +2,8 @@
 import { Text, View } from "react-native";
 import { Checkbox } from './checkbox';
 
-export default function checkboxForm() {
-  return (
+export const checkboxForm = React.forwardRef<View>(() => {
+    return (
   <View>
     <View>
         <Text>Sidebar</Text>
@@ -18,8 +18,8 @@ export default function checkboxForm() {
         })}
     </View>
   </View>
-  )
-}
+  );
+});
 
 const items = [
     {
@@ -49,4 +49,4 @@ const items = [
         checked: false,
        } 
     }
-] */
+]  */

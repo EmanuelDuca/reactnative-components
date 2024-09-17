@@ -35,7 +35,11 @@ const checkboxVariants = cva("relative flex flex-row gap-4", {
 });
 
 export type CheckboxProps = PressableProps &
-  VariantProps<typeof checkboxVariants>;
+  VariantProps<typeof checkboxVariants> & {
+    checked?: boolean;
+    onChange?: (checked: boolean) => void;
+    value?: string;
+  };
 
 const CheckboxContext = React.createContext<{
   variant: CheckboxProps["variant"];
@@ -50,9 +54,8 @@ const CheckboxContext = React.createContext<{
 });
 
 export const Checkbox = React.forwardRef<View, CheckboxProps>(
-  ({ variant, className, onHoverIn, onHoverOut, ...props }, ref) => {
+  ({ variant, className, onHoverIn, onHoverOut, onChange,checked: selected,  ...props }, ref) => {
     const disabled = !!props.disabled;
-    const selected = !!props.checked;
     const [checked, setChecked] = React.useState(selected);
     const [hovered, setHovered] = React.useState(false);
     return (
@@ -69,7 +72,8 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
           onHoverOut={(e) => {
             setHovered(false);
           }}
-          onPress={() => {
+          onPress={(e) => {
+            onChange(!checked);
             setChecked(!checked);
           }}
           {...props}
@@ -165,10 +169,10 @@ CheckboxIndicator.displayName = "CheckboxIndicator";
 
 /// The code bellow is for Label component
 
-const checkboxLabelVariants = cva("text-sm", {
+const checkboxLabelVariants = cva("text-sm font-semibold text-neutral-800 dark:text-neutral-100", {
   variants: {
     variant: {
-      default: "font-semibold text-neutral-800 dark:text-neutral-100",
+      default: "",
       checked: "",
       disabled: "",
       validation: "",
@@ -199,10 +203,10 @@ CheckboxLabel.displayName = "CheckboxName";
 
 ///The code bellow is for Description Component
 
-const checkboxDescriptionVariants = cva("text-sm", {
+const checkboxDescriptionVariants = cva("text-sm font-normal text-neutral-600 dark:text-neutral-100", {
   variants: {
     variant: {
-      default: "font-normal text-neutral-600 dark:text-neutral-100",
+      default: "",
       checked: "",
       disabled: "",
       validation: "",
@@ -271,4 +275,3 @@ export const CheckboxContent = React.forwardRef<View, CheckboxContentProps>(({cl
     </View>
   );
 });
-
