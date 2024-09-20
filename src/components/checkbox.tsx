@@ -13,12 +13,12 @@ import {
   TextProps,
 } from "react-native";
 
-const checkboxVariants = cva('relative flex flex-row gap-4', {
+const checkboxVariants = cva("relative flex flex-row gap-4", {
   variants: {
     variant: {
-      default: '',
-      disabled: '',
-      validation: '',
+      default: "",
+      disabled: "",
+      validation: "",
     },
     checked: {
       true: undefined,
@@ -30,7 +30,7 @@ const checkboxVariants = cva('relative flex flex-row gap-4', {
     },
   },
   defaultVariants: {
-    variant: 'default',
+    variant: "default",
   },
 });
 
@@ -42,12 +42,12 @@ export type CheckboxProps = PressableProps &
   };
 
 const CheckboxContext = React.createContext<{
-  variant: CheckboxProps['variant'];
+  variant: CheckboxProps["variant"];
   checked: boolean;
   hovered: boolean;
   disabled: boolean;
 }>({
-  variant: 'default',
+  variant: "default",
   checked: false,
   hovered: false,
   disabled: false,
@@ -64,7 +64,7 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
       checked: selected,
       ...props
     },
-    ref,
+    ref
   ) => {
     const disabled = !!props.disabled;
     const [checked, setChecked] = React.useState<boolean>(!!selected);
@@ -75,7 +75,7 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
           ref={ref}
           className={cn(
             checkboxVariants({ hovered, checked, variant }),
-            className,
+            className
           )}
           onHoverIn={() => {
             setHovered(true);
@@ -91,21 +91,21 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
         />
       </CheckboxContext.Provider>
     );
-  },
+  }
 );
 
-Checkbox.displayName = 'Checkbox';
+Checkbox.displayName = "Checkbox";
 
 //// The Code bellow is for indicator
 
 export const checkboxIndicatorVariants = cva(
-  'size-6 items-center justify-center rounded border-2 p-1 transition-colors',
+  "size-6 items-center justify-center rounded border-2 p-1 transition-colors",
   {
     variants: {
       variant: {
-        default: 'border-neutral-200',
-        disabled: 'border-neutral-300 bg-green-500',
-        validation: 'bg-background border-red-700',
+        default: "border-neutral-200",
+        disabled: "border-neutral-300 bg-green-500",
+        validation: "bg-background border-red-700",
       },
       checked: {
         false: undefined,
@@ -123,43 +123,43 @@ export const checkboxIndicatorVariants = cva(
     compoundVariants: [
       // Default hover
       {
-        variant: 'default',
+        variant: "default",
         hovered: true,
-        className: 'border-neutral-400',
+        className: "border-neutral-400",
       },
       //Checked
       {
         checked: true,
-        className: 'bg-brand-700 border-brand-200',
+        className: "bg-brand-700 border-brand-200",
       },
       //Checked hover
       {
         checked: true,
         hovered: true,
-        className: 'bg-brand-600 border-brand-200',
+        className: "bg-brand-600 border-brand-200",
       },
       //Disabled
       {
         disabled: true,
-        className: 'bg-neutral-100',
+        className: "bg-neutral-100",
       },
       //Disabled Checked
       {
         disabled: true,
         checked: true,
-        className: 'bg-brand-700 border-brand-200',
+        className: "bg-brand-700 border-brand-200",
       },
       //Validation
       {
-        variant: 'validation',
+        variant: "validation",
         checked: false,
-        className: 'border-destructive-foreground',
+        className: "border-destructive-foreground",
       },
     ],
     defaultVariants: {
-      variant: 'default',
+      variant: "default",
     },
-  },
+  }
 );
 
 export type CheckboxIndicatorProps = ViewProps &
@@ -167,23 +167,26 @@ export type CheckboxIndicatorProps = ViewProps &
 
 export const CheckboxIndicator = ({
   className,
+  checked,
+  hovered,
+  variant,
+  disabled,
   ...props
 }: CheckboxIndicatorProps) => {
-  const { checked, hovered, disabled, variant } =
-    React.useContext(CheckboxContext);
+  // const { checked, hovered, variant } = React.useContext(FacetedFilterContext);
   return (
     <View
       className={cn(
-        checkboxIndicatorVariants({ hovered, checked, disabled, variant }),
+        checkboxIndicatorVariants({ hovered, checked, variant, disabled })
       )}
       {...props}
     >
-      {checked && <Check color={'white'} width={16} height={16} />}
+      {checked && <Check color={"white"} width={16} height={16} />}
     </View>
   );
 };
 
-CheckboxIndicator.displayName = 'CheckboxIndicator';
+CheckboxIndicator.displayName = "CheckboxIndicator";
 
 /// The code bellow is for Label component
 
@@ -194,13 +197,13 @@ export const CheckboxLabel = React.forwardRef<Text, CheckboxLabelProps>(
     return (
       <Text
         ref={ref}
-        className={cn('text-foreground text-sm font-semibold', className)}
+        className={cn("text-foreground text-sm font-semibold", className)}
         {...props}
       />
     );
-  },
+  }
 );
-CheckboxLabel.displayName = 'CheckboxName';
+CheckboxLabel.displayName = "CheckboxName";
 
 ///The code bellow is for Description Component
 
@@ -213,12 +216,12 @@ export const CheckboxDescription = React.forwardRef<
   return (
     <Text
       ref={ref}
-      className={cn('text-accent-foreground text-sm font-normal', className)}
+      className={cn("text-accent-foreground text-sm font-normal", className)}
       {...props}
     />
   );
 });
-CheckboxDescription.displayName = 'CheckboxDescription';
+CheckboxDescription.displayName = "CheckboxDescription";
 
 // The code bellow is for Content component
 export type CheckboxContentProps = ViewProps;
@@ -226,7 +229,7 @@ export type CheckboxContentProps = ViewProps;
 export const CheckboxContent = React.forwardRef<View, CheckboxContentProps>(
   ({ className, ...props }, ref) => {
     return (
-      <View ref={ref} className={cn('gap-1 py-0.5', className)} {...props} />
+      <View ref={ref} className={cn("gap-1 py-0.5", className)} {...props} />
     );
-  },
+  }
 );

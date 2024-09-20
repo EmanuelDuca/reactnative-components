@@ -16,7 +16,7 @@ export default function Page() {
     <View className="flex flex-1 bg-white dark:bg-black">
       <View className="h-32 w-full px-4 bg-purple-500 dark:bg-yellow-500 justify-center items-center">
         <Text className="text-white font-mono font-bold text-2xl">
-          Welcome to this video!
+          Checkbox Page
         </Text>
       </View>
       <Content />
