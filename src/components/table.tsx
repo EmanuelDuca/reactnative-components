@@ -1,5 +1,6 @@
 import * as React from "react";
 
+/*
 import {
   createColumnHelper,
   flexRender,
@@ -10,8 +11,20 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { FacetedFilter } from "./facetedFilter";
-import { Badge } from "@usekeyhole/nativewind";
+import {
+  FacetedFilter, FacetedFilterContent,
+  FacetedFilterEmpty,
+  FacetedFilterGroup,
+  FacetedFilterIndicator,
+  FacetedFilterInput,
+  FacetedFilterItem,
+  FacetedFilterList,
+  FacetedTriggerValue,
+  FactedTrigger,
+} from "./facetedFilter";
+import { Badge, BadgeText, Button } from "@usekeyhole/nativewind";
+import { CommandItem, SelectContent, SelectEmpty } from "@usekeyhole/web";
+import { Text, View } from "react-native";
 
 type Person = {
   firstName: string;
@@ -101,64 +114,124 @@ export function Table() {
     onColumnFiltersChange: setColumnFilters,
   });
 
+  // This is for storing selected values in the table not in the Faceted Component
+  const column = table.getColumn("state");
+  const [selectedValues, setSelectedValues] = React.useState(
+    new Set(column?.getFilterValue() as string[])
+  );
+
+  const handleChange = (item) => {
+    const isSelected = selectedValues.has(item.value);
+    if (isSelected) {
+      selectedValues.delete(item.value);
+    } else {
+      selectedValues.add(item.value);
+    }
+    const filterValues = Array.from(selectedValues);
+    column?.setFilterValue(filterValues.length ? filterValues : undefined);
+  };
+
+  const clearFilters = () => {
+    setSelectedValues(new Set(column?.getFilterValue() as string[]));
+    column.setFilterValue(undefined);
+  };
+
   return (
     <>
-      <FacetedFilter
-        title="Status"
-        column={table.getColumn("state")}
-        options={options}
-      />
-      <div className="p-2">
-        <table>
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            {table.getFooterGroups().map((footerGroup) => (
-              <tr key={footerGroup.id}>
-                {footerGroup.headers.map((header) => (
-                  <th key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.footer,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </tfoot>
-        </table>
-        <div className="h-4" />
-        <button onClick={() => rerender()} className="border p-2">
-          Rerender
-        </button>
-      </div>
+      <View className="items-start">
+        <FacetedFilter
+          title="Status"
+          column={table.getColumn("state")}
+          options={options}
+        ></FacetedFilter>
+      </View>
+      <View>
+        <div className="p-2">
+          <table>
+            <thead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <th key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              {table.getFooterGroups().map((footerGroup) => (
+                <tr key={footerGroup.id}>
+                  {footerGroup.headers.map((header) => (
+                    <th key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.footer,
+                            header.getContext()
+                          )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </tfoot>
+          </table>
+          <div className="h-4" />
+          <button onClick={() => rerender()} className="border p-2">
+            Rerender
+          </button>
+        </div>
+      </View>
+
+      {/* <FactedTrigger>
+          <FacetedTriggerValue />
+        </FactedTrigger>
+        <FacetedFilterContent align="start" className=" bg-white">
+          <FacetedFilterInput placeholder="Random Text" />
+          <FacetedFilterList onClearFilters={clearFilters}>
+            <FacetedFilterEmpty>No address found.</FacetedFilterEmpty>
+            <FacetedFilterGroup>
+              {options.map((item) => {
+                const isSelected = selectedValues.has(item.value);
+                return (
+                  <FacetedFilterItem
+                    value={item.value}
+                    key={item.value}
+                    checked={isSelected}
+                    onChange={() => handleChange(item)}
+                  >
+                    <FacetedFilterIndicator />
+                    <Badge
+                    // size={item.BadgeInfo.size}
+                    // variant={item.BadgeInfo.variant}
+                    >
+                      <BadgeText>{item.label}</BadgeText>
+                    </Badge>
+                  </FacetedFilterItem>
+                );
+              })}
+            </FacetedFilterGroup>
+          </FacetedFilterList>
+        </FacetedFilterContent> }
     </>
   );
 }
@@ -176,7 +249,7 @@ export const getStatusTextAndColor = (status: string) => {
     case "Active":
       return {
         color: "red",
-        text: "status_pill_active",
+        text: "Active",
       };
 
     case "Inactive":
@@ -188,19 +261,19 @@ export const getStatusTextAndColor = (status: string) => {
     case "MovingOut":
       return {
         color: "green50",
-        text: "label_move_out_claim",
+        text: "MoveOut",
       };
 
     case "Onboarding":
       return {
         color: "paragraph",
-        text: "status_pill_onboarding",
+        text: "Onboarding",
       };
 
     case "Closed":
       return {
         color: "green",
-        text: "label_closed",
+        text: "Closed",
       };
 
     // - dispute
@@ -222,8 +295,10 @@ const useGuaranteeStatusFilters = () => {
     return {
       label: text,
       value: state,
+      icon: undefined,
     };
   })
     .filter((filter) => filter.label !== "-")
     .sort((a, b) => a.label.localeCompare(b.label));
 };
+*/

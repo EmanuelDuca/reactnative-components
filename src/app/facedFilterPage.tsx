@@ -4,14 +4,7 @@ import {
   CheckboxLabel,
   CheckboxDescription,
   CheckboxContent,
-} from "@/components/checkbox";
-import {
-  FacetedFilter,
-  FacetedFilterIndicator,
-  FacetedFilterItem,
-  FacetedFilterList,
-  FacetedFilterTrigger,
-} from "@/components/facetedFilter";
+} from "@/components/checkbox/checkbox";
 import { Popover } from "@usekeyhole/web";
 import {
   Badge,
@@ -21,22 +14,10 @@ import {
   ButtonText,
   Star,
 } from "@usekeyhole/nativewind";
-import {
-  Select,
-  SelectContent,
-  SelectEmpty,
-  SelectGroup as FacetedFilterGroup,
-  SelectInput as FacetedFilterInput,
-  SelectItem,
-  SelectList,
-  SelectProps,
-  SelectTrigger,
-  SelectValue,
-} from "@usekeyhole/web";
 import { Link } from "expo-router";
 import * as React from "react";
 import { Text, View } from "react-native";
-import { Table } from "@/components/table";
+/* import { Table } from "@/components/table"; */
 
 export default function Page() {
   return (
@@ -51,7 +32,7 @@ function Content() {
   // const [columnFilters, setColumnFilters] = React.useState<any>([]);
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 dark:bg-black">
       <View className="py-12 md:py-24 lg:py-32 xl:py-48">
         <View className="px-4 md:px-6">
           <View className="flex flex-col items-center gap-4 text-center">
@@ -74,36 +55,7 @@ function Content() {
               </Badge>
             </View>
             <View className="gap-6 flex flex-row">
-              <View>
-                <Select>
-                  <Text>test</Text>
-                  <SelectTrigger className="w-[200px]">
-                    <SelectValue placeholder="Status" />
-                  </SelectTrigger>
-                  <SelectContent align="start" className="w-[200px]">
-                    <FacetedFilterInput placeholder="Status" />
-                    <FacetedFilterList>
-                      <SelectEmpty>No address found.</SelectEmpty>
-                      <FacetedFilterGroup>
-                        {demoList.map((item) => (
-                          <FacetedFilterItem key={item.id}>
-                            <FacetedFilterIndicator />
-                            <Badge
-                              size={item.BadgeInfo.size}
-                              variant={item.BadgeInfo.variant}
-                            >
-                              <BadgeText>{item.name}</BadgeText>
-                            </Badge>
-                          </FacetedFilterItem>
-                        ))}
-                      </FacetedFilterGroup>
-                    </FacetedFilterList>
-                  </SelectContent>
-                </Select>
-              </View>
-              <View className="gap-6">
-                <Table></Table>
-              </View>
+              <View className="gap-6">{/* <Table></Table> */}</View>
             </View>
           </View>
         </View>

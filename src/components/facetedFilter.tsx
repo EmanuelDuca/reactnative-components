@@ -1,5 +1,7 @@
 import {
+  CommandGroup,
   CommandItem,
+  CommandSeparator,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -11,7 +13,7 @@ import {
   SelectIcon,
   SelectInput,
   SelectItem,
-  SelectList,
+  SelectList as FacetedFilterList,
   SelectProps,
   SelectTrigger,
   SelectTriggerProps,
@@ -46,7 +48,8 @@ import {
   Plus,
   Star,
 } from "@usekeyhole/nativewind";
-import { Checkbox, CheckboxIndicator } from "./checkbox";
+import { CheckboxIndicator } from "./checkbox/checkbox";
+import { AddIcon } from "@usekeyhole/ui";
 
 interface FacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -74,7 +77,7 @@ const FactedTrigger = React.forwardRef<View, SelectTriggerProps>(
     return (
       <PopoverTrigger asChild>
         <Element
-          className={cn("gap-3", className)}
+          className={cn("", className)}
           onPress={handleOnPress}
           ref={ref}
           {...props}
@@ -96,86 +99,102 @@ export const FacetedFilter = <TData, TValue>({
 
   return (
     <Select>
-      <FactedTrigger asChild>
-        <Button variant="" size="sm" className="h-8">
-          {/* <PlusCircledIcon className="mr-2 h-4 w-4" /> */}
-          {title}
+      <SelectTrigger className="border-2 border-neutral-100 rounded">
+        <View className="flex-row items-center gap-2 px-3 py-2">
+          <Text className="dark:text-neutral-100">{title}</Text>
           {selectedValues?.size > 0 && (
             <>
+              <View className="w-px h-6 bg-neutral-600 dark:bg-neutral-100"></View>
+              <View>
+                <Badge
+                  variant="secondary"
+                  className="rounded-sm px-1 font-normal lg:hidden"
+                >
+                  {selectedValues.size}
+                </Badge>
+                <div className="hidden space-x-1 lg:flex">
+                  {selectedValues.size > 2 ? (
+                    <Badge
+                      variant="secondary"
+                      className="rounded-sm px-1 font-normal"
+                    >
+                      <Text>{selectedValues.size} selected</Text>
+                    </Badge>
+                  ) : (
+                    options
+                      .filter((option) => selectedValues.has(option.value))
+                      .map((option) => (
+                        <Badge
+                          variant="secondary"
+                          key={option.value}
+                          className="rounded-sm px-1 font-normal"
+                        >
+                          <Text>{option.label}</Text>
+                        </Badge>
+                      ))
+                  )}
+                </div>
+              </View>
               {/* <Separator orientation="vertical" className="mx-2 h-4" /> */}
-              <Badge
-                variant="secondary"
-                className="rounded-sm px-1 font-normal lg:hidden"
-              >
-                {selectedValues.size}
-              </Badge>
-              <div className="hidden space-x-1 lg:flex">
-                {selectedValues.size > 2 ? (
-                  <Badge
-                    variant="secondary"
-                    className="rounded-sm px-1 font-normal"
-                  >
-                    <Text>{selectedValues.size} selected</Text>
-                  </Badge>
-                ) : (
-                  options
-                    .filter((option) => selectedValues.has(option.value))
-                    .map((option) => (
-                      <Badge
-                        variant="secondary"
-                        key={option.value}
-                        className="rounded-sm px-1 font-normal"
-                      >
-                        <Text>{option.label}</Text>
-                      </Badge>
-                    ))
-                )}
-              </div>
             </>
           )}
-        </Button>
-      </FactedTrigger>
-      <SelectContent align="start" className="w-[200px] bg-white">
-        <FacetedFilterInput placeholder="Status" />
+        </View>
+      </SelectTrigger>
+      <SelectContent align="start" className="bg-white dark:bg-neutral-900">
+        <View className=" pl-2">
+          <FacetedFilterInput placeholder="Status" className="ml-1" />
+        </View>
+
         <FacetedFilterList>
           <SelectEmpty>No address found.</SelectEmpty>
-          <FacetedFilterGroup>
+          <FacetedFilterGroup className="flex-col justify-items-start p-2">
             {options.map((item) => {
               const isSelected = selectedValues.has(item.value);
               console.log("selectedValues", selectedValues);
 
               return (
-                <CommandItem value={item.value}>
-                  <FacetedFilterItem
-                    key={item.value}
-                    checked={isSelected}
-                    onChange={(value) => {
-                      if (isSelected) {
-                        selectedValues.delete(item.value);
-                      } else {
-                        selectedValues.add(item.value);
-                      }
-                      const filterValues = Array.from(selectedValues);
+                <CommandItem
+                  key={item.value}
+                  value={item.value}
+                  onSelect={() => {
+                    if (isSelected) {
+                      selectedValues.delete(item.value);
+                    } else {
+                      selectedValues.add(item.value);
+                    }
+                    const filterValues = Array.from(selectedValues);
 
-                      console.log("filterValuse", filterValues);
+                    console.log("filterValuse", filterValues);
 
-                      column?.setFilterValue(
-                        filterValues.length ? filterValues : undefined
-                      );
-                    }}
-                  >
-                    <FacetedFilterIndicator />
-                    <Badge
-                    // size={item.BadgeInfo.size}
-                    // variant={item.BadgeInfo.variant}
-                    >
-                      <BadgeText>{item.label}</BadgeText>
-                    </Badge>
-                  </FacetedFilterItem>
+                    column?.setFilterValue(
+                      filterValues.length ? filterValues : undefined
+                    );
+                  }}
+                  className="p-0 dark:hover:bg-neutral-700"
+                >
+                  <View className="flex-row items-center gap-4 px-2 py-1.5 transition-colors rounded ">
+                    <CheckboxIndicator checked={isSelected} />
+                    <Text className="dark:text-neutral-100">{item.label}</Text>
+                  </View>
                 </CommandItem>
               );
             })}
           </FacetedFilterGroup>
+          {selectedValues.size > 0 && (
+            <>
+              <CommandSeparator />
+              <CommandGroup>
+                <CommandItem
+                  onSelect={() => {
+                    column?.setFilterValue(undefined);
+                  }}
+                  className="p-2 justify-center text-center dark:text-neutral-100 dark:hover:bg-neutral-700"
+                >
+                  Clear filters
+                </CommandItem>
+              </CommandGroup>
+            </>
+          )}
         </FacetedFilterList>
       </SelectContent>
     </Select>
@@ -185,10 +204,6 @@ export const FacetedFilter = <TData, TValue>({
 export const FacetedFilterTrigger = () => {
   return <View></View>;
 };
-
-export function FacetedFilterList({ children }) {
-  return <SelectList>{children}</SelectList>;
-}
 
 /// The code Bellow is for Item
 const facetedFilterItemVariants = cva(

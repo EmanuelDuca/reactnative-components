@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@usekeyhole/nativewind':
-        specifier: ^0.1.21
-        version: 0.1.21(@babel/core@7.25.2)(@tanstack/react-table@8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(prop-types@15.8.1)(react-hook-form@7.53.0(react@18.2.0))(react-native-linear-gradient@2.8.3(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-safe-area-context@4.10.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-svg@15.6.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)(tailwindcss@3.4.11)(zod@3.23.8)
+        specifier: ^0.1.24
+        version: 0.1.24(@babel/core@7.25.2)(@tanstack/react-table@8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(prop-types@15.8.1)(react-hook-form@7.53.0(react@18.2.0))(react-native-linear-gradient@2.8.3(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-safe-area-context@4.10.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-svg@15.6.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)(tailwindcss@3.4.11)(zod@3.23.8)
       '@usekeyhole/prettier-config':
         specifier: ^1.0.6
         version: 1.0.6
@@ -21,8 +21,8 @@ importers:
         specifier: ^0.0.19
         version: 0.0.19(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
       '@usekeyhole/web':
-        specifier: ^0.0.69
-        version: 0.0.69(vplwdrwych7zu6anskphsxdlgu)
+        specifier: ^0.0.72
+        version: 0.0.72(vplwdrwych7zu6anskphsxdlgu)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -1849,8 +1849,8 @@ packages:
       react: '>=18.2.0'
       react-native: '>=0.73.0'
 
-  '@usekeyhole/nativewind@0.1.21':
-    resolution: {integrity: sha512-dlym2vyqgccT+FDzIQZpSADDpIJpML7I5uZN4b1U/x8gCyJSqHTX+VAvaRziuTYitcvmLEAkfS3GaVZmVM1mnQ==}
+  '@usekeyhole/nativewind@0.1.24':
+    resolution: {integrity: sha512-xOxpAXCkZhyDwQ0wUI5Tu936fyqUjiu4jc8EeejrbtJy9k1FX9VGyeZIReGYqtXnC5CYjWtqWxel4TM0TsZrgQ==}
     peerDependencies:
       '@tanstack/react-table': '>=8.11.6'
       react: '>=18.2.0'
@@ -1877,8 +1877,8 @@ packages:
       react-native: '>=0.73.0'
       zod: '>=3.23.8'
 
-  '@usekeyhole/web@0.0.69':
-    resolution: {integrity: sha512-xTNZmdNfy0Qd+vCONpbUGXjkrFHiUrVKA1jimNnphHA4vAXVHADMNJbc3slKgNybi8N6ujlXxQUsoXTYUljczg==}
+  '@usekeyhole/web@0.0.72':
+    resolution: {integrity: sha512-poW8+6bUr6ir/g42jt9UQz0+p+KonX5H54HV2HoyNPEmXycsdn1IwQPEAeGAjQoXasCs1jzVPd9+scjZy8vqIA==}
     peerDependencies:
       '@tanstack/react-table': '>=8.11.6'
       react: '>=18.2.0'
@@ -7727,7 +7727,7 @@ snapshots:
       react: 18.2.0
       react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
 
-  '@usekeyhole/nativewind@0.1.21(@babel/core@7.25.2)(@tanstack/react-table@8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(prop-types@15.8.1)(react-hook-form@7.53.0(react@18.2.0))(react-native-linear-gradient@2.8.3(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-safe-area-context@4.10.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-svg@15.6.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)(tailwindcss@3.4.11)(zod@3.23.8)':
+  '@usekeyhole/nativewind@0.1.24(@babel/core@7.25.2)(@tanstack/react-table@8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(prop-types@15.8.1)(react-hook-form@7.53.0(react@18.2.0))(react-native-linear-gradient@2.8.3(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-safe-area-context@4.10.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-svg@15.6.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)(tailwindcss@3.4.11)(zod@3.23.8)':
     dependencies:
       '@react-native-community/slider': 4.5.2
       '@rn-primitives/slot': 1.0.4(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
@@ -7813,7 +7813,7 @@ snapshots:
       tailwind-merge: 2.5.2
       zod: 3.23.8
 
-  '@usekeyhole/web@0.0.69(vplwdrwych7zu6anskphsxdlgu)':
+  '@usekeyhole/web@0.0.72(vplwdrwych7zu6anskphsxdlgu)':
     dependencies:
       '@radix-ui/react-dialog': 1.1.1(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@radix-ui/react-dropdown-menu': 2.1.1(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -7822,7 +7822,7 @@ snapshots:
       '@radix-ui/react-tooltip': 1.1.2(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@rn-primitives/slot': 1.0.4(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       '@tanstack/react-table': 8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@usekeyhole/nativewind': 0.1.21(@babel/core@7.25.2)(@tanstack/react-table@8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(prop-types@15.8.1)(react-hook-form@7.53.0(react@18.2.0))(react-native-linear-gradient@2.8.3(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-safe-area-context@4.10.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-svg@15.6.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)(tailwindcss@3.4.11)(zod@3.23.8)
+      '@usekeyhole/nativewind': 0.1.24(@babel/core@7.25.2)(@tanstack/react-table@8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(prop-types@15.8.1)(react-hook-form@7.53.0(react@18.2.0))(react-native-linear-gradient@2.8.3(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-safe-area-context@4.10.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-svg@15.6.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)(tailwindcss@3.4.11)(zod@3.23.8)
       '@usekeyhole/ui': 0.0.126(@babel/core@7.25.2)(@tanstack/react-table@8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(prop-types@15.8.1)(react-native-linear-gradient@2.8.3(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-safe-area-context@4.10.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-svg@15.6.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)(tailwindcss@3.4.11)(zod@3.23.8)
       '@usekeyhole/utils': 0.0.19(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
       class-variance-authority: 0.7.0

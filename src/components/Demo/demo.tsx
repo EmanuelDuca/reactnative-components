@@ -4,9 +4,9 @@ import {
   PopoverContent,
   PopoverTrigger,
   Select,
-  SelectContent,
+  SelectContent as FacetedFilterContent,
   SelectContext,
-  SelectEmpty,
+  SelectEmpty as FacetedFilterEmpty,
   SelectGroup,
   SelectIcon,
   SelectInput,
@@ -18,10 +18,7 @@ import {
   SelectValue,
 } from "@usekeyhole/web";
 
-import {
-  SelectGroup as FacetedFilterGroup,
-  SelectInput as FacetedFilterInput,
-} from "@usekeyhole/web";
+import { SelectInput as FacetedFilterInput } from "@usekeyhole/web";
 import * as Slot from "@rn-primitives/slot";
 import { Column } from "@tanstack/react-table";
 
@@ -46,7 +43,7 @@ import {
   Plus,
   Star,
 } from "@usekeyhole/nativewind";
-import { Checkbox, CheckboxIndicator } from "../checkbox";
+import { Checkbox, CheckboxIndicator } from "../checkbox/checkbox";
 
 interface FacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -56,14 +53,17 @@ interface FacetedFilterProps<TData, TValue> {
     value: string;
     icon?: React.ComponentType<{ className?: string }>;
   }[];
+  children?: React.ReactNode;
+  selectedValues: Set<string>;
 }
 
-const FactedTrigger = React.forwardRef<View, SelectTriggerProps>(
+export const FactedTrigger = React.forwardRef<View, SelectTriggerProps>(
   ({ asChild, className, children, onPress, size, variant, ...props }, ref) => {
-    const { setCurrentOpen } = React.useContext(SelectContext);
+    const { setCurrentOpen, currentOpen } = React.useContext(SelectContext);
 
     const handleOnPress = React.useCallback(
       (event: GestureResponderEvent) => {
+        console.log("Button was pressed");
         setCurrentOpen((x) => !x);
         if (onPress) onPress(event);
       },
@@ -86,110 +86,108 @@ const FactedTrigger = React.forwardRef<View, SelectTriggerProps>(
   }
 );
 
+const FacetedContext = React.createContext<{
+  data: FacetedFilterProps<any, any>;
+  selectedValues: Set<string>;
+}>({ data: null, selectedValues: new Set() });
+
 export const FacetedFilter = <TData, TValue>({
   column,
   title,
   options,
+  selectedValues,
   ...props
 }: FacetedFilterProps<TData, TValue>) => {
-  const selectedValues = new Set(column?.getFilterValue() as string[]);
-  console.log("selectedV", selectedValues);
+  const [data, setData] = React.useState<FacetedFilterProps<any, any>>({
+    column: column,
+    title: title,
+    options: options,
+    selectedValues,
+  });
 
   return (
-    <Select>
-      <FactedTrigger asChild>
-        <Button variant="" size="sm" className="h-8">
-          {/* <PlusCircledIcon className="mr-2 h-4 w-4" /> */}
-          {title}
-          {selectedValues?.size > 0 && (
-            <>
-              {/* <Separator orientation="vertical" className="mx-2 h-4" /> */}
-              <Badge
-                variant="secondary"
-                className="rounded-sm px-1 font-normal lg:hidden"
-              >
-                {selectedValues.size}
-              </Badge>
-              <div className="hidden space-x-1 lg:flex">
-                {selectedValues.size > 2 ? (
-                  <Badge
-                    variant="secondary"
-                    className="rounded-sm px-1 font-normal"
-                  >
-                    <Text>{selectedValues.size} selected</Text>
-                  </Badge>
-                ) : (
-                  options
-                    .filter((option) => selectedValues.has(option.value))
-                    .map((option) => (
-                      <Badge
-                        variant="secondary"
-                        key={option.value}
-                        className="rounded-sm px-1 font-normal"
-                      >
-                        <Text>{option.label}</Text>
-                      </Badge>
-                    ))
-                )}
-              </div>
-            </>
-          )}
-        </Button>
-      </FactedTrigger>
-      <SelectContent align="start" className="w-[200px] bg-white">
-        <FacetedFilterInput placeholder="Status" />
-        <FacetedFilterList>
-          <SelectEmpty>No address found.</SelectEmpty>
-          <FacetedFilterGroup>
-            {options.map((item) => {
-              const isSelected = selectedValues.has(item.value);
-              console.log("selectedValues", selectedValues);
-
-              return (
-                <CommandItem value={item.value}>
-                  <FacetedFilterItem
-                    key={item.value}
-                    checked={isSelected}
-                    onChange={(value) => {
-                      if (isSelected) {
-                        selectedValues.delete(item.value);
-                      } else {
-                        selectedValues.add(item.value);
-                      }
-                      const filterValues = Array.from(selectedValues);
-
-                      console.log("filterValuse", filterValues);
-
-                      column?.setFilterValue(
-                        filterValues.length ? filterValues : undefined
-                      );
-                    }}
-                  >
-                    <FacetedFilterIndicator />
-                    <Badge
-                    // size={item.BadgeInfo.size}
-                    // variant={item.BadgeInfo.variant}
-                    >
-                      <BadgeText>{item.label}</BadgeText>
-                    </Badge>
-                  </FacetedFilterItem>
-                </CommandItem>
-              );
-            })}
-          </FacetedFilterGroup>
-        </FacetedFilterList>
-      </SelectContent>
-    </Select>
+    <FacetedContext.Provider value={{ data, selectedValues }}>
+      <Select {...props}></Select>
+    </FacetedContext.Provider>
   );
 };
 
-export const FacetedFilterTrigger = () => {
-  return <View></View>;
+export const FacetedTriggerValue = ({ ...props }) => {
+  const { data, selectedValues } = React.useContext(FacetedContext);
+
+  return (
+    <View className="h-10 border-2 rounded bg-brand-200 border-neutral-300  flex-row gap-3 items-center justify-center ">
+      {/* <PlusCircledIcon className="mr-2 h-4 w-4" /> */}
+      <Text className="p-3">{data.title}</Text>
+      {selectedValues?.size > 0 && (
+        <>
+          {/* <Separator orientation="vertical" className="mx-2 h-4" /> */}
+          <Badge
+            variant="secondary"
+            className="rounded-sm px-1 font-normal lg:hidden"
+          >
+            {selectedValues.size}
+          </Badge>
+          <div className="hidden space-x-1 lg:flex">
+            {selectedValues.size > 2 ? (
+              <Badge
+                variant="secondary"
+                className="rounded-sm px-1 font-normal"
+              >
+                <Text>{selectedValues.size} selected</Text>
+              </Badge>
+            ) : (
+              data.options
+                .filter((option) => selectedValues.has(option.value))
+                .map((option) => (
+                  <Badge
+                    variant="secondary"
+                    key={option.value}
+                    className="rounded-sm px-1 font-normal"
+                  >
+                    <Text>{option.label}</Text>
+                  </Badge>
+                ))
+            )}
+          </div>
+        </>
+      )}
+    </View>
+  );
 };
 
-export function FacetedFilterList({ children }) {
-  return <SelectList>{children}</SelectList>;
-}
+const FacetedFilterGroup = ({ children }) => {
+  return <SelectGroup>{children}</SelectGroup>;
+};
+
+const FacetedFilterList = ({ children, onClearFilters }) => {
+  const { data, selectedValues } = React.useContext(FacetedContext);
+  return (
+    <SelectList>
+      {children}
+      {selectedValues?.size > 0 && (
+        <>
+          <View className="bg-white p-2 items-center justify-center">
+            <Button
+              variant="brand"
+              className="w-full"
+              onPress={() => {
+                console.log("The button for clear was pressed");
+                onClearFilters();
+                console.log(
+                  "The next line will be displayed Selected values after the clear function was called "
+                );
+                console.log(selectedValues);
+              }}
+            >
+              Clear Filters
+            </Button>
+          </View>
+        </>
+      )}
+    </SelectList>
+  );
+};
 
 /// The code Bellow is for Item
 const facetedFilterItemVariants = cva(
@@ -229,7 +227,7 @@ export type FacetedFilterItemProps = PressableProps &
     value?: string;
   };
 
-export const FacetedFilterContext = React.createContext<{
+export const FacetedFilterItemContext = React.createContext<{
   variant: FacetedFilterItemProps["variant"];
   checked: boolean;
   hovered: boolean;
@@ -254,33 +252,44 @@ export const FacetedFilterItem = React.forwardRef<View, FacetedFilterItemProps>(
   ) => {
     const [checked, setChecked] = React.useState<boolean>(!!selected);
     const [hovered, setHovered] = React.useState(false);
+
     return (
-      <FacetedFilterContext.Provider value={{ variant, checked, hovered }}>
-        <Pressable
-          ref={ref}
-          className={cn(
-            facetedFilterItemVariants({ hovered, checked, variant }),
-            className
-          )}
-          onHoverIn={() => {
-            setHovered(true);
-          }}
-          onHoverOut={() => {
-            setHovered(false);
-          }}
-          onPress={() => {
-            onChange?.(!checked);
-            setChecked(!checked);
-          }}
-          {...props}
-        />
-      </FacetedFilterContext.Provider>
+      <FacetedFilterItemContext.Provider value={{ variant, checked, hovered }}>
+        <CommandItem>
+          <Pressable
+            ref={ref}
+            className={cn(
+              facetedFilterItemVariants({ hovered, checked, variant }),
+              className
+            )}
+            onHoverIn={() => {
+              setHovered(true);
+            }}
+            onHoverOut={() => {
+              setHovered(false);
+            }}
+            onPress={() => {
+              onChange?.(!checked);
+              setChecked(!checked);
+            }}
+            {...props}
+          />
+        </CommandItem>
+      </FacetedFilterItemContext.Provider>
     );
   }
 );
 
 // The code bellow is for Indicator
 export const FacetedFilterIndicator = () => {
-  const { checked, hovered } = React.useContext(FacetedFilterContext);
+  const { checked, hovered } = React.useContext(FacetedFilterItemContext);
   return <CheckboxIndicator checked={checked} hovered={hovered} />;
+};
+
+export {
+  FacetedFilterGroup,
+  FacetedFilterInput,
+  FacetedFilterContent,
+  FacetedFilterList,
+  FacetedFilterEmpty,
 };
