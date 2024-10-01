@@ -34,21 +34,10 @@ import {
   PressableProps,
   Text,
   View,
-  ViewProps,
 } from "react-native";
 import { cn, ecn } from "@usekeyhole/utils";
-import {
-  Badge,
-  BadgeIcon,
-  BadgeText,
-  Button,
-  ButtonText,
-  Input,
-  Plus,
-  Star,
-} from "@usekeyhole/nativewind";
+import { Badge } from "@usekeyhole/nativewind";
 import { Checkbox, CheckboxIndicator } from "./checkbox/checkbox";
-import { AddIcon } from "@usekeyhole/ui";
 
 interface FacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -94,7 +83,6 @@ export const FacetedFilter = <TData, TValue>({
   options,
 }: FacetedFilterProps<TData, TValue>) => {
   const selectedValues = new Set(column?.getFilterValue() as string[]);
-  console.log("selectedV", selectedValues);
 
   return (
     <Select>
@@ -107,9 +95,11 @@ export const FacetedFilter = <TData, TValue>({
               <View>
                 <Badge
                   variant="secondary"
-                  className="rounded-sm px-1 font-normal lg:hidden"
+                  className="rounded-sm px-1 font-normal lg:hidden dark:text-neutral-100"
                 >
-                  {selectedValues.size}
+                  <Text className="dark:text-neutral-100">
+                    {selectedValues.size}
+                  </Text>
                 </Badge>
                 <div className="hidden space-x-1 lg:flex">
                   {selectedValues.size > 2 ? (
@@ -117,7 +107,9 @@ export const FacetedFilter = <TData, TValue>({
                       variant="secondary"
                       className="rounded-sm px-1 font-normal"
                     >
-                      <Text>{selectedValues.size} selected</Text>
+                      <Text className="dark:text-neutral-100">
+                        {selectedValues.size} selected
+                      </Text>
                     </Badge>
                   ) : (
                     options
@@ -128,7 +120,9 @@ export const FacetedFilter = <TData, TValue>({
                           key={option.value}
                           className="rounded-sm px-1 font-normal"
                         >
-                          <Text>{option.label}</Text>
+                          <Text className="dark:text-neutral-100">
+                            {option.label}
+                          </Text>
                         </Badge>
                       ))
                   )}
@@ -144,7 +138,10 @@ export const FacetedFilter = <TData, TValue>({
         className="bg-white dark:bg-neutral-900"
       >
         <View className=" pl-2">
-          <FacetedFilterInput placeholder="Status" className="ml-1" />
+          <FacetedFilterInput
+            placeholder="Status"
+            className="ml-1 dark:text-neutral-100"
+          />
         </View>
 
         <FacetedFilterList>
@@ -153,35 +150,28 @@ export const FacetedFilter = <TData, TValue>({
             {options.map((item) => {
               const isSelected = selectedValues.has(item.value);
 
+              const onSelect = () => {
+                if (isSelected) {
+                  selectedValues.delete(item.value);
+                } else {
+                  selectedValues.add(item.value);
+                }
+                const filterValues = Array.from(selectedValues);
+
+                column?.setFilterValue(
+                  filterValues.length ? filterValues : undefined
+                );
+              };
+
               return (
                 <CommandItem
                   key={item.value}
                   value={item.value}
-                  onSelect={() => {
-                    if (isSelected) {
-                      selectedValues.delete(item.value);
-                    } else {
-                      selectedValues.add(item.value);
-                    }
-                    const filterValues = Array.from(selectedValues);
-
-                    column?.setFilterValue(
-                      filterValues.length ? filterValues : undefined
-                    );
-                  }}
+                  onSelect={onSelect}
                   className="p-0 dark:hover:bg-neutral-700"
                 >
                   <View className="flex-row items-center gap-4 px-2 py-1.5 transition-colors rounded ">
-                    <Text>{isSelected ? "True" : "False"}</Text>
-                    <Checkbox
-                      checked={isSelected}
-                      onChange={() => {}}
-                      onHoverIn={() => {
-                        console.log(
-                          `Checkbox component -- isselected: ${isSelected}`
-                        );
-                      }}
-                    >
+                    <Checkbox checked={isSelected} onChange={onSelect}>
                       <CheckboxIndicator />
                     </Checkbox>
                     <Text className="dark:text-neutral-100">{item.label}</Text>
@@ -200,7 +190,7 @@ export const FacetedFilter = <TData, TValue>({
                   }}
                   className="p-2 justify-center text-center dark:text-neutral-100 dark:hover:bg-neutral-700"
                 >
-                  Clear filters
+                  <Text className="dark:text-neutral-100">Clear filters</Text>
                 </CommandItem>
               </CommandGroup>
             </>

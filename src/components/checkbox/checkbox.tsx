@@ -18,6 +18,7 @@ import { useColorScheme } from "react-native";
 
 export type CheckboxProps = PressableProps & {
   checked?: boolean;
+  defaultValue?: boolean;
   hovered?: boolean;
   destructive?: boolean;
   onChange?: (checked: boolean) => void;
@@ -51,6 +52,7 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
   (
     {
       className,
+      defaultValue,
       onHoverIn,
       onHoverOut,
       onChange,
@@ -67,9 +69,23 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
     const disabled = !!props.disabled;
     const isHovered = !!props.hovered;
     const destructive = !!isDestructive;
-    const [checked, setChecked] = React.useState<boolean>(!!selected);
+    const [internalChecked, setInternalChecked] = React.useState<boolean>(
+      defaultValue || false
+    );
     const [hovered, setHovered] = React.useState<boolean>(!!isHovered);
     const [pressed, setPressed] = React.useState<boolean>(false);
+
+    const isControlled = !!selected;
+    const checked = isControlled ? selected : internalChecked;
+
+    const handleChange = (newValue: boolean) => {
+      if (isControlled) {
+        onChange?.(newValue);
+      } else {
+        setInternalChecked(newValue);
+        onChange?.(newValue); // Still trigger onChange for external listeners
+      }
+    };
 
     const handleFocus = (e: NativeSyntheticEvent<TargetedEvent>) => {
       if (!disabled) setHovered(true);
@@ -82,27 +98,24 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
     };
 
     const handleHoverIn = (e: MouseEvent) => {
-      setHovered(true);
+      if (!disabled) setHovered(true);
       onHoverIn?.(e);
     };
 
     const handleHoverOut = (e: MouseEvent) => {
-      setHovered(false);
+      if (!disabled) setHovered(false);
       onHoverOut?.(e);
     };
 
     const handlePressIn = (e: GestureResponderEvent) => {
-      if (!disabled) {
-        setPressed(true);
-      }
+      if (!disabled) setPressed(true);
       onPressIn?.(e);
     };
 
     const handlePressOut = (e: GestureResponderEvent) => {
       if (!disabled) {
         setPressed(false);
-        setChecked(!checked);
-        onChange(!checked);
+        handleChange(!checked);
       }
       onPressOut?.(e);
     };
@@ -144,7 +157,7 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
 Checkbox.displayName = "Checkbox";
 
 export const checkboxIndicatorVariants = cva(
-  "size-6 items-center justify-center rounded border-2 p-1 transition-colors ",
+  "size-6 items-center justify-center rounded border-2 p-1",
   {
     variants: {
       variant: {

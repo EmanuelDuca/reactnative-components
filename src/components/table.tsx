@@ -189,36 +189,6 @@ export function Table() {
           </button>
         </div>
       </View>
-      {/* <FactedTrigger>
-          <FacetedTriggerValue />
-        </FactedTrigger>
-        <FacetedFilterContent align="start" className=" bg-white">
-          <FacetedFilterInput placeholder="Random Text" />
-          <FacetedFilterList onClearFilters={clearFilters}>
-            <FacetedFilterEmpty>No address found.</FacetedFilterEmpty>
-            <FacetedFilterGroup>
-              {options.map((item) => {
-                const isSelected = selectedValues.has(item.value);
-                return (
-                  <FacetedFilterItem
-                    value={item.value}
-                    key={item.value}
-                    checked={isSelected}
-                    onChange={() => handleChange(item)}
-                  >
-                    <FacetedFilterIndicator />
-                    <Badge
-                    // size={item.BadgeInfo.size}
-                    // variant={item.BadgeInfo.variant}
-                    >
-                      <BadgeText>{item.label}</BadgeText>
-                    </Badge>
-                  </FacetedFilterItem>
-                );
-              })}
-            </FacetedFilterGroup>
-          </FacetedFilterList>
-        </FacetedFilterContent> */}
     </>
   );
 }

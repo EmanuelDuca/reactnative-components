@@ -23,7 +23,7 @@ export default function Page() {
 }
 
 function Event() {
-  console.log("Change event in the component");
+  console.log("Event - CheckboxPage");
 }
 
 function Content() {
@@ -70,14 +70,14 @@ function Content() {
                 </CheckboxContent>
               </Checkbox>
 
-              <Checkbox checked onChange={Event}>
+              <Checkbox defaultValue={true} onChange={Event}>
                 <CheckboxIndicator />
                 <CheckboxContent>
                   <CheckboxLabel>Checked</CheckboxLabel>
                 </CheckboxContent>
               </Checkbox>
 
-              <Checkbox checked hovered onChange={Event}>
+              <Checkbox defaultValue={true} hovered onChange={Event}>
                 <CheckboxIndicator />
                 <CheckboxContent>
                   <CheckboxLabel>Checked Hovered</CheckboxLabel>

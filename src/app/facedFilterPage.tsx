@@ -120,7 +120,7 @@ const useGuaranteeStatusFilters = () => {
   return GUARANTEE_STATES.map<{
     label: string;
     value: any;
-    icon: React.FC;
+    icon?: React.FC;
   }>((state) => {
     const { text, color } = getStatusTextAndColor(state);
     return {
