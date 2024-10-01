@@ -17,6 +17,7 @@ import {
 import { Link } from "expo-router";
 import * as React from "react";
 import { Text, View } from "react-native";
+import { Table } from "@/components/table";
 /* import { Table } from "@/components/table"; */
 
 export default function Page() {
@@ -55,7 +56,9 @@ function Content() {
               </Badge>
             </View>
             <View className="gap-6 flex flex-row">
-              <View className="gap-6">{/* <Table></Table> */}</View>
+              <View className="gap-6">
+                <Table></Table>
+              </View>
             </View>
           </View>
         </View>
@@ -64,70 +67,70 @@ function Content() {
   );
 }
 
-// export const GUARANTEE_STATES = [
-//   "Inactive",
-//   "Closed",
-//   "Active",
-//   "MovingOut",
-//   "Onboarding",
-// ] as const;
+export const GUARANTEE_STATES = [
+  "Inactive",
+  "Closed",
+  "Active",
+  "MovingOut",
+  "Onboarding",
+] as const;
 
-// export const getStatusTextAndColor = (status: string) => {
-//   switch (status) {
-//     case "Active":
-//       return {
-//         color: "red",
-//         text: "status_pill_active",
-//       };
+export const getStatusTextAndColor = (status: string) => {
+  switch (status) {
+    case "Active":
+      return {
+        color: "red",
+        text: "status_pill_active",
+      };
 
-//     case "Inactive":
-//       return {
-//         color: "darkGrey",
-//         text: "-",
-//       };
+    case "Inactive":
+      return {
+        color: "darkGrey",
+        text: "-",
+      };
 
-//     case "MovingOut":
-//       return {
-//         color: "green50",
-//         text: "label_move_out_claim",
-//       };
+    case "MovingOut":
+      return {
+        color: "green50",
+        text: "label_move_out_claim",
+      };
 
-//     case "Onboarding":
-//       return {
-//         color: "paragraph",
-//         text: "status_pill_onboarding",
-//       };
+    case "Onboarding":
+      return {
+        color: "paragraph",
+        text: "status_pill_onboarding",
+      };
 
-//     case "Closed":
-//       return {
-//         color: "green",
-//         text: "label_closed",
-//       };
+    case "Closed":
+      return {
+        color: "green",
+        text: "label_closed",
+      };
 
-//     // - dispute
-//     default:
-//       return {
-//         color: "darkGrey",
-//         text: status,
-//       };
-//   }
-// };
+    // - dispute
+    default:
+      return {
+        color: "darkGrey",
+        text: status,
+      };
+  }
+};
 
-// const useGuaranteeStatusFilters = () => {
-//   return GUARANTEE_STATES.map<{
-//     label: string;
-//     value: any;
-//     icon: React.FC;
-//   }>((state) => {
-//     const { text, color } = getStatusTextAndColor(state);
-//     return {
-//       label: text,
-//       value: state,
-//     };
-//   })
-//     .filter((filter) => filter.label !== "-")
-//     .sort((a, b) => a.label.localeCompare(b.label));
-// };
+const useGuaranteeStatusFilters = () => {
+  return GUARANTEE_STATES.map<{
+    label: string;
+    value: any;
+    icon: React.FC;
+  }>((state) => {
+    const { text, color } = getStatusTextAndColor(state);
+    return {
+      label: text,
+      value: state,
+    };
+  })
+    .filter((filter) => filter.label !== "-")
+    .sort((a, b) => a.label.localeCompare(b.label));
+};
 
 // This is just for the list.
 export const demoList = [

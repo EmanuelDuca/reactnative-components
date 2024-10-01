@@ -8,6 +8,10 @@ import {
   PressableProps,
   ViewProps,
   TextProps,
+  TargetedEvent,
+  NativeSyntheticEvent,
+  MouseEvent,
+  GestureResponderEvent,
 } from "react-native";
 import { Check } from "@usekeyhole/nativewind/dist/index";
 import { useColorScheme } from "react-native";
@@ -25,12 +29,22 @@ const CheckboxContext = React.createContext<{
   disabled: boolean;
   destructive: boolean;
   pressed: boolean;
+  onFocus: (e: NativeSyntheticEvent<TargetedEvent>) => void;
+  onBlur: (e: NativeSyntheticEvent<TargetedEvent>) => void;
+  onHoverIn: (e: MouseEvent) => void;
+  onPressIn: (e: GestureResponderEvent) => void;
+  onPressOut: (e: GestureResponderEvent) => void;
 }>({
   checked: false,
   hovered: false,
   disabled: false,
   destructive: false,
   pressed: false,
+  onFocus: undefined,
+  onBlur: undefined,
+  onHoverIn: undefined,
+  onPressIn: undefined,
+  onPressOut: undefined,
 });
 
 export const Checkbox = React.forwardRef<View, CheckboxProps>(
@@ -57,47 +71,70 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
     const [hovered, setHovered] = React.useState<boolean>(!!isHovered);
     const [pressed, setPressed] = React.useState<boolean>(false);
 
+    const handleFocus = (e: NativeSyntheticEvent<TargetedEvent>) => {
+      if (!disabled) setHovered(true);
+      onFocus?.(e);
+    };
+
+    const handleBlur = (e: NativeSyntheticEvent<TargetedEvent>) => {
+      if (!disabled) setHovered(false);
+      onBlur?.(e);
+    };
+
+    const handleHoverIn = (e: MouseEvent) => {
+      setHovered(true);
+      onHoverIn?.(e);
+    };
+
+    const handleHoverOut = (e: MouseEvent) => {
+      setHovered(false);
+      onHoverOut?.(e);
+    };
+
+    const handlePressIn = (e: GestureResponderEvent) => {
+      if (!disabled) {
+        setPressed(true);
+      }
+      onPressIn?.(e);
+    };
+
+    const handlePressOut = (e: GestureResponderEvent) => {
+      if (!disabled) {
+        setPressed(false);
+        setChecked(!checked);
+        onChange(!checked);
+      }
+      onPressOut?.(e);
+    };
+
     return (
       <CheckboxContext.Provider
-        value={{ disabled, hovered, checked, destructive, pressed }}
+        value={{
+          disabled,
+          hovered,
+          checked,
+          destructive,
+          pressed,
+          onFocus: handleFocus,
+          onBlur: handleBlur,
+          onHoverIn: handleHoverIn,
+          onPressIn: handlePressIn,
+          onPressOut: handlePressOut,
+        }}
       >
         <Pressable
           ref={ref}
           className={cn("relative flex flex-row gap-4", className)}
-          onHoverIn={(e) => {
-            setHovered(true);
-            onHoverIn?.(e);
-          }}
-          onHoverOut={(e) => {
-            setHovered(false);
-            onHoverOut?.(e);
-          }}
-          onPressIn={(e) => {
-            if (!disabled) {
-              setPressed(true);
-            }
-            onPressIn?.(e);
-          }}
-          onPressOut={(e) => {
-            if (!disabled) {
-              setChecked(!checked);
-              setPressed(false);
-              onChange(!checked);
-            }
-            onPressOut?.(e);
-          }}
-          onFocus={(e) => {
-            if (!disabled) setHovered(true);
-            onFocus?.(e);
-          }}
-          onBlur={(e) => {
-            if (!disabled) setHovered(false);
-            onBlur?.(e);
-          }}
+          onHoverIn={handleHoverIn}
+          onHoverOut={handleHoverOut}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           {...props}
           // Should be fixed. Propably expo/tsconfig.base should be used
           // @ts-ignore
-          //tabIndex={-1}
+          tabIndex={-1}
         />
       </CheckboxContext.Provider>
     );
@@ -107,7 +144,7 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
 Checkbox.displayName = "Checkbox";
 
 export const checkboxIndicatorVariants = cva(
-  "size-6 items-center justify-center rounded border-2 p-1 transition-colors",
+  "size-6 items-center justify-center rounded border-2 p-1 transition-colors ",
   {
     variants: {
       variant: {
@@ -196,14 +233,24 @@ export type CheckboxIndicatorProps = ViewProps &
 
 export const CheckboxIndicator = React.forwardRef<View, CheckboxIndicatorProps>(
   ({ className, variant, ...props }, ref) => {
-    const { checked, hovered, disabled, destructive, pressed } =
-      React.useContext(CheckboxContext);
+    const {
+      checked,
+      hovered,
+      disabled,
+      destructive,
+      pressed,
+      onFocus,
+      onBlur,
+      onHoverIn,
+      onPressIn,
+      onPressOut,
+    } = React.useContext(CheckboxContext);
 
     const colorScheme = useColorScheme(); // Detect if the theme is dark or light
     const checkColor = colorScheme === "dark" ? "#039393" : "#bce0e0"; // brand-600 dark mode, brand-200 for light mode
     return (
-      <View
-        //tabIndex={disabled ? -1 : 0}
+      <Pressable
+        tabIndex={disabled ? -1 : 0}
         ref={ref}
         className={cn(
           checkboxIndicatorVariants({
@@ -215,14 +262,19 @@ export const CheckboxIndicator = React.forwardRef<View, CheckboxIndicatorProps>(
             pressed,
           })
         )}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onHoverIn={onHoverIn}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
         {...props}
       >
         {pressed ? (
           <Check color={checkColor} width={16} height={16} />
         ) : (
-          checked && <Check color={"White"} width={16} height={16} />
+          checked && <Check color={"#ffffff"} width={16} height={16} />
         )}
-      </View>
+      </Pressable>
     );
   }
 );

@@ -6,7 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   Select,
-  SelectContent,
+  SelectContent as FacetedFilterContent,
   SelectContext,
   SelectEmpty,
   SelectGroup,
@@ -37,7 +37,6 @@ import {
   ViewProps,
 } from "react-native";
 import { cn, ecn } from "@usekeyhole/utils";
-import { cva, VariantProps } from "class-variance-authority";
 import {
   Badge,
   BadgeIcon,
@@ -48,7 +47,7 @@ import {
   Plus,
   Star,
 } from "@usekeyhole/nativewind";
-import { CheckboxIndicator } from "./checkbox/checkbox";
+import { Checkbox, CheckboxIndicator } from "./checkbox/checkbox";
 import { AddIcon } from "@usekeyhole/ui";
 
 interface FacetedFilterProps<TData, TValue> {
@@ -140,7 +139,10 @@ export const FacetedFilter = <TData, TValue>({
           )}
         </View>
       </SelectTrigger>
-      <SelectContent align="start" className="bg-white dark:bg-neutral-900">
+      <FacetedFilterContent
+        align="start"
+        className="bg-white dark:bg-neutral-900"
+      >
         <View className=" pl-2">
           <FacetedFilterInput placeholder="Status" className="ml-1" />
         </View>
@@ -150,7 +152,6 @@ export const FacetedFilter = <TData, TValue>({
           <FacetedFilterGroup className="flex-col justify-items-start p-2">
             {options.map((item) => {
               const isSelected = selectedValues.has(item.value);
-              console.log("selectedValues", selectedValues);
 
               return (
                 <CommandItem
@@ -164,8 +165,6 @@ export const FacetedFilter = <TData, TValue>({
                     }
                     const filterValues = Array.from(selectedValues);
 
-                    console.log("filterValuse", filterValues);
-
                     column?.setFilterValue(
                       filterValues.length ? filterValues : undefined
                     );
@@ -173,7 +172,18 @@ export const FacetedFilter = <TData, TValue>({
                   className="p-0 dark:hover:bg-neutral-700"
                 >
                   <View className="flex-row items-center gap-4 px-2 py-1.5 transition-colors rounded ">
-                    <CheckboxIndicator checked={isSelected} />
+                    <Text>{isSelected ? "True" : "False"}</Text>
+                    <Checkbox
+                      checked={isSelected}
+                      onChange={() => {}}
+                      onHoverIn={() => {
+                        console.log(
+                          `Checkbox component -- isselected: ${isSelected}`
+                        );
+                      }}
+                    >
+                      <CheckboxIndicator />
+                    </Checkbox>
                     <Text className="dark:text-neutral-100">{item.label}</Text>
                   </View>
                 </CommandItem>
@@ -196,105 +206,7 @@ export const FacetedFilter = <TData, TValue>({
             </>
           )}
         </FacetedFilterList>
-      </SelectContent>
+      </FacetedFilterContent>
     </Select>
   );
-};
-
-export const FacetedFilterTrigger = () => {
-  return <View></View>;
-};
-
-/// The code Bellow is for Item
-const facetedFilterItemVariants = cva(
-  "relative flex flex-row gap-4 m-1 p-2 transition-colors rounded",
-  {
-    variants: {
-      variant: {
-        default: "",
-      },
-      checked: {
-        true: undefined,
-        false: undefined,
-      },
-      hovered: {
-        false: undefined,
-        true: undefined,
-      },
-    },
-    compoundVariants: [
-      { hovered: true, className: "bg-neutral-100 border-brand-200" },
-      {
-        checked: true,
-        className: "",
-      },
-    ],
-
-    defaultVariants: {
-      variant: "default",
-    },
-  }
-);
-
-export type FacetedFilterItemProps = PressableProps &
-  VariantProps<typeof facetedFilterItemVariants> & {
-    checked?: boolean;
-    onChange?: (checked: boolean) => void;
-    value?: string;
-  };
-
-export const FacetedFilterContext = React.createContext<{
-  variant: FacetedFilterItemProps["variant"];
-  checked: boolean;
-  hovered: boolean;
-}>({
-  variant: "default",
-  checked: false,
-  hovered: false,
-});
-
-export const FacetedFilterItem = React.forwardRef<View, FacetedFilterItemProps>(
-  (
-    {
-      variant,
-      className,
-      onHoverIn,
-      onHoverOut,
-      onChange,
-      checked: selected,
-      ...props
-    },
-    ref
-  ) => {
-    const [checked, setChecked] = React.useState<boolean>(!!selected);
-    const [hovered, setHovered] = React.useState(false);
-    return (
-      <FacetedFilterContext.Provider value={{ variant, checked, hovered }}>
-        <Pressable
-          ref={ref}
-          className={cn(
-            facetedFilterItemVariants({ hovered, checked, variant }),
-            className
-          )}
-          onHoverIn={() => {
-            setHovered(true);
-          }}
-          onHoverOut={() => {
-            setHovered(false);
-          }}
-          onPress={() => {
-            onChange?.(!checked);
-            setChecked(!checked);
-          }}
-          {...props}
-        />
-      </FacetedFilterContext.Provider>
-    );
-  }
-);
-
-// The code bellow is for Indicator
-export const FacetedFilterIndicator = () => {
-  const { checked, hovered } = React.useContext(FacetedFilterContext);
-  return <CheckboxIndicator checked={checked} hovered={hovered} />;
 };

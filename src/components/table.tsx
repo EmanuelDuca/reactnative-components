@@ -1,6 +1,4 @@
 import * as React from "react";
-
-/*
 import {
   createColumnHelper,
   flexRender,
@@ -11,17 +9,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  FacetedFilter, FacetedFilterContent,
-  FacetedFilterEmpty,
-  FacetedFilterGroup,
-  FacetedFilterIndicator,
-  FacetedFilterInput,
-  FacetedFilterItem,
-  FacetedFilterList,
-  FacetedTriggerValue,
-  FactedTrigger,
-} from "./facetedFilter";
+import { FacetedFilter } from "./facetedFilter";
 import { Badge, BadgeText, Button } from "@usekeyhole/nativewind";
 import { CommandItem, SelectContent, SelectEmpty } from "@usekeyhole/web";
 import { Text, View } from "react-native";
@@ -201,7 +189,6 @@ export function Table() {
           </button>
         </div>
       </View>
-
       {/* <FactedTrigger>
           <FacetedTriggerValue />
         </FactedTrigger>
@@ -231,7 +218,7 @@ export function Table() {
               })}
             </FacetedFilterGroup>
           </FacetedFilterList>
-        </FacetedFilterContent> }
+        </FacetedFilterContent> */}
     </>
   );
 }
@@ -301,4 +288,3 @@ const useGuaranteeStatusFilters = () => {
     .filter((filter) => filter.label !== "-")
     .sort((a, b) => a.label.localeCompare(b.label));
 };
-*/
