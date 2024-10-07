@@ -30,9 +30,6 @@ export default function Page() {
 }
 
 function Content() {
-  // const options = useGuaranteeStatusFilters();
-  // const [columnFilters, setColumnFilters] = React.useState<any>([]);
-
   return (
     <View className="flex-1 dark:bg-black">
       <View className="py-12 md:py-24 lg:py-32 xl:py-48">

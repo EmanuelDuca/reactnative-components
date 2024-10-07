@@ -9,11 +9,11 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@usekeyhole/nativewind": "^0.1.24",
+    "@usekeyhole/nativewind": "^0.1.26",
     "@usekeyhole/prettier-config": "^1.0.6",
     "@usekeyhole/ui": "^0.0.126",
     "@usekeyhole/utils": "^0.0.19",
-    "@usekeyhole/web": "^0.0.72",
+    "@usekeyhole/web": "^0.0.74",
     "class-variance-authority": "^0.7.0",
     "expo": "^51.0.0",
     "expo-constants": "~16.0.1",

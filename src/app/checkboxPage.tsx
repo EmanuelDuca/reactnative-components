@@ -14,7 +14,7 @@ export default function Page() {
     <View className="flex flex-1 bg-white dark:bg-black">
       <View className="h-32 w-full px-4 bg-purple-500 dark:bg-yellow-500 justify-center items-center">
         <Text className="text-white font-mono font-bold text-2xl">
-          Checkbox Page
+          Replace Table Page
         </Text>
       </View>
       <Content />
@@ -36,7 +36,7 @@ function Content() {
               role="heading"
               className="text-black dark:text-yellow-500 text-3xl text-center native:text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl"
             >
-              Second Page
+              Replace table Page
             </Text>
             <Text className="mx-auto max-w-[700px] text-lg text-center text-gray-500 md:text-xl dark:text-gray-400">
               Discover and collaborate on amce. Explore our services now.
@@ -91,7 +91,7 @@ function Content() {
                 </CheckboxContent>
               </Checkbox>
 
-              <Checkbox destructive onChange={Event}>
+              <Checkbox onChange={Event}>
                 <CheckboxIndicator />
                 <CheckboxContent>
                   <CheckboxLabel>Destructive Validation </CheckboxLabel>

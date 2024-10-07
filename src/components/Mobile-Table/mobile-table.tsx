@@ -6,8 +6,9 @@ import {
   getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { FacetedFilter } from "./facetedFilter";
-import { View } from "react-native";
+import { FacetedFilter } from "../facetedFilter";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 
 type Person = {
   firstName: string;
@@ -54,33 +55,34 @@ const columns = [
   }),
   columnHelper.accessor((row) => row.lastName, {
     id: "lastName",
-    cell: (info) => <i>{info.getValue()}</i>,
-    header: () => <span>Last Name</span>,
+    cell: (info) => (
+      <Text style={{ fontStyle: "italic" }}>{info.getValue()}</Text>
+    ),
+    header: () => <Text>Last Name</Text>,
     footer: (info) => info.column.id,
   }),
   columnHelper.accessor("age", {
-    header: () => "Age",
-    cell: (info) => info.renderValue(),
+    header: () => <Text>Age</Text>,
+    cell: (info) => <Text>{info.renderValue()}</Text>,
     footer: (info) => info.column.id,
   }),
   columnHelper.accessor("visits", {
-    header: () => <span>Visits</span>,
+    header: () => <Text>Visits</Text>,
     footer: (info) => info.column.id,
   }),
   columnHelper.accessor("state", {
-    header: "state",
+    header: () => <Text>State</Text>,
     footer: (info) => info.column.id,
     filterFn: "arrIncludesSome",
   }),
   columnHelper.accessor("progress", {
-    header: "Profile Progress",
+    header: () => <Text>Profile Progress</Text>,
     footer: (info) => info.column.id,
   }),
 ];
 
-export function Table() {
+export function MobileTable() {
   const [data, _setData] = React.useState(() => [...defaultData]);
-  const rerender = React.useReducer(() => ({}), {})[1];
   const options = useGuaranteeStatusFilters();
   const [columnFilters, setColumnFilters] = React.useState<any>([]);
 
@@ -90,84 +92,96 @@ export function Table() {
     state: {
       columnFilters,
     },
-    // manualFiltering: true,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    // getFacetedRowModel: getFacetedRowModel(),
     onColumnFiltersChange: setColumnFilters,
   });
 
   return (
-    <>
-      <View className="items-start">
+    <ScrollView>
+      <View style={styles.container}>
         <FacetedFilter
-          localization={{
-            clearFilterText: "Clear",
-            title: "Status",
-          }}
+          title="Status"
           column={table.getColumn("state")}
           options={options}
-        ></FacetedFilter>
-      </View>
-      <View>
-        <div className="p-2">
-          <table>
-            <thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
+        />
+        <View style={styles.table}>
+          {/* Header */}
+          {table.getHeaderGroups().map((headerGroup) => (
+            <View key={headerGroup.id} style={styles.row}>
+              {headerGroup.headers.map((header) => (
+                <Text key={header.id} style={styles.headerCell}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
                       )}
-                    </td>
-                  ))}
-                </tr>
+                </Text>
               ))}
-            </tbody>
-            <tfoot>
-              {table.getFooterGroups().map((footerGroup) => (
-                <tr key={footerGroup.id}>
-                  {footerGroup.headers.map((header) => (
-                    <th key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.footer,
-                            header.getContext()
-                          )}
-                    </th>
-                  ))}
-                </tr>
+            </View>
+          ))}
+          {/* Body */}
+          {table.getRowModel().rows.map((row) => (
+            <View key={row.id} style={styles.row}>
+              {row.getVisibleCells().map((cell) => (
+                <Text key={cell.id} style={styles.cell}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </Text>
               ))}
-            </tfoot>
-          </table>
-          <div className="h-4" />
-          <button onClick={() => rerender()} className="border p-2">
-            Rerender
-          </button>
-        </div>
+            </View>
+          ))}
+          {/* Footer */}
+          {table.getFooterGroups().map((footerGroup) => (
+            <View key={footerGroup.id} style={styles.row}>
+              {footerGroup.headers.map((header) => (
+                <Text key={header.id} style={styles.footerCell}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.footer,
+                        header.getContext()
+                      )}
+                </Text>
+              ))}
+            </View>
+          ))}
+        </View>
       </View>
-    </>
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+  },
+  table: {
+    marginVertical: 8,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 8,
+  },
+  headerCell: {
+    fontWeight: "bold",
+    padding: 8,
+  },
+  cell: {
+    padding: 8,
+  },
+  footerCell: {
+    fontWeight: "bold",
+    padding: 8,
+  },
+  button: {
+    padding: 12,
+    backgroundColor: "#007AFF",
+    borderRadius: 8,
+    alignItems: "center",
+  },
+});
 
 export const GUARANTEE_STATES = [
   "Inactive",
@@ -209,7 +223,6 @@ export const getStatusTextAndColor = (status: string) => {
         text: "Closed",
       };
 
-    // - dispute
     default:
       return {
         color: "darkGrey",

@@ -13,39 +13,40 @@ import {
   MouseEvent,
   GestureResponderEvent,
 } from "react-native";
-import { Check } from "@usekeyhole/nativewind/dist/index";
-import { useColorScheme } from "react-native";
+import { Check } from "@usekeyhole/nativewind";
 
-export type CheckboxProps = PressableProps & {
-  checked?: boolean;
-  defaultValue?: boolean;
-  hovered?: boolean;
-  destructive?: boolean;
-  onChange?: (checked: boolean) => void;
-};
+export type CheckboxProps = PressableProps &
+  VariantProps<typeof checkboxIndicatorVariants> & {
+    defaultValue?: boolean;
+    onChange?: (checked: boolean) => void;
+  };
 
 const CheckboxContext = React.createContext<{
   checked: boolean;
-  hovered: boolean;
   disabled: boolean;
-  destructive: boolean;
+  hovered: boolean;
+  onBlur?: PressableProps["onBlur"];
+  onFocus?: PressableProps["onFocus"];
+  onHoverIn?: PressableProps["onHoverIn"];
+  onLongPress?: PressableProps["onLongPress"];
+  onPress?: PressableProps["onPress"];
+  onPressIn?: PressableProps["onPressIn"];
+  onPressOut?: PressableProps["onPressOut"];
   pressed: boolean;
-  onFocus: (e: NativeSyntheticEvent<TargetedEvent>) => void;
-  onBlur: (e: NativeSyntheticEvent<TargetedEvent>) => void;
-  onHoverIn: (e: MouseEvent) => void;
-  onPressIn: (e: GestureResponderEvent) => void;
-  onPressOut: (e: GestureResponderEvent) => void;
+  variant: CheckboxProps["variant"];
 }>({
   checked: false,
-  hovered: false,
   disabled: false,
-  destructive: false,
-  pressed: false,
-  onFocus: undefined,
+  hovered: false,
   onBlur: undefined,
+  onFocus: undefined,
   onHoverIn: undefined,
+  onLongPress: undefined,
+  onPress: undefined,
   onPressIn: undefined,
   onPressOut: undefined,
+  pressed: false,
+  variant: "default",
 });
 
 export const Checkbox = React.forwardRef<View, CheckboxProps>(
@@ -56,67 +57,60 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
       onHoverIn,
       onHoverOut,
       onChange,
-      onPressIn,
+      onLongPress,
       onPressOut,
       onFocus,
       onBlur,
-      checked: selected,
-      destructive: isDestructive,
+      checked: isChecked,
+      hovered: isHovered,
+      pressed: isPressed,
+      variant = "default",
       ...props
     },
     ref
   ) => {
     const disabled = !!props.disabled;
-    const isHovered = !!props.hovered;
-    const destructive = !!isDestructive;
     const [internalChecked, setInternalChecked] = React.useState<boolean>(
       defaultValue || false
     );
     const [hovered, setHovered] = React.useState<boolean>(!!isHovered);
-    const [pressed, setPressed] = React.useState<boolean>(false);
+    const [pressed, setPressed] = React.useState<boolean>(!!isPressed);
 
-    const isControlled = !!selected;
-    const checked = isControlled ? selected : internalChecked;
+    const checked = isChecked ?? internalChecked;
 
     const handleChange = (newValue: boolean) => {
-      if (isControlled) {
-        onChange?.(newValue);
-      } else {
-        setInternalChecked(newValue);
-        onChange?.(newValue); // Still trigger onChange for external listeners
-      }
+      isChecked ?? setInternalChecked(newValue);
+      onChange?.(newValue); // Still trigger onChange for external listeners
     };
 
     const handleFocus = (e: NativeSyntheticEvent<TargetedEvent>) => {
-      if (!disabled) setHovered(true);
+      setHovered(true);
       onFocus?.(e);
     };
 
     const handleBlur = (e: NativeSyntheticEvent<TargetedEvent>) => {
-      if (!disabled) setHovered(false);
+      setHovered(false);
       onBlur?.(e);
     };
 
     const handleHoverIn = (e: MouseEvent) => {
-      if (!disabled) setHovered(true);
+      setHovered(true);
       onHoverIn?.(e);
     };
 
     const handleHoverOut = (e: MouseEvent) => {
-      if (!disabled) setHovered(false);
+      setHovered(false);
       onHoverOut?.(e);
     };
 
-    const handlePressIn = (e: GestureResponderEvent) => {
-      if (!disabled) setPressed(true);
-      onPressIn?.(e);
+    const handleLongPressIn = (e: GestureResponderEvent) => {
+      setPressed(true);
+      onLongPress?.(e);
     };
 
     const handlePressOut = (e: GestureResponderEvent) => {
-      if (!disabled) {
-        setPressed(false);
-        handleChange(!checked);
-      }
+      setPressed(false);
+      handleChange(!checked);
       onPressOut?.(e);
     };
 
@@ -124,23 +118,26 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
       <CheckboxContext.Provider
         value={{
           disabled,
-          hovered,
+          hovered: isHovered ?? hovered,
           checked,
-          destructive,
-          pressed,
+          pressed: isPressed ?? pressed,
           onFocus: handleFocus,
           onBlur: handleBlur,
           onHoverIn: handleHoverIn,
-          onPressIn: handlePressIn,
+          onLongPress: handleLongPressIn,
+          onPressIn: props.onPressIn,
+          onPress: props.onPress,
           onPressOut: handlePressOut,
+          variant,
         }}
       >
         <Pressable
           ref={ref}
           className={cn("relative flex flex-row gap-4", className)}
+          delayLongPress={200}
           onHoverIn={handleHoverIn}
           onHoverOut={handleHoverOut}
-          onPressIn={handlePressIn}
+          onLongPress={handleLongPressIn}
           onPressOut={handlePressOut}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -157,18 +154,17 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
 Checkbox.displayName = "Checkbox";
 
 export const checkboxIndicatorVariants = cva(
-  "size-6 items-center justify-center rounded border-2 p-1",
+  "bg-background size-6 items-center justify-center rounded border transition-colors",
   {
     variants: {
       variant: {
         default: "border-neutral-200 dark:border-neutral-500",
-        disabled: "border-neutral-100 bg-green-500",
         destructive:
-          "bg-background border-destructive-foreground dark:border-destructive-foreground",
+          "border-destructive-foreground dark:border-destructive-foreground",
       },
       checked: {
         false: undefined,
-        true: undefined,
+        true: "border-2",
       },
       hovered: {
         false: undefined,
@@ -178,41 +174,40 @@ export const checkboxIndicatorVariants = cva(
         false: undefined,
         true: undefined,
       },
-      destructive: {
-        false: undefined,
-        true: undefined,
-      },
       pressed: {
         false: undefined,
-        true: undefined,
+        true: "border-2",
       },
     },
     compoundVariants: [
       // Default hover
       {
-        variant: "default",
         hovered: true,
-        className: "border-neutral-400 dark:border-neutral-500",
+        disabled: false,
+        className: "border-neutral-400 dark:border-neutral-600",
       },
       //Pressed
       {
         pressed: true,
+        disabled: false,
         className: "border-brand-200 bg-background dark:border-brand-600",
       },
       //Checked
       {
         checked: true,
         pressed: false,
+        disabled: false,
         className:
-          "bg-brand-700 border-brand-200 dark:border-brand-600 dark:bg-brand-700",
+          "border-brand-200 bg-brand-700 dark:border-brand-600 dark:bg-brand-700",
       },
       //Checked hover
       {
         checked: true,
         hovered: true,
         pressed: false,
+        disabled: false,
         className:
-          "bg-brand-600 border-brand-200 dark:border-brand-600 dark:bg-brand-800",
+          "border-brand-200 bg-brand-600 dark:border-brand-600 dark:bg-brand-800",
       },
       //Disabled
       {
@@ -224,15 +219,7 @@ export const checkboxIndicatorVariants = cva(
         disabled: true,
         checked: true,
         className:
-          "opacity-50 bg-brand-700 border-brand-200 dark:border-brand-600 dark:bg-brand-700",
-      },
-      //Validation / Destructive
-      {
-        checked: false,
-        destructive: true,
-        pressed: false,
-        className:
-          "bg-background border-destructive-foreground dark:border-destructive-foreground",
+          "border-brand-200 bg-brand-700 dark:border-brand-600 dark:bg-brand-700 opacity-50",
       },
     ],
     defaultVariants: {
@@ -245,24 +232,24 @@ export type CheckboxIndicatorProps = ViewProps &
   VariantProps<typeof checkboxIndicatorVariants>;
 
 export const CheckboxIndicator = React.forwardRef<View, CheckboxIndicatorProps>(
-  ({ className, variant, ...props }, ref) => {
+  ({ className, ...props }, ref) => {
     const {
       checked,
       hovered,
       disabled,
-      destructive,
       pressed,
       onFocus,
       onBlur,
       onHoverIn,
+      onLongPress,
+      onPress,
       onPressIn,
       onPressOut,
+      variant,
     } = React.useContext(CheckboxContext);
-
-    const colorScheme = useColorScheme(); // Detect if the theme is dark or light
-    const checkColor = colorScheme === "dark" ? "#039393" : "#bce0e0"; // brand-600 dark mode, brand-200 for light mode
     return (
       <Pressable
+        // @ts-ignore
         tabIndex={disabled ? -1 : 0}
         ref={ref}
         className={cn(
@@ -270,22 +257,28 @@ export const CheckboxIndicator = React.forwardRef<View, CheckboxIndicatorProps>(
             hovered,
             checked,
             disabled,
-            variant,
-            destructive,
             pressed,
-          })
+            variant,
+          }),
+          className
         )}
         onFocus={onFocus}
         onBlur={onBlur}
         onHoverIn={onHoverIn}
+        onLongPress={onLongPress}
+        onPress={onPress}
         onPressIn={onPressIn}
         onPressOut={onPressOut}
+        disabled={disabled}
         {...props}
       >
-        {pressed ? (
-          <Check color={checkColor} width={16} height={16} />
-        ) : (
-          checked && <Check color={"#ffffff"} width={16} height={16} />
+        {(pressed || checked) && (
+          <Check
+            className={cn("size-4 stroke-2", {
+              "stroke-white": checked,
+              "stroke-brand-200 dark:stroke-brand-600": pressed,
+            })}
+          />
         )}
       </Pressable>
     );
@@ -302,7 +295,7 @@ export const CheckboxLabel = React.forwardRef<Text, CheckboxLabelProps>(
       <Text
         ref={ref}
         className={cn(
-          "text-neutral-800 dark:text-neutral-100 text-sm font-semibold",
+          "text-sm font-semibold text-neutral-800 dark:text-neutral-100",
           className
         )}
         {...props}
@@ -322,7 +315,7 @@ export const CheckboxDescription = React.forwardRef<
     <Text
       ref={ref}
       className={cn(
-        "text-neutral-600 dark:text-neutral-300 text-accent-foreground text-sm font-normal",
+        "text-accent-foreground text-sm font-normal text-neutral-600 dark:text-neutral-300",
         className
       )}
       {...props}

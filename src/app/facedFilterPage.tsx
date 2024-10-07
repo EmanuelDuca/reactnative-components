@@ -58,8 +58,8 @@ function Content() {
             </View>
             <View className="gap-6 flex flex-row">
               <View className="gap-6">
-                {/* <Table></Table> */}
-                <MobileTable></MobileTable>
+                <Table></Table>
+                {/* <MobileTable></MobileTable> */}
               </View>
             </View>
           </View>
