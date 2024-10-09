@@ -23,8 +23,12 @@ export type AvatarProps = ViewProps &
 export const Avatar = React.forwardRef<View, AvatarProps>(
   ({ className, name, size, ...props }, ref) => {
     return (
-      <View className={cn(avatarVariants({ size }), className)} {...props}>
-        <Text className="text-xs font-semibold py-1 w-6 flex justify-center text-neutral-900 dark:text-white">
+      <View
+        ref={ref}
+        className={cn(avatarVariants({ size }), className)}
+        {...props}
+      >
+        <Text className="text-xs text-center justify-center font-semibold py-1 w-6 flex  text-neutral-900 dark:text-white">
           {name}
         </Text>
       </View>
