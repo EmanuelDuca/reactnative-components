@@ -6,7 +6,7 @@ import {
   getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { FacetedFilter } from "./facetedFilter";
+import { FacetedFilter } from "@usekeyhole/web";
 import { View } from "react-native";
 
 type Person = {
@@ -104,6 +104,8 @@ export function Table() {
           localization={{
             clearFilterText: "Clear",
             title: "Status",
+            /* bedgeText: "Was selected",
+            emptyText: "Nothing was found", */
           }}
           column={table.getColumn("state")}
           options={options}

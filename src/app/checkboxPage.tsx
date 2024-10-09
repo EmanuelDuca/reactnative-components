@@ -4,7 +4,7 @@ import {
   CheckboxDescription,
   CheckboxIndicator,
   CheckboxLabel,
-} from "@/components/checkbox/checkbox";
+} from "@usekeyhole/nativewind";
 import { Link } from "expo-router";
 import * as React from "react";
 import { Text, View } from "react-native";

@@ -1,10 +1,3 @@
-import {
-  Checkbox,
-  CheckboxIndicator,
-  CheckboxLabel,
-  CheckboxDescription,
-  CheckboxContent,
-} from "@/components/checkbox/checkbox";
 import { Popover } from "@usekeyhole/web";
 import {
   Badge,
@@ -18,7 +11,6 @@ import { Link } from "expo-router";
 import * as React from "react";
 import { Text, View } from "react-native";
 import { Table } from "@/components/table";
-import { MobileTable } from "@/components/Mobile-Table/mobile-table";
 /* import { Table } from "@/components/table"; */
 
 export default function Page() {

@@ -1,25 +1,6 @@
-import {
-  Checkbox,
-  CheckboxIndicator,
-  CheckboxLabel,
-  CheckboxDescription,
-  CheckboxContent,
-} from "@/components/checkbox/checkbox";
-import { Popover } from "@usekeyhole/web";
-import {
-  Badge,
-  BadgeIcon,
-  BadgeText,
-  Button,
-  ButtonText,
-  Star,
-} from "@usekeyhole/nativewind";
 import { Link } from "expo-router";
 import * as React from "react";
 import { Text, View } from "react-native";
-import { Table } from "@/components/table";
-import { MobileTable } from "@/components/Mobile-Table/mobile-table";
-/* import { Table } from "@/components/table"; */
 
 export default function Page() {
   return (
@@ -43,21 +24,6 @@ function Content() {
               >
                 Go to first page
               </Link>
-            </View>
-
-            <View className="gap-6">
-              <Badge size="small" variant="secondary">
-                <BadgeText>Badge</BadgeText>
-                <BadgeIcon>
-                  <Star />
-                </BadgeIcon>
-              </Badge>
-            </View>
-            <View className="gap-6 flex flex-row">
-              <View className="gap-6">
-                {/* <Table></Table> */}
-                <MobileTable></MobileTable>
-              </View>
             </View>
           </View>
         </View>
