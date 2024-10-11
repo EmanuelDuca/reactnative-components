@@ -3,13 +3,16 @@ import { VariantProps, cva } from "class-variance-authority";
 import React from "react";
 import {
   Image,
-  ImageBackground,
   ImageProps,
   Text,
   TextProps,
   View,
   ViewProps,
 } from "react-native";
+
+/* -------------------------------------------------------------------------------------------------
+ * Avatar
+ * -----------------------------------------------------------------------------------------------*/
 
 const avatarVariants = cva(
   "relative flex shrink-0 overflow-hidden rounded-full bg-brand-50 dark:bg-brand-900",
@@ -39,32 +42,66 @@ export const Avatar = React.forwardRef<View, AvatarProps>(
     );
   }
 );
+Avatar.displayName = "Avatar";
 
-export type AvatarImageProps = ImageProps & {
-  src: string;
-  alt?: string;
-};
+/* -------------------------------------------------------------------------------------------------
+ * AvatarImage
+ * -----------------------------------------------------------------------------------------------*/
 
-export const AvatarImage = React.forwardRef<View, AvatarImageProps>(
-  ({ className, src, alt, ...props }, ref) => {
-    const [failedToLoad, setFailedToLoad] = React.useState(false);
-
-    const handleError = () => {
-      setFailedToLoad(true);
-    };
-
-    return !failedToLoad ? (
-      <View ref={ref}>
-        <Image
-          source={{ uri: src }}
-          onError={handleError}
-          className="aspect-square h-full w-full"
-          {...props}
-        />
-      </View>
-    ) : null;
+const avatarImageVariants = cva(
+  "z-10 absolute h-full w-full transition-colors",
+  {
+    variants: {
+      isLoaded: {
+        true: undefined,
+        false: undefined,
+      },
+    },
+    compoundVariants: [
+      // Image is not loaded
+      {
+        isLoaded: false,
+        className: "opacity-0",
+      },
+      // Image was loaded
+      {
+        isLoaded: true,
+        className: "opacity-100",
+      },
+    ],
+    defaultVariants: {
+      isLoaded: false,
+    },
   }
 );
+
+export type AvatarImageProps = ImageProps &
+  VariantProps<typeof avatarImageVariants>;
+
+export const AvatarImage = React.forwardRef<Image, AvatarImageProps>(
+  ({ className, src, alt, ...props }, ref) => {
+    const [isLoaded, setIsLoaded] = React.useState(false);
+
+    const handleLoad = () => {
+      setIsLoaded(true);
+    };
+
+    return (
+      <Image
+        ref={ref}
+        source={{ uri: src }}
+        onLoad={handleLoad}
+        className={cn(avatarImageVariants({ isLoaded }), className)}
+        {...props}
+      />
+    );
+  }
+);
+AvatarImage.displayName = "AvatarImage";
+
+/* -------------------------------------------------------------------------------------------------
+ * AvatarFallback
+ * -----------------------------------------------------------------------------------------------*/
 
 export type AvatarFallbackProps = TextProps;
 
@@ -74,10 +111,11 @@ export const AvatarFallback = React.forwardRef<Text, AvatarFallbackProps>(
       <View className="flex h-full w-full items-center justify-center rounded-full">
         <Text
           ref={ref}
-          className="text-xs text-center justify-center font-semibold text-neutral-900 dark:text-white"
+          className="text-xs text-center justify-center font-semibold text-foreground"
           {...props}
         />
       </View>
     );
   }
 );
+AvatarFallback.displayName = "AvatarFallback";
