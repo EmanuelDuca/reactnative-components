@@ -19,8 +19,8 @@ const avatarVariants = cva(
   {
     variants: {
       size: {
-        small: "h-8 w-8",
-        base: "h-10 w-10",
+        small: "size-8",
+        base: "size-10",
       },
     },
     defaultVariants: {
@@ -49,7 +49,7 @@ Avatar.displayName = "Avatar";
  * -----------------------------------------------------------------------------------------------*/
 
 const avatarImageVariants = cva(
-  "z-10 absolute h-full w-full transition-colors",
+  "z-10 absolute h-full w-full transition-opacity",
   {
     variants: {
       isLoaded: {

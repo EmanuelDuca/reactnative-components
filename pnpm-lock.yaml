@@ -9,20 +9,20 @@ importers:
   .:
     dependencies:
       '@usekeyhole/nativewind':
-        specifier: ^0.2.1
-        version: 0.2.1(oxeusvgbtyf4wxzjo3lnxuhzdq)
+        specifier: ^0.2.6
+        version: 0.2.6(qytqcimdbfybizv4e72vjomwvu)
       '@usekeyhole/prettier-config':
         specifier: ^1.0.6
         version: 1.0.6
       '@usekeyhole/ui':
-        specifier: ^0.1.0
-        version: 0.1.0(o3qnzo5oh4lgtawsun5hddkhqy)
-      '@usekeyhole/utils':
-        specifier: ^0.1.0
-        version: 0.1.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
-      '@usekeyhole/web':
         specifier: ^0.1.1
-        version: 0.1.1(wx746pq2iiphdkpt36tglkxaim)
+        version: 0.1.1(o3qnzo5oh4lgtawsun5hddkhqy)
+      '@usekeyhole/utils':
+        specifier: ^0.1.1
+        version: 0.1.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
+      '@usekeyhole/web':
+        specifier: ^0.1.6
+        version: 0.1.6(wx746pq2iiphdkpt36tglkxaim)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -1753,8 +1753,69 @@ packages:
   '@remix-run/web-stream@1.1.0':
     resolution: {integrity: sha512-KRJtwrjRV5Bb+pM7zxcTJkhIqWWSy+MYsIxHK+0m5atcznsf15YwUBWHWulZerV2+vvHH1Lp1DD7pw6qKW8SgA==}
 
+  '@rn-primitives/hooks@1.0.5':
+    resolution: {integrity: sha512-L914Fv8KRUbGEigjsjSFKL/7cLTHA56yTxfaH+DVu2lJLipyZ95sNp1Kykn+IuxxYRaqtbvn2BLrBJvYeARkYg==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+      react-native-web: '*'
+    peerDependenciesMeta:
+      react-native:
+        optional: true
+      react-native-web:
+        optional: true
+
+  '@rn-primitives/portal@1.0.5':
+    resolution: {integrity: sha512-59Qqs4z2huR+xjosbOB89ILZgIGYEvv1MlF3r7shtKlSdlMvY2Zb9s6qgTixFtSeAH+mcLT97Jhtldr6NwO4WQ==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+      react-native-web: '*'
+    peerDependenciesMeta:
+      react-native:
+        optional: true
+      react-native-web:
+        optional: true
+
   '@rn-primitives/slot@1.0.4':
     resolution: {integrity: sha512-sB+5xIY3mzphco3EN2JXQ7F7BAhsx1ufj0eP4EBu1uV45SbuEF7Zjg4czfiYftVc69rrPXpIgyK6dnMAD2/+pw==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+      react-native-web: '*'
+    peerDependenciesMeta:
+      react-native:
+        optional: true
+      react-native-web:
+        optional: true
+
+  '@rn-primitives/slot@1.0.5':
+    resolution: {integrity: sha512-tZWTKtQETDaVsqiMvFZjyLCM1VcOPnd5LcT6saYiiONJPtQNUvJHqMH7Ny3+frOc3CEwADgTNRJpKtOKxVDNzA==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+      react-native-web: '*'
+    peerDependenciesMeta:
+      react-native:
+        optional: true
+      react-native-web:
+        optional: true
+
+  '@rn-primitives/tooltip@1.0.5':
+    resolution: {integrity: sha512-/itFTUrfswO/bR8Ok42GFMSGGIaNyEfUDEtacL1bFn6XDpLifp6NbbhfEO01f85/saXFJIyz6faxrqiZjYV3pg==}
+    peerDependencies:
+      '@rn-primitives/portal': '*'
+      react: '*'
+      react-native: '*'
+      react-native-web: '*'
+    peerDependenciesMeta:
+      react-native:
+        optional: true
+      react-native-web:
+        optional: true
+
+  '@rn-primitives/types@1.0.5':
+    resolution: {integrity: sha512-1E+5O/3HQRiGJk5nR6RqOqMrlwf3pbkTkDgp/L3f9iWZ+LH7kFv+fBwMCLehrAJTzvZe/p3PpARdun5eLwEo8Q==}
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -1866,8 +1927,8 @@ packages:
       react: '>=18.2.0'
       react-native: '>=0.73.0'
 
-  '@usekeyhole/nativewind@0.2.1':
-    resolution: {integrity: sha512-/pQrdiQ9MBXkG+2XJFslmMXN4C+sQsFN2apV5S7EE8S/2bm7CXYs2XhgXs13DY14t9yGpWa+YL0RxHS6rx9Xeg==}
+  '@usekeyhole/nativewind@0.2.6':
+    resolution: {integrity: sha512-zD60tgcn/aNzhgYPgV6vEFZEoYOUJWCA7TCSD7p7xhUOJ8XfUV5lO9pjYbZh5ZiplPDDDOgRb7frcbbeBoxaFQ==}
     peerDependencies:
       '@react-native-community/slider': '>=4.0.0'
       '@tanstack/react-table': '>=8.0.0'
@@ -1885,8 +1946,8 @@ packages:
   '@usekeyhole/prettier-config@1.0.6':
     resolution: {integrity: sha512-jN4Pht1/yGmXFWaQOn5HheBQH5W/Nojsz3OrRQUmng9jQAqm2jBXbVq0nWX1cP7DMwtssIMKP5iOe7bxOgghiA==}
 
-  '@usekeyhole/ui@0.1.0':
-    resolution: {integrity: sha512-ho+454HlMLS7ubfHotZBZs7vjGrw/oCUysJDN7jjnJsh3/IsXe8xQkSfE6uAOpdOA2i7BdSaX8SjTHzFymbY5w==}
+  '@usekeyhole/ui@0.1.1':
+    resolution: {integrity: sha512-EufDYLeZuL4ke1MoMvJrVohndP/T70Qoyhb9Jm5gB2JD6RethdVJRgNKE1s/5QTGG9kXsHThYa9C0eBCsjbgyQ==}
     peerDependencies:
       '@react-native-community/slider': '>=4.0.0'
       '@tanstack/react-table': '>=8.0.0'
@@ -1900,14 +1961,14 @@ packages:
       react-native-safe-area-context: '>=4.0.0'
       react-native-svg: '>=14.0.0'
 
-  '@usekeyhole/utils@0.1.0':
-    resolution: {integrity: sha512-vF5AgexxnukM1hX0Vo6H0FXaYqUW34Fpg8ZxTPOnyVfcQKcB9EPFOxW++JNlmB+tctzWTjTP/axqKz3Z//AMqw==}
+  '@usekeyhole/utils@0.1.1':
+    resolution: {integrity: sha512-BHL/1KcoMgg/EC2fHMkV0wS0grq12qze+sPuitSAOZ0upfU6f6Jhj9Esng4tTLiy3pV3OwcciD3ZoPeFxOSyQQ==}
     peerDependencies:
       react-native: '>=0.73.0'
       zod: '>=3.0.0'
 
-  '@usekeyhole/web@0.1.1':
-    resolution: {integrity: sha512-YkMMzs9AWcrwUgrs3iE9jD0uW5tZqFgCAIpWO3Sb+2cVFjKv2Fer7TFEeuLb8Wflmyhs7a1b5iigHm7IgmEzzw==}
+  '@usekeyhole/web@0.1.6':
+    resolution: {integrity: sha512-/CE2OMPcWJ28evYzYDYdsTfsYdOOp/NYk764K3OP6s4hi9IdQjF/9voOsdUSf65IGC/ohK5eontr6l3Dk0/JqQ==}
     peerDependencies:
       '@tanstack/react-table': '>=8.0.0'
       expo-image: '>=1.0.0'
@@ -5076,6 +5137,11 @@ packages:
       '@types/react':
         optional: true
 
+  use-sync-external-store@1.2.2:
+    resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -5285,6 +5351,21 @@ packages:
 
   zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
+
+  zustand@4.5.5:
+    resolution: {integrity: sha512-+0PALYNJNgK6hldkgDq2vLrw5f6g/jCInz52n9RTpropGgeAf/ioFUCdtsjCqu4gNhW9D01rUQBROoRjdzyn2Q==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@types/react': '>=16.8'
+      immer: '>=9.0.6'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
 
 snapshots:
 
@@ -7645,7 +7726,56 @@ snapshots:
     dependencies:
       web-streams-polyfill: 3.3.3
 
+  '@rn-primitives/hooks@1.0.5(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@rn-primitives/types': 1.0.5(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      react: 18.2.0
+    optionalDependencies:
+      react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
+      react-native-web: 0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+
+  '@rn-primitives/portal@1.0.5(@types/react@18.2.79)(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
+      zustand: 4.5.5(@types/react@18.2.79)(react@18.2.0)
+    optionalDependencies:
+      react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
+      react-native-web: 0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+    transitivePeerDependencies:
+      - '@types/react'
+      - immer
+
   '@rn-primitives/slot@1.0.4(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
+    optionalDependencies:
+      react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
+      react-native-web: 0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+
+  '@rn-primitives/slot@1.0.5(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
+    optionalDependencies:
+      react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
+      react-native-web: 0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+
+  '@rn-primitives/tooltip@1.0.5(@rn-primitives/portal@1.0.5(@types/react@18.2.79)(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@radix-ui/react-tooltip': 1.1.3(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@rn-primitives/hooks': 1.0.5(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      '@rn-primitives/portal': 1.0.5(@types/react@18.2.79)(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      '@rn-primitives/slot': 1.0.5(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      '@rn-primitives/types': 1.0.5(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      react: 18.2.0
+    optionalDependencies:
+      react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
+      react-native-web: 0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+    transitivePeerDependencies:
+      - '@types/react'
+      - '@types/react-dom'
+      - react-dom
+
+  '@rn-primitives/types@1.0.5(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
     dependencies:
       react: 18.2.0
     optionalDependencies:
@@ -7760,20 +7890,22 @@ snapshots:
       graphql: 15.8.0
       wonka: 4.0.15
 
-  '@usekeyhole/hooks@0.0.7(@usekeyhole/utils@0.1.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
+  '@usekeyhole/hooks@0.0.7(@usekeyhole/utils@0.1.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
     dependencies:
-      '@usekeyhole/utils': 0.1.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
+      '@usekeyhole/utils': 0.1.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
       react: 18.2.0
       react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
 
-  '@usekeyhole/nativewind@0.2.1(oxeusvgbtyf4wxzjo3lnxuhzdq)':
+  '@usekeyhole/nativewind@0.2.6(qytqcimdbfybizv4e72vjomwvu)':
     dependencies:
       '@react-native-community/slider': 4.5.3
+      '@rn-primitives/portal': 1.0.5(@types/react@18.2.79)(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       '@rn-primitives/slot': 1.0.4(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      '@rn-primitives/tooltip': 1.0.5(@rn-primitives/portal@1.0.5(@types/react@18.2.79)(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       '@tanstack/react-table': 8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@usekeyhole/hooks': 0.0.7(@usekeyhole/utils@0.1.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
-      '@usekeyhole/ui': 0.1.0(o3qnzo5oh4lgtawsun5hddkhqy)
-      '@usekeyhole/utils': 0.1.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
+      '@usekeyhole/hooks': 0.0.7(@usekeyhole/utils@0.1.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      '@usekeyhole/ui': 0.1.1(o3qnzo5oh4lgtawsun5hddkhqy)
+      '@usekeyhole/utils': 0.1.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
       class-variance-authority: 0.7.0
       expo-crypto: 13.0.2(expo@51.0.35(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))
       expo-document-picker: 11.10.1(expo@51.0.35(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))
@@ -7789,17 +7921,21 @@ snapshots:
       react-native-safe-area-context: 4.10.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       react-native-svg: 15.7.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
     transitivePeerDependencies:
+      - '@types/react'
+      - '@types/react-dom'
+      - immer
+      - react-dom
       - react-native-web
       - zod
 
   '@usekeyhole/prettier-config@1.0.6': {}
 
-  '@usekeyhole/ui@0.1.0(o3qnzo5oh4lgtawsun5hddkhqy)':
+  '@usekeyhole/ui@0.1.1(o3qnzo5oh4lgtawsun5hddkhqy)':
     dependencies:
       '@react-native-community/slider': 4.5.3
       '@tanstack/react-table': 8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@usekeyhole/hooks': 0.0.7(@usekeyhole/utils@0.1.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
-      '@usekeyhole/utils': 0.1.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
+      '@usekeyhole/hooks': 0.0.7(@usekeyhole/utils@0.1.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      '@usekeyhole/utils': 0.1.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
       class-variance-authority: 0.7.0
       eventemitter3: 5.0.1
       expo-document-picker: 11.10.1(expo@51.0.35(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))
@@ -7821,7 +7957,7 @@ snapshots:
     transitivePeerDependencies:
       - zod
 
-  '@usekeyhole/utils@0.1.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)':
+  '@usekeyhole/utils@0.1.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)':
     dependencies:
       clsx: 2.1.1
       google-libphonenumber: 3.2.38
@@ -7830,7 +7966,7 @@ snapshots:
       tailwind-merge: 2.5.2
       zod: 3.23.8
 
-  '@usekeyhole/web@0.1.1(wx746pq2iiphdkpt36tglkxaim)':
+  '@usekeyhole/web@0.1.6(wx746pq2iiphdkpt36tglkxaim)':
     dependencies:
       '@radix-ui/react-dialog': 1.1.2(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@radix-ui/react-dropdown-menu': 2.1.2(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -7839,9 +7975,9 @@ snapshots:
       '@radix-ui/react-tooltip': 1.1.3(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@rn-primitives/slot': 1.0.4(react-native-web@0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       '@tanstack/react-table': 8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@usekeyhole/nativewind': 0.2.1(oxeusvgbtyf4wxzjo3lnxuhzdq)
-      '@usekeyhole/ui': 0.1.0(o3qnzo5oh4lgtawsun5hddkhqy)
-      '@usekeyhole/utils': 0.1.0(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
+      '@usekeyhole/nativewind': 0.2.6(qytqcimdbfybizv4e72vjomwvu)
+      '@usekeyhole/ui': 0.1.1(o3qnzo5oh4lgtawsun5hddkhqy)
+      '@usekeyhole/utils': 0.1.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
       class-variance-authority: 0.7.0
       clsx: 2.1.1
       cmdk: 1.0.0(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -7864,6 +8000,7 @@ snapshots:
       - expo-document-picker
       - expo-image-picker
       - expo-linear-gradient
+      - immer
       - react-dom
       - react-native-safe-area-context
       - react-native-svg
@@ -11285,6 +11422,10 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.2.79
 
+  use-sync-external-store@1.2.2(react@18.2.0):
+    dependencies:
+      react: 18.2.0
+
   util-deprecate@1.0.2: {}
 
   util@0.12.5:
@@ -11474,3 +11615,10 @@ snapshots:
       zod: 3.23.8
 
   zod@3.23.8: {}
+
+  zustand@4.5.5(@types/react@18.2.79)(react@18.2.0):
+    dependencies:
+      use-sync-external-store: 1.2.2(react@18.2.0)
+    optionalDependencies:
+      '@types/react': 18.2.79
+      react: 18.2.0

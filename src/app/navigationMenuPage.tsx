@@ -1,4 +1,12 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuDescription,
+  NavigationMenuIndicator,
+  NavigationMenuLabel,
+  NavigationMenuSideInfo,
+} from "@/components/navigation-menu";
+import { Badge, BadgeText, ChevronDown, User } from "@usekeyhole/nativewind";
 import { Link } from "expo-router";
 import * as React from "react";
 import { Text, View } from "react-native";
@@ -8,7 +16,7 @@ export default function Page() {
     <View className="flex flex-1 bg-white dark:bg-black">
       <View className="h-32 w-full px-4 bg-purple-500 dark:bg-yellow-500 justify-center items-center">
         <Text className="text-white font-mono font-bold text-2xl">
-          Avatar Page
+          NavigationMenu Page
         </Text>
         <View className="gap-4">
           <Link
@@ -25,29 +33,31 @@ export default function Page() {
   );
 }
 
-//size="small"
-
 function Content() {
   return (
     <View className="flex-1">
       <View className="py-12 md:py-24 lg:py-32 xl:py-48">
         <View className="px-4 md:px-6">
           <View className="flex flex-row items-center gap-4 text-center">
-            {/* <Avatar name="MK" /> */}
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <Avatar size={"small"}>
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <Avatar size={"small"}>
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
+            <View className="w-72">
+              <NavigationMenu>
+                <NavigationMenuIndicator>
+                  <User />
+                </NavigationMenuIndicator>
+                <NavigationMenuContent>
+                  <NavigationMenuLabel>nav menu</NavigationMenuLabel>
+                  {/* <NavigationMenuDescription>
+                    Description text
+                  </NavigationMenuDescription> */}
+                </NavigationMenuContent>
+                <NavigationMenuSideInfo>
+                  <Badge>
+                    <BadgeText>New</BadgeText>
+                  </Badge>
+                  <ChevronDown />
+                </NavigationMenuSideInfo>
+              </NavigationMenu>
+            </View>
           </View>
         </View>
       </View>
