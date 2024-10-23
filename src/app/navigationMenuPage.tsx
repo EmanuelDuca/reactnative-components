@@ -1,12 +1,24 @@
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuDescription,
-  NavigationMenuIndicator,
-  NavigationMenuLabel,
-  NavigationMenuSideInfo,
+  Menu,
+  MenuContent,
+  MenuDescription,
+  MenuEndAdornment,
+  MenuGroup,
+  MenuIcon,
+  MenuItem,
+  MenuLabel,
 } from "@/components/navigation-menu";
-import { Badge, BadgeText, ChevronDown, User } from "@usekeyhole/nativewind";
+import {
+  Avatar,
+  AvatarFallback,
+  Badge,
+  BadgeText,
+  ChevronDown,
+  EllipsisVertical,
+  Layers,
+  User,
+  Users,
+} from "@usekeyhole/nativewind";
 import { Link } from "expo-router";
 import * as React from "react";
 import { Text, View } from "react-native";
@@ -34,29 +46,61 @@ export default function Page() {
 }
 
 function Content() {
+  const [selectedValue, setSelectedValue] = React.useState<string>("");
+
+  const handleValueChange = (value: string) => {
+    setSelectedValue(value);
+  };
   return (
     <View className="flex-1">
       <View className="py-12 md:py-24 lg:py-32 xl:py-48">
         <View className="px-4 md:px-6">
           <View className="flex flex-row items-center gap-4 text-center">
             <View className="w-72">
-              <NavigationMenu>
-                <NavigationMenuIndicator>
-                  <User />
-                </NavigationMenuIndicator>
-                <NavigationMenuContent>
-                  <NavigationMenuLabel>nav menu</NavigationMenuLabel>
-                  {/* <NavigationMenuDescription>
-                    Description text
-                  </NavigationMenuDescription> */}
-                </NavigationMenuContent>
-                <NavigationMenuSideInfo>
-                  <Badge>
-                    <BadgeText>New</BadgeText>
-                  </Badge>
-                  <ChevronDown />
-                </NavigationMenuSideInfo>
-              </NavigationMenu>
+              <Menu value={selectedValue} onChange={handleValueChange}>
+                <MenuGroup className="">
+                  <MenuItem value="Dashboard">
+                    <MenuIcon>
+                      <Layers />
+                    </MenuIcon>
+                    <MenuContent>
+                      <MenuLabel>Dashboard</MenuLabel>
+                      <MenuDescription>Description</MenuDescription>
+                    </MenuContent>
+                    <MenuEndAdornment>
+                      <Badge>
+                        <BadgeText>15 Active</BadgeText>
+                      </Badge>
+                    </MenuEndAdornment>
+                  </MenuItem>
+                  <MenuItem value="Tentants">
+                    <MenuIcon>
+                      <Users />
+                    </MenuIcon>
+                    <MenuContent>
+                      <MenuLabel>Tentants</MenuLabel>
+                    </MenuContent>
+                  </MenuItem>
+                </MenuGroup>
+                <MenuGroup className="pt-8">
+                  <MenuItem value="MartKingisepp" disabled>
+                    <Avatar>
+                      <AvatarFallback>MK</AvatarFallback>
+                    </Avatar>
+                    <MenuContent>
+                      <MenuLabel>Mart Kingisepp</MenuLabel>
+                      <MenuDescription>
+                        {"[NORWAY] Mate Rentals A/S"}
+                      </MenuDescription>
+                    </MenuContent>
+                    <MenuEndAdornment>
+                      <MenuIcon>
+                        <EllipsisVertical />
+                      </MenuIcon>
+                    </MenuEndAdornment>
+                  </MenuItem>
+                </MenuGroup>
+              </Menu>
             </View>
           </View>
         </View>

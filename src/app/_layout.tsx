@@ -1,5 +1,3 @@
-import "@usekeyhole/nativewind/dist/index.css";
-import "@usekeyhole/web/dist/index.css";
 import "../global.css";
 import { Slot, Stack } from "expo-router";
 
