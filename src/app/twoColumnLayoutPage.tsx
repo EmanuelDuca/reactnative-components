@@ -26,9 +26,8 @@ import {
 } from "@/components/two-column-layout/two-column-layout";
 import LoginForm from "@/components/login-form";
 import { AvatarIcon, KeyGraphic, KeyholeIconPattern } from "@usekeyhole/ui";
+import KeyholeLogo from "@/components/two-column-layout/keyholeLogo";
 import ImagesDenamrk from "@/components/two-column-layout/imagesDenmark";
-import { KeyholeIcon } from "@/icons/keyhole-icon";
-import { KeyholeLogo } from "@/icons/keyhole-logo";
 /* import { Table } from "@/components/table"; */
 
 export default function Page() {
@@ -44,7 +43,7 @@ function Content() {
   // const [columnFilters, setColumnFilters] = React.useState<any>([]);
 
   return (
-    <View className=" flex-1 dark:bg-black">
+    <View className=" flex-1 dark:bg-white">
       <TwoColumnLayout>
         <TwoColumnLayoutSecondaryColumn>
           <View className="h-full w-full bg-brand-300"></View>
@@ -52,7 +51,7 @@ function Content() {
 
         <TwoColumnLayoutPrimaryColumn>
           <TwoColumnLayoutHeader>
-            <KeyholeLogo color={"#039393"} />
+            <KeyholeLogo />
             <TwoColumnLayoutHeaderActions>
               <View className="flex flex-row items-center gap-3">
                 <Text className="text-sm font-semibold ">No acount?</Text>
