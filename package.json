@@ -6,7 +6,10 @@
     "start": "expo start --clear",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "upgrade:keyhole:dep": "pnpm add @usekeyhole/nativewind@latest @usekeyhole/ui@latest @usekeyhole/utils@latest @usekeyhole/web@latest",
+    "upgrade:keyhole:dev": "pnpm add -D @usekeyhole/prettier-config@latest @usekeyhole/ts-config@latest",
+    "upgrade:keyhole": "yarn upgrade:keyhole:dep && yarn upgrade:keyhole:dev"
   },
   "dependencies": {
     "@usekeyhole/nativewind": "^0.2.6",
