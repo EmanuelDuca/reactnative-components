@@ -26,8 +26,8 @@ import {
 } from "@/components/two-column-layout/two-column-layout";
 import LoginForm from "@/components/login-form";
 import { AvatarIcon, KeyGraphic, KeyholeIconPattern } from "@usekeyhole/ui";
-import KeyholeLogo from "@/components/two-column-layout/keyholeLogo";
 import ImagesDenamrk from "@/components/two-column-layout/imagesDenmark";
+import { KeyholeLogo } from "@/components/two-column-layout/keyholeLogo";
 /* import { Table } from "@/components/table"; */
 
 export default function Page() {
