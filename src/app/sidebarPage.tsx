@@ -14,10 +14,11 @@ import {
   SidebarHeader,
   SidebarSeparator,
 } from "@/components/sidebar";
-import { KeyholeLogo } from "@/components/two-column-layout/keyholeLogo";
+import { KeyholeLogo } from "@/components/icons/keyholeLogo";
 import {
   Avatar,
   AvatarFallback,
+  AvatarImage,
   Badge,
   BadgeText,
   Building,
@@ -30,7 +31,8 @@ import {
 } from "@usekeyhole/nativewind";
 import { Link } from "expo-router";
 import * as React from "react";
-import { Text, View } from "react-native";
+import { Text, View, useWindowDimensions, useColorScheme } from "react-native";
+import { KeyholeIcon } from "@/components/icons/keyholeIcon";
 
 export default function Page() {
   const [selectedValue, setSelectedValue] = React.useState<string>("");
@@ -51,69 +53,96 @@ export default function Page() {
 }
 
 function SidebarSection({ selectedValue, handleValueChange }) {
+  const { width } = useWindowDimensions();
+  const isSmallScreen = width < 1000;
+
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === "dark";
+  const LogoColor = isDarkMode ? "white" : undefined;
+
+  const ItemSquareSmallScrenn = "";
+
   return (
-    <View className="h-full w-80">
+    <View className="h-full">
       <Sidebar selectedValue={selectedValue} onChange={handleValueChange}>
         <SidebarHeader>
-          <KeyholeLogo />
+          {isSmallScreen ? (
+            <KeyholeIcon color={LogoColor} />
+          ) : (
+            <KeyholeLogo color={LogoColor} />
+          )}
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
-            <MenuItem value="Dashboard">
+            <MenuItem value="Dashboard" className={ItemSquareSmallScrenn}>
               <MenuIcon>
                 <Layers />
               </MenuIcon>
-              <MenuContent>
-                <MenuLabel>Dashboard</MenuLabel>
-              </MenuContent>
+              {!isSmallScreen && (
+                <MenuContent>
+                  <MenuLabel>Dashboard</MenuLabel>
+                </MenuContent>
+              )}
             </MenuItem>
-            <MenuItem value="Tentants">
+            <MenuItem value="Tentants" className={ItemSquareSmallScrenn}>
               <MenuIcon>
                 <ScanFace />
               </MenuIcon>
-              <MenuContent>
-                <MenuLabel>Tentants screening</MenuLabel>
-              </MenuContent>
+              {!isSmallScreen && (
+                <MenuContent>
+                  <MenuLabel>Tentants screening</MenuLabel>
+                </MenuContent>
+              )}
             </MenuItem>
-            <MenuItem value="Leases">
+            <MenuItem value="Leases" className={ItemSquareSmallScrenn}>
               <MenuIcon>
                 <KeySquare />
               </MenuIcon>
-              <MenuContent>
-                <MenuLabel>Leases</MenuLabel>
-              </MenuContent>
-              <MenuEndAdornment>
-                <Badge>
-                  <BadgeText>0 Active</BadgeText>
-                </Badge>
-              </MenuEndAdornment>
+              {!isSmallScreen && (
+                <>
+                  <MenuContent>
+                    <MenuLabel>Leases</MenuLabel>
+                  </MenuContent>
+                  <MenuEndAdornment>
+                    <Badge>
+                      <BadgeText>0 Active</BadgeText>
+                    </Badge>
+                  </MenuEndAdornment>
+                </>
+              )}
             </MenuItem>
-            <MenuItem value="Claims">
+            <MenuItem value="Claims" className={ItemSquareSmallScrenn}>
               <MenuIcon>
                 <FilePen />
               </MenuIcon>
-              <MenuContent>
-                <MenuLabel>Claims</MenuLabel>
-              </MenuContent>
+              {!isSmallScreen && (
+                <MenuContent>
+                  <MenuLabel>Claims</MenuLabel>
+                </MenuContent>
+              )}
             </MenuItem>
-            <MenuItem value="Building">
+            <MenuItem value="Building" className={ItemSquareSmallScrenn}>
               <MenuIcon>
                 <Building />
               </MenuIcon>
-              <MenuContent>
-                <MenuLabel>Building</MenuLabel>
-              </MenuContent>
+              {!isSmallScreen && (
+                <MenuContent>
+                  <MenuLabel>Building</MenuLabel>
+                </MenuContent>
+              )}
             </MenuItem>
           </SidebarGroup>
 
           <SidebarGroup align="end">
-            <MenuItem value="MarketingHub">
+            <MenuItem value="MarketingHub" className={ItemSquareSmallScrenn}>
               <MenuIcon>
                 <Megaphone />
               </MenuIcon>
-              <MenuContent>
-                <MenuLabel>Marketing hub</MenuLabel>
-              </MenuContent>
+              {!isSmallScreen && (
+                <MenuContent>
+                  <MenuLabel>Marketing hub</MenuLabel>
+                </MenuContent>
+              )}
             </MenuItem>
           </SidebarGroup>
         </SidebarContent>
@@ -123,17 +152,24 @@ function SidebarSection({ selectedValue, handleValueChange }) {
         <SidebarFooter>
           <MenuItem value="MartKingisepp">
             <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
               <AvatarFallback>MK</AvatarFallback>
             </Avatar>
-            <MenuContent>
-              <MenuLabel>Mart Kingisepp</MenuLabel>
-              <MenuDescription>{"[NORWAY] Mate Rentals A/S"}</MenuDescription>
-            </MenuContent>
-            <MenuEndAdornment>
-              <MenuIcon>
-                <EllipsisVertical />
-              </MenuIcon>
-            </MenuEndAdornment>
+            {!isSmallScreen && (
+              <>
+                <MenuContent>
+                  <MenuLabel>Mart Kingisepp</MenuLabel>
+                  <MenuDescription>
+                    {"[NORWAY] Mate Rentals A/S"}
+                  </MenuDescription>
+                </MenuContent>
+                <MenuEndAdornment>
+                  <MenuIcon>
+                    <EllipsisVertical />
+                  </MenuIcon>
+                </MenuEndAdornment>
+              </>
+            )}
           </MenuItem>
         </SidebarFooter>
       </Sidebar>
@@ -143,7 +179,7 @@ function SidebarSection({ selectedValue, handleValueChange }) {
 
 function Content({ stringText }) {
   return (
-    <View className="flex">
+    <View className="flex gap-3">
       <Text className="p-10">{stringText} Content</Text>
     </View>
   );

@@ -1,5 +1,10 @@
 import React from "react";
-import { PressableProps, View, ViewProps } from "react-native";
+import {
+  PressableProps,
+  View,
+  ViewProps,
+  useWindowDimensions,
+} from "react-native";
 import { Menu } from "./navigation-menu";
 import { cn } from "@usekeyhole/utils";
 
