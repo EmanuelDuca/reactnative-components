@@ -15,7 +15,7 @@ import {
  * -----------------------------------------------------------------------------------------------*/
 
 const avatarVariants = cva(
-  "relative flex shrink-0 overflow-hidden rounded-full bg-brand-50 dark:bg-brand-900",
+  "bg-brand-50 dark:bg-brand-900 relative flex shrink-0 overflow-hidden rounded-full",
   {
     variants: {
       size: {
@@ -49,7 +49,7 @@ Avatar.displayName = "Avatar";
  * -----------------------------------------------------------------------------------------------*/
 
 const avatarImageVariants = cva(
-  "z-10 absolute h-full w-full transition-opacity",
+  "absolute z-10 h-full w-full transition-opacity",
   {
     variants: {
       isLoaded: {
@@ -111,7 +111,7 @@ export const AvatarFallback = React.forwardRef<Text, AvatarFallbackProps>(
       <View className="flex h-full w-full items-center justify-center rounded-full">
         <Text
           ref={ref}
-          className="text-xs text-center justify-center font-semibold text-foreground"
+          className="text-foreground justify-center text-center text-xs font-semibold"
           {...props}
         />
       </View>

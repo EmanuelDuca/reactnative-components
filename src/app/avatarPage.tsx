@@ -6,7 +6,7 @@ import * as React from "react";
 import { Text, View } from "react-native";
 
 export default function Page() {
-  return <WelcomeEmail />;
+  return <Content />;
 }
 //size="small"
 
