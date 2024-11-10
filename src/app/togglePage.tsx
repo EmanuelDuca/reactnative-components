@@ -8,6 +8,8 @@ import {
   ButtonText,
   ChevronDown,
   ChevronLeft,
+  ChevronRight,
+  ChevronUp,
   KeySquare,
   Star,
 } from "@usekeyhole/nativewind";
@@ -15,6 +17,7 @@ import { Link } from "expo-router";
 import * as React from "react";
 import { Image, Text, View, ViewComponent } from "react-native";
 import { Toggle, ToggleIcon, ToggleText } from "@/components/toggle/toggle";
+import { ToggleGroup, ToggleGroupItem } from "@/components/toggle/toggleGroup";
 
 export default function Page() {
   return (
@@ -25,6 +28,11 @@ export default function Page() {
 }
 
 function Content() {
+  const [selectedValue, setSelectedValue] = React.useState<string[]>([""]);
+
+  const handleValueChange = (value: string[]) => {
+    setSelectedValue(value);
+  };
   return (
     <View className="flex-1 p-20">
       <View className="flex flex-row w-fit gap-3">
@@ -46,7 +54,7 @@ function Content() {
       </View>
       <View className="flex flex-row w-fit gap-3">
         <View>
-          <Toggle disabled size="small">
+          <Toggle size="small">
             <ToggleIcon>
               <ChevronLeft />
             </ToggleIcon>
@@ -66,6 +74,29 @@ function Content() {
             </ToggleIcon>
           </Toggle>
         </View>
+      </View>
+      <View className="flex my-5 w-fit">
+        <ToggleGroup
+          type="single"
+          value={selectedValue}
+          onValueChange={handleValueChange}
+        >
+          <ToggleGroupItem value="icon-left">
+            <ToggleIcon>
+              <ChevronLeft />
+            </ToggleIcon>
+          </ToggleGroupItem>
+          <ToggleGroupItem value="icon-center">
+            <ToggleIcon>
+              <ChevronUp />
+            </ToggleIcon>
+          </ToggleGroupItem>
+          <ToggleGroupItem value="icon-right">
+            <ToggleIcon>
+              <ChevronRight />
+            </ToggleIcon>
+          </ToggleGroupItem>
+        </ToggleGroup>
       </View>
     </View>
   );

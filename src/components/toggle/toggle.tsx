@@ -83,9 +83,11 @@ const Toggle = React.forwardRef<View, ToggleProps>(
     },
     ref
   ) => {
-    const [selected, setSelected] = React.useState(false);
-    const [hovered, setHovered] = React.useState(false);
     const disabled = !!props.disabled;
+    const [hovered, setHovered] = React.useState<boolean>(false);
+    const [internalSelected, setInternalSelected] =
+      React.useState<boolean>(false);
+    const selected = isSelected ?? internalSelected;
 
     const handleHoverIn = (e: MouseEvent) => {
       if (!disabled) setHovered(true);
@@ -98,7 +100,7 @@ const Toggle = React.forwardRef<View, ToggleProps>(
     };
 
     const handlePressOut = (e: GestureResponderEvent) => {
-      setSelected(!selected);
+      isSelected ?? setInternalSelected(!selected);
       onPressOut?.(e);
     };
 
