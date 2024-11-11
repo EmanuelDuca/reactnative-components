@@ -10,26 +10,21 @@ import { useControllableState } from "@usekeyhole/hooks";
  * -----------------------------------------------------------------------------------------------*/
 
 interface ToggleGroupContextProps extends PressableProps {
-  selectedValue: string[];
-  setSelectedValue: (item: EditItemProp, values: string[]) => void;
+  selectedValues: string[];
+  toggle: (value: string) => void;
 }
 
 const ToggleGroupContext = React.createContext<ToggleGroupContextProps>({
-  selectedValue: [""],
-  setSelectedValue: () => {},
+  selectedValues: [],
+  toggle: () => {},
 });
 
 interface ToggleGroupProps extends ViewProps {
   type?: "single" | "multiple";
   value?: string[];
-  onValueChange: (value: string[]) => void;
+  onValueChange?: (value: string[]) => void;
   defaultValue?: string;
   disabled?: boolean;
-}
-
-interface EditItemProp {
-  value: string;
-  action: "add" | "delete";
 }
 
 const ToggleGroup: React.FC<ToggleGroupProps> = ({
@@ -42,25 +37,32 @@ const ToggleGroup: React.FC<ToggleGroupProps> = ({
   ...props
 }) => {
   const disabled = !!props.disabled;
+  const [values, setValues] = useControllableState({
+    prop: value,
+    defaultProp: defaultValue ? [defaultValue] : [],
+    onChange: onValueChange,
+  });
 
-  const handleChange = (item: EditItemProp, values: string[]) => {
-    const list = [...values];
-    if (item.action === "add") {
-      list.push(item.value);
-    } else if (item.action === "delete") {
-      // Remove the specified value from the list
-      const index = list.indexOf(item.value);
-      if (index !== -1) {
-        list.splice(index, 1); // Remove the item at the found index
+  const toggle = (value: string) => {
+    setValues((prev = []) => {
+      if (type === "multiple") {
+        // Handle multiple selection
+        if (prev.includes(value)) {
+          // Remove the value if it already exists
+          return prev.filter((item) => item !== value);
+        } else {
+          // Add the value if it doesn't exist
+          return [...prev, value];
+        }
+      } else {
+        // Handle single selection
+        return [value];
       }
-    }
-    onValueChange(list);
+    });
   };
 
   return (
-    <ToggleGroupContext.Provider
-      value={{ selectedValue: value, setSelectedValue: handleChange }}
-    >
+    <ToggleGroupContext.Provider value={{ selectedValues: values, toggle }}>
       <View className={cn("flex flex-row gap-2", className)} {...props}>
         {children}
       </View>
@@ -81,8 +83,9 @@ interface ToggleGroupItemProps extends PressableProps {
 
 const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
   ({ value, disabled, className, children, ...props }, ref) => {
-    const { selectedValue, setSelectedValue } =
+    const { selectedValues: selectedValue, toggle: setSelectedValue } =
       React.useContext(ToggleGroupContext);
+    console.log(selectedValue);
     const isSelected = selectedValue.includes(value);
     return (
       <Toggle
