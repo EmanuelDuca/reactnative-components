@@ -1,7 +1,14 @@
 import React from "react";
 import { cva } from "class-variance-authority";
-import { Button } from "@usekeyhole/nativewind";
+import {
+  Button,
+  ButtonIcon,
+  ButtonIconProps,
+  ButtonText,
+  ButtonTextProps,
+} from "@usekeyhole/nativewind";
 import { cn, VariantProps } from "@usekeyhole/utils";
+import { useControllableState } from "@usekeyhole/hooks";
 import {
   GestureResponderEvent,
   MouseEvent,
@@ -79,15 +86,25 @@ const Toggle = React.forwardRef<View, ToggleProps>(
       onHoverIn,
       onHoverOut,
       onPressOut,
+      onPress,
       ...props
     },
     ref
   ) => {
     const disabled = !!props.disabled;
     const [hovered, setHovered] = React.useState<boolean>(false);
-    const [internalSelected, setInternalSelected] =
-      React.useState<boolean>(false);
-    const selected = isSelected ?? internalSelected;
+
+    // Use `useControllableState` to manage the `selected` state
+    const [selected, setSelected] = useControllableState({
+      prop: isSelected,
+      defaultProp: false,
+      onChange: (state: boolean) => {
+        // Ensure `onChange` expects a boolean
+        if (onPress) {
+          onPress({} as GestureResponderEvent); // Call onPress as needed
+        }
+      },
+    });
 
     const handleHoverIn = (e: MouseEvent) => {
       if (!disabled) setHovered(true);
@@ -100,7 +117,7 @@ const Toggle = React.forwardRef<View, ToggleProps>(
     };
 
     const handlePressOut = (e: GestureResponderEvent) => {
-      isSelected ?? setInternalSelected(!selected);
+      setSelected(!selected);
       onPressOut?.(e);
     };
 
@@ -131,34 +148,28 @@ const Toggle = React.forwardRef<View, ToggleProps>(
  * ToggleText
  * -----------------------------------------------------------------------------------------------*/
 
-const toggleTextVariants = cva(
-  "flex text-sm font-semibold text-neutral-800 dark:text-neutral-100",
-  {
-    variants: {
-      size: {
-        small: "px-2",
-        base: "px-3",
-        large: "px-5",
-      },
-      disabled: {
-        true: undefined,
-        false: undefined,
-      },
+const toggleTextVariants = cva("text-sm font-semibold text-foreground", {
+  variants: {
+    size: {
+      small: "px-2",
+      base: "px-3",
+      large: "px-5",
     },
-    compoundVariants: [],
-    defaultVariants: {
-      disabled: false,
-    },
-  }
-);
+  },
+  compoundVariants: [],
+  defaultVariants: {
+    size: "base",
+  },
+});
 
-type ToggleTextProps = TextProps;
+type ToggleTextProps = ButtonTextProps;
 
 const ToggleText = React.forwardRef<Text, ToggleTextProps>(
   ({ className, ...props }, ref) => {
     const { size } = React.useContext(ToggleContext);
+
     return (
-      <Text
+      <ButtonText
         ref={ref}
         className={cn(toggleTextVariants({ size }), className)}
         {...props}
@@ -172,40 +183,15 @@ ToggleText.displayName = "ToggleText";
  * ToggleIcon
  * -----------------------------------------------------------------------------------------------*/
 
-type ToggleIconProps = Omit<ViewProps, "children"> & {
-  children: JSX.Element;
-};
+type ToggleIconProps = ButtonIconProps;
 
-const toggleIconVariants = cva("transition-variants size-5", {
-  variants: {
-    size: {
-      small: "",
-      base: "",
-      large: "",
-    },
-    variant: {
-      default: "stroke-neutral-800 dark:stroke-neutral-100",
-    },
-    hovered: {
-      false: undefined,
-      true: undefined,
-    },
-    pressed: {
-      false: undefined,
-      true: undefined,
-    },
-  },
-  defaultVariants: {
-    variant: "default",
-  },
-});
-
-const ToggleIcon = ({ children, className, ...props }: ToggleIconProps) => {
-  const { size } = React.useContext(ToggleContext);
-  return React.cloneElement(children, {
-    className: cn(toggleIconVariants({ size }), className),
-    ...props,
-  });
+const ToggleIcon = ({ className, ...props }: ToggleIconProps) => {
+  return (
+    <ButtonIcon
+      className={cn("stroke-neutral-800 dark:stroke-neutral-100", className)}
+      {...props}
+    />
+  );
 };
 ToggleIcon.displayName = "ToggleIcon";
 
@@ -240,7 +226,7 @@ const toggleRingVariants = cva(
 );
 
 export const ToggleRing: React.FC = () => {
-  const { hovered, selected } = React.useContext(ToggleContext);
+  const { selected } = React.useContext(ToggleContext);
   return <View className={cn(toggleRingVariants({ selected }))} />;
 };
 ToggleRing.displayName = "ToggleRing";

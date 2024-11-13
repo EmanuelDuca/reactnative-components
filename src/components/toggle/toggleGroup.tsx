@@ -10,22 +10,35 @@ import { useControllableState } from "@usekeyhole/hooks";
  * -----------------------------------------------------------------------------------------------*/
 
 interface ToggleGroupContextProps extends PressableProps {
-  selectedValues: string[];
+  selectedValues: string | string[];
   toggle: (value: string) => void;
+  disabled: boolean;
 }
 
 const ToggleGroupContext = React.createContext<ToggleGroupContextProps>({
   selectedValues: [],
   toggle: () => {},
+  disabled: false,
 });
 
-interface ToggleGroupProps extends ViewProps {
-  type?: "single" | "multiple";
-  value?: string[];
-  onValueChange?: (value: string[]) => void;
+type ToggleGroupSingleProps = ViewProps & {
+  type: "single";
+  value?: string;
+  onValueChange?: (value: string) => void;
   defaultValue?: string;
   disabled?: boolean;
-}
+};
+
+type ToggleGroupMultipleProps = ViewProps & {
+  type: "multiple";
+  value?: string[];
+  onValueChange?: (value: string[]) => void;
+  defaultValue?: string[];
+  disabled?: boolean;
+};
+
+// Union type
+type ToggleGroupProps = ToggleGroupSingleProps | ToggleGroupMultipleProps;
 
 const ToggleGroup: React.FC<ToggleGroupProps> = ({
   type = "single", //Single is default
@@ -39,30 +52,30 @@ const ToggleGroup: React.FC<ToggleGroupProps> = ({
   const disabled = !!props.disabled;
   const [values, setValues] = useControllableState({
     prop: value,
-    defaultProp: defaultValue ? [defaultValue] : [],
+    defaultProp: defaultValue,
     onChange: onValueChange,
   });
 
   const toggle = (value: string) => {
-    setValues((prev = []) => {
-      if (type === "multiple") {
-        // Handle multiple selection
-        if (prev.includes(value)) {
-          // Remove the value if it already exists
-          return prev.filter((item) => item !== value);
+    if (type === "multiple") {
+      setValues((list: string[]) => {
+        // @ts-ignore
+        if (list.includes(value)) {
+          // @ts-ignore
+          return list.filter((item) => item !== value);
         } else {
-          // Add the value if it doesn't exist
-          return [...prev, value];
+          return [...list, value];
         }
-      } else {
-        // Handle single selection
-        return [value];
-      }
-    });
+      });
+    } else {
+      setValues(value);
+    }
   };
 
   return (
-    <ToggleGroupContext.Provider value={{ selectedValues: values, toggle }}>
+    <ToggleGroupContext.Provider
+      value={{ selectedValues: values, toggle, disabled }}
+    >
       <View className={cn("flex flex-row gap-2", className)} {...props}>
         {children}
       </View>
@@ -77,20 +90,23 @@ ToggleGroup.displayName = "ToggleGroup";
 
 interface ToggleGroupItemProps extends PressableProps {
   value: string;
-  disabled?: boolean;
   children: React.ReactNode;
+  disabled?: boolean;
 }
 
 const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
-  ({ value, disabled, className, children, ...props }, ref) => {
-    const { selectedValues: selectedValue, toggle: setSelectedValue } =
-      React.useContext(ToggleGroupContext);
-    console.log(selectedValue);
+  ({ value, disabled: disabledItem, className, children, ...props }, ref) => {
+    const {
+      selectedValues: selectedValue,
+      toggle: setSelectedValue,
+      disabled,
+    } = React.useContext(ToggleGroupContext);
     const isSelected = selectedValue.includes(value);
+    const isDisabled = disabled || disabledItem;
     return (
       <Toggle
         ref={ref}
-        disabled={disabled}
+        disabled={isDisabled}
         selected={isSelected}
         {...props}
         onPress={() => {

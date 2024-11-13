@@ -1,11 +1,5 @@
 import { Popover } from "@usekeyhole/web";
 import {
-  Badge,
-  BadgeIcon,
-  BadgeText,
-  Button,
-  ButtonIcon,
-  ButtonText,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -18,6 +12,8 @@ import * as React from "react";
 import { Image, Text, View, ViewComponent } from "react-native";
 import { Toggle, ToggleIcon, ToggleText } from "@/components/toggle/toggle";
 import { ToggleGroup, ToggleGroupItem } from "@/components/toggle/toggleGroup";
+import { DownloadIcon } from "@usekeyhole/ui";
+import { Button, ButtonText } from "../components/button";
 
 export default function Page() {
   return (
@@ -28,8 +24,10 @@ export default function Page() {
 }
 
 function Content() {
-  const [values1, setValues1] = React.useState<string[]>([""]);
+  const [values1, setValues1] = React.useState<string>("");
   const [values2, setValues2] = React.useState<string[]>([""]);
+  const [pressed, setPressed] = React.useState<boolean>(false);
+  const [hovered, setHovered] = React.useState<boolean>(false);
 
   return (
     <View className="flex-1 p-20">
@@ -76,9 +74,10 @@ function Content() {
       <View className="flex flex-row items-center my-5 w-fit">
         <Text className="text-foreground mx-2">Single</Text>
         <ToggleGroup
+          value={values1}
           onValueChange={setValues1}
           type="single"
-          defaultValue="icon-left"
+          //defaultValue="icon-center"
         >
           <ToggleGroupItem value="icon-left">
             <ToggleIcon>
@@ -116,6 +115,25 @@ function Content() {
             </ToggleIcon>
           </ToggleGroupItem>
         </ToggleGroup>
+      </View>
+      <View className="flex flex-row">
+        <View className="gap-2">
+          <Button pressed={pressed} hovered={hovered} size="lg">
+            <ButtonText>Pressed is Control Outside</ButtonText>
+          </Button>
+          <Button
+            onPress={() => {
+              setPressed(!pressed);
+            }}
+            size="lg"
+            variant="link"
+          >
+            <ButtonText>Change press state</ButtonText>
+          </Button>
+          <Button>
+            <ButtonText>Change hover state</ButtonText>
+          </Button>
+        </View>
       </View>
     </View>
   );
