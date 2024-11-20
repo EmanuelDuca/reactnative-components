@@ -2,7 +2,7 @@ import { cn } from "@usekeyhole/utils";
 import React from "react";
 import { PressableProps, View, ViewProps } from "react-native";
 import { useControllableState } from "@usekeyhole/hooks";
-import { Toggle, ToggleProps } from "../toggle/toggle";
+import { Toggle, ToggleProps } from "./toggle";
 
 /* -------------------------------------------------------------------------------------------------
  * ToggleGroup
@@ -23,7 +23,7 @@ const ToggleGroupContext = React.createContext<ToggleGroupContextProps>({
 });
 
 type ToggleGroupSingleProps = ViewProps & {
-  type: "single";
+  type?: "single";
   value?: string;
   onValueChange?: (value: string) => void;
   defaultValue?: string;
@@ -31,7 +31,7 @@ type ToggleGroupSingleProps = ViewProps & {
 };
 
 type ToggleGroupMultipleProps = ViewProps & {
-  type: "multiple";
+  type?: "multiple";
   value?: string[];
   onValueChange?: (value: string[]) => void;
   defaultValue?: string[];
@@ -85,7 +85,6 @@ const ToggleGroup: React.FC<ToggleGroupProps> = ({
     }
   };
 
-  console.log(values);
   return (
     <ToggleGroupContext.Provider
       value={{

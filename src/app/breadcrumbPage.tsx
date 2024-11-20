@@ -27,9 +27,8 @@ export default function Page() {
 }
 
 function Content() {
-  const [value, setValue] = React.useState<string>();
-  const [values, setValues] = React.useState<string[]>([]);
-
+  const [values1, setValues1] = React.useState<string>();
+  const [values2, setValues2] = React.useState<string[]>([]);
   return (
     <View className="flex-1 p-20">
       <View className="flex flex-row w-fit gap-3">
@@ -77,10 +76,10 @@ function Content() {
         <Text className="text-foreground mx-2">Default Value</Text>
         <ToggleGroup
           //value={values1}
-          defaultValue="icon-center"
+          //defaultValue="icon-center"
           size={"icon"}
         >
-          <ToggleGroupItem color="brand" value="icon-left">
+          <ToggleGroupItem value="icon-left">
             <ToggleIcon>
               <ChevronLeft />
             </ToggleIcon>
@@ -100,8 +99,8 @@ function Content() {
       <View className="flex flex-row items-center my-5 w-fit">
         <Text className="text-foreground mx-2">Single</Text>
         <ToggleGroup
-          value={value}
-          onValueChange={setValue}
+          value={values1}
+          onValueChange={setValues1}
           type="single"
           size="icon"
         >
@@ -125,12 +124,8 @@ function Content() {
       <View className="flex flex-row items-center  my-5 w-fit">
         <Text className="text-foreground mx-2">Multiple</Text>
         <ToggleGroup
-          //value={values}
-          onValueChange={(newValues) => {
-            console.log(newValues);
-            setValues(newValues);
-          }}
-          defaultValue={["icon-center"]}
+          value={values2}
+          onValueChange={setValues2}
           type="multiple"
           size="icon"
         >

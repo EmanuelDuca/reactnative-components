@@ -15,15 +15,27 @@ import {
  * Toggle
  * -----------------------------------------------------------------------------------------------*/
 
-type ToggleProps = ButtonProps & {
-  onChange?: ((state: boolean | null) => void) | undefined;
+type ToggleProps = Omit<ButtonProps, "pressed"> & {
+  defaultPressed?: boolean;
+  onChange?: (state: boolean) => void;
+  pressed?: boolean;
 };
 
 const Toggle = React.forwardRef<View, ToggleProps>(
-  ({ className, pressed: isPressed, onChange, onPress, ...props }, ref) => {
+  (
+    {
+      className,
+      pressed: isPressed,
+      defaultPressed,
+      onChange,
+      onPress,
+      ...props
+    },
+    ref
+  ) => {
     const [pressed, setPressed] = useControllableState({
       prop: isPressed,
-      defaultProp: false,
+      defaultProp: defaultPressed,
       onChange,
     });
 
