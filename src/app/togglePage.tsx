@@ -79,8 +79,10 @@ function Content() {
           //value={values1}
           defaultValue="icon-center"
           size={"icon"}
+          //color="brand"
+          //variant="ghost"
         >
-          <ToggleGroupItem color="brand" value="icon-left">
+          <ToggleGroupItem value="icon-left">
             <ToggleIcon>
               <ChevronLeft />
             </ToggleIcon>
@@ -101,6 +103,7 @@ function Content() {
         <Text className="text-foreground mx-2">Single</Text>
         <ToggleGroup
           value={value}
+          color="blue"
           onValueChange={setValue}
           type="single"
           size="icon"
@@ -126,6 +129,7 @@ function Content() {
         <Text className="text-foreground mx-2">Multiple</Text>
         <ToggleGroup
           //value={values}
+          color="red-soft"
           onValueChange={(newValues) => {
             console.log(newValues);
             setValues(newValues);

@@ -10,6 +10,8 @@ import { Toggle, ToggleProps } from "./toggle";
 
 type ToggleGroupContextProps = PressableProps & {
   size: ToggleProps["size"];
+  color: ToggleProps["color"];
+  variant: ToggleProps["variant"];
   selectedValues: string | string[];
   toggle: (value: string) => void;
   disabled: boolean;
@@ -17,6 +19,8 @@ type ToggleGroupContextProps = PressableProps & {
 
 const ToggleGroupContext = React.createContext<ToggleGroupContextProps>({
   size: "default",
+  color: "default",
+  variant: "default",
   selectedValues: [],
   toggle: () => {},
   disabled: false,
@@ -40,11 +44,13 @@ type ToggleGroupMultipleProps = ViewProps & {
 
 // Union type
 type ToggleGroupProps = (ToggleGroupSingleProps | ToggleGroupMultipleProps) &
-  Pick<ToggleProps, "size">;
+  Pick<ToggleProps, "size" | "color" | "variant">;
 
 const ToggleGroup: React.FC<ToggleGroupProps> = ({
   type = "single", //Single is default
   size,
+  color,
+  variant,
   value,
   onValueChange,
   defaultValue,
@@ -92,6 +98,8 @@ const ToggleGroup: React.FC<ToggleGroupProps> = ({
         toggle,
         disabled,
         size,
+        color,
+        variant,
       }}
     >
       <View className={cn("flex flex-row gap-2", className)} {...props}>
@@ -117,12 +125,16 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
       toggle: setSelectedValue,
       disabled,
       size,
+      color,
+      variant,
     } = React.useContext(ToggleGroupContext);
     const isSelected = selectedValue.includes(value);
     const isDisabled = disabled || disabledItem;
     return (
       <Toggle
         size={size}
+        color={color}
+        variant={variant}
         ref={ref}
         disabled={isDisabled}
         pressed={isSelected}

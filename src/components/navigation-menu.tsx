@@ -182,9 +182,12 @@ const MenuItem = React.forwardRef<View, MenuItemProps>(
       onLongPress?.(e);
     };
 
+    const handlePress = (e: GestureResponderEvent) => {
+      handleChange(value);
+      onPress?.(e);
+    };
     const handlePressOut = (e: GestureResponderEvent) => {
       setPressed(false);
-      handleChange(value);
       onPressOut?.(e);
     };
 
@@ -226,6 +229,7 @@ const MenuItem = React.forwardRef<View, MenuItemProps>(
           onHoverOut={handleHoverOut}
           onLongPress={handleLongPressIn}
           onPressOut={handlePressOut}
+          onPress={handlePress}
           {...props}
         />
       </MenuItemContext.Provider>
@@ -245,7 +249,7 @@ type MenuIconProps = ViewProps & {
 const MenuIcon = ({ className, children, ...props }: MenuIconProps) => {
   const { active } = React.useContext(MenuItemContext);
   const styles = active ? "stroke-white" : "dark:stroke-neutral-100"; // Should improve this line of code
-  
+
   if (children) {
     return React.cloneElement(children, {
       className: cn(styles, className),
