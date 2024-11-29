@@ -9,7 +9,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/breadcrumb/breadcrumb";
-import { usePathname } from "expo-router";
+import { Href, router, usePathname } from "expo-router";
 import { Home } from "@/components/icons/home";
 
 export default function Page() {
@@ -24,27 +24,32 @@ export default function Page() {
 }
 
 function Content() {
+  const [selectedValue, setSelectedValue] = React.useState<string>();
+  function NavigateTo(value: string) {
+    setSelectedValue(value);
+    router.push(value as Href<string>);
+  }
   return (
     <View className="flex-1 p-20">
       <View className="flex flex-row w-fit gap-3">
         <View>
-          <Breadcrumb value="" onChange={() => {}}>
+          <Breadcrumb value={selectedValue} onChange={NavigateTo}>
             <BreadcrumbList>
-              <BreadcrumbItem href="/breadcrumb">
+              <BreadcrumbItem value="/breadcrumb">
                 <BreadcrumbIcon>
                   <Building />
                 </BreadcrumbIcon>
                 <BreadcrumbText>Home</BreadcrumbText>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
-              <BreadcrumbItem href="/breadcrumb/settings">
+              <BreadcrumbItem value="/breadcrumb/settings">
                 <BreadcrumbIcon>
                   <Home />
                 </BreadcrumbIcon>
                 <BreadcrumbText>Settings</BreadcrumbText>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
-              <BreadcrumbItem href={"/breadcrumb/user"}>
+              <BreadcrumbItem value={"/breadcrumb/user"}>
                 <BreadcrumbText>User</BreadcrumbText>
               </BreadcrumbItem>
             </BreadcrumbList>

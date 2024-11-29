@@ -1,4 +1,4 @@
-import { cva, VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import React from "react";
 import {
   Pressable,
@@ -11,36 +11,35 @@ import {
 import { useControllableState } from "@usekeyhole/hooks";
 import { cn } from "@usekeyhole/utils";
 import { ChevronRight } from "@usekeyhole/nativewind";
-import { Href, router, usePathname } from "expo-router";
 
 /* -------------------------------------------------------------------------------------------------
  * Breadcrumb
  * -----------------------------------------------------------------------------------------------*/
 
-interface BreadcrumbContextProps extends PressableProps {
+type BreadcrumbContextProps = PressableProps & {
   selectedValue: string | null;
-}
+  onChange: (value: string) => void;
+};
 
 const BreadcrumbContext = React.createContext<BreadcrumbContextProps>({
   selectedValue: "",
+  onChange: () => {},
 });
 
-interface BreadcrumbProps extends ViewProps {
-  value?: string;
-  onChange?: (value: string) => void;
-}
+type BreadcrumbProps = ViewProps & {
+  value: string | undefined;
+  onChange: (value: string) => void;
+};
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({
   className,
-  value,
-  onChange: setSelectedValue,
+  value = "",
+  onChange,
   children,
   ...props
 }) => {
-  const selectedValue = usePathname();
-
   return (
-    <BreadcrumbContext.Provider value={{ selectedValue }}>
+    <BreadcrumbContext.Provider value={{ selectedValue: value, onChange }}>
       <View className={cn("gap-1", className)} {...props}>
         {children}
       </View>
@@ -60,7 +59,7 @@ const BreadcrumbList = React.forwardRef<View, BreadcrumbListProps>(
     return (
       <View
         ref={ref}
-        className={cn("flex flex-row gap-4 items-center", className)}
+        className={cn("flex flex-row items-center gap-4", className)}
         {...props}
       />
     );
@@ -84,27 +83,22 @@ const BreadcrumbItemContext = React.createContext<BreadcrumbItemContextProps>({
 
 type BreadcrumbItemProps = PressableProps & {
   hovered?: boolean;
-  href: string;
+  value: string;
 };
 
 const BreadcrumbItem = React.forwardRef<View, BreadcrumbItemProps>(
   (
-    { className, hovered: isHovered, href, onHoverIn, onHoverOut, ...props },
+    { className, hovered: isHovered, value, onHoverIn, onHoverOut, ...props },
     ref
   ) => {
     const [hovered, setHovered] = useControllableState({
       prop: isHovered,
       defaultProp: false,
     });
-    const { selectedValue } = React.useContext(BreadcrumbContext);
-    const active = selectedValue === href;
-
-    const handlePress = (route: string) => {
-      router.push(route as Href<string>);
-    };
-
+    const { selectedValue, onChange } = React.useContext(BreadcrumbContext);
+    const active = selectedValue === value;
     return (
-      <BreadcrumbItemContext.Provider value={{ active, hovered }}>
+      <BreadcrumbItemContext.Provider value={{ active, hovered: !!hovered }}>
         <Pressable
           ref={ref}
           className={cn("flex flex-row items-center gap-2", className)}
@@ -116,7 +110,9 @@ const BreadcrumbItem = React.forwardRef<View, BreadcrumbItemProps>(
             setHovered(false);
             onHoverOut?.(e);
           }}
-          onPress={() => handlePress(href)}
+          onPress={() => {
+            onChange(value);
+          }}
           {...props}
         />
       </BreadcrumbItemContext.Provider>
@@ -157,7 +153,7 @@ const BreadcrumbIcon = ({
       ...props,
     });
   } else {
-    return <></>;
+    return null;
   }
 };
 BreadcrumbIcon.displayName = "BreadcrumbIcon";
@@ -166,7 +162,7 @@ BreadcrumbIcon.displayName = "BreadcrumbIcon";
  * BreadcrumbText
  * -----------------------------------------------------------------------------------------------*/
 const buttonTextVariants = cva(
-  "text-sm text-neutral-500 dark:text-neutral-400 font-normal transition-colors",
+  "text-sm font-normal text-neutral-500 transition-colors dark:text-neutral-400",
   {
     variants: {
       hovered: {
@@ -196,12 +192,10 @@ const buttonTextVariants = cva(
   }
 );
 
-type BreadcrumbTextProps = TextProps & {
-  href?: Href<string | object>; // Add an href for navigation links
-};
+type BreadcrumbTextProps = TextProps;
 
 const BreadcrumbText = React.forwardRef<Text, BreadcrumbTextProps>(
-  ({ className, href, onPress, ...props }, ref) => {
+  ({ className, onPress, ...props }, ref) => {
     const { hovered, active } = React.useContext(BreadcrumbItemContext);
 
     return (

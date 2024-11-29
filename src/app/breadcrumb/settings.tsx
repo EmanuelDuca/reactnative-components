@@ -28,19 +28,19 @@ function Content() {
         <View>
           <Breadcrumb value="" onChange={() => {}}>
             <BreadcrumbList>
-              <BreadcrumbItem href="/breadcrumb">
+              <BreadcrumbItem value="/breadcrumb">
                 <BreadcrumbIcon>
                   <Building />
                 </BreadcrumbIcon>
                 <BreadcrumbText>Home</BreadcrumbText>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
-              <BreadcrumbItem href="/breadcrumb/settings">
+              <BreadcrumbItem value="/breadcrumb/settings">
                 <BreadcrumbIcon></BreadcrumbIcon>
                 <BreadcrumbText>Settings</BreadcrumbText>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
-              <BreadcrumbItem href={"/breadcrumb/user"}>
+              <BreadcrumbItem value={"/breadcrumb/user"}>
                 <BreadcrumbText>User</BreadcrumbText>
               </BreadcrumbItem>
             </BreadcrumbList>
