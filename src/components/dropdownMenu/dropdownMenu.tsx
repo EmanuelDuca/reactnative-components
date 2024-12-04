@@ -55,7 +55,7 @@ type DropdownMenuProps = ViewProps &
     defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
     onValueChange: (value: string) => void;
-    active?: string;
+    active?: string; // The root that we are right know
   };
 
 const DropdownMenu: React.FC<DropdownMenuProps> = ({
@@ -191,7 +191,7 @@ const DropdownMenuLabel = React.forwardRef<Text, DropdownMenuLabelProps>(
       <Text
         ref={ref}
         className={cn(
-          "px-2 text-sm font-bold text-neutral-800 dark:text-neutral-100",
+          "px-2.5 py-1 text-sm font-bold text-neutral-800 dark:text-neutral-100",
           className
         )}
         {...props}
@@ -396,7 +396,9 @@ const DropdownMenuIcon = ({
 }: DropdownMenuIconProps) => {
   const { validation } = React.useContext(DropdownMenuItemContext);
   const styles = cn(
-    validation ? "stroke-red-700" : "dark:stroke-red-700",
+    validation
+      ? "stroke-red-700 dark:stroke-red-700 "
+      : "stroke-neutral-800 dark:stroke-neutral-100",
     className
   );
 
@@ -416,7 +418,7 @@ DropdownMenuIcon.displayName = "DropdownMenuIcon";
  * -----------------------------------------------------------------------------------------------*/
 
 const dropdownMenuItemTextVariants = cva(
-  "text-sm font-normal text-neutral-800 dark:text-neutral-100",
+  "text-sm outline-none transition-colors font-normal text-neutral-800 dark:text-neutral-100 text-for",
   {
     variants: {
       validation: {
@@ -517,6 +519,7 @@ const DropdownMenuSub: React.FC<DropdownMenuSubProps> = ({
   ...props
 }) => {
   const [currentOpen, setCurrentOpen] = React.useState(open ?? false); // This line of code should be changed to use our keuhole hook
+  const [hoveredItem, setHoveredItem] = React.useState<string>();
 
   const handleOnChange = React.useCallback(
     (isOpen: boolean) => {
@@ -549,14 +552,63 @@ DropdownMenu.displayName = "DropdownMenu";
  * DropdownMenuSubTrigger
  * -----------------------------------------------------------------------------------------------*/
 
-type DropdownMenuSubTriggerProps = Pick<
-  InputProps,
-  "disableFocus" | "focused" | "hovered" | "size" | "variant"
-> &
-  Omit<PressableProps, "children"> & {
-    children?: React.ReactNode;
-    asChild?: boolean;
-  };
+const dropdownMenuSubTriggerVariants = cva(
+  "relative flex flex-row items-center gap-2 rounded-md px-2 py-1.5 transition-colors",
+  {
+    variants: {
+      hovered: {
+        false: undefined,
+        true: undefined,
+      },
+      active: {
+        false: undefined,
+        true: undefined,
+      },
+      disabled: {
+        false: undefined,
+        true: undefined,
+      },
+      pressed: {
+        false: undefined,
+        true: undefined,
+      },
+      validation: {
+        false: undefined,
+        true: undefined,
+      },
+    },
+    compoundVariants: [
+      //Hovered
+      { hovered: true, className: "bg-neutral-50 dark:bg-neutral-800" },
+      //Active
+      {
+        active: true,
+        className: "bg-brand-50 dark:bg-brand-800",
+      },
+      //Pressed
+      {
+        pressed: true,
+        active: false,
+        disabled: false,
+        className: "bg-neutral-50 dark:bg-neutral-800",
+      },
+      //Disabled
+      {
+        disabled: true,
+        className: "opacity-50",
+      },
+    ],
+    defaultVariants: {
+      pressed: false,
+      hovered: false,
+      active: false,
+      disabled: false,
+    },
+  }
+);
+
+type DropdownMenuSubTriggerProps = PressableProps &
+  VariantProps<typeof dropdownMenuSubTriggerVariants> & {};
 
 const DropdownMenuSubTrigger = React.forwardRef<
   View,
@@ -564,19 +616,26 @@ const DropdownMenuSubTrigger = React.forwardRef<
 >(
   (
     {
-      asChild,
-      children,
       className,
-      disableFocus,
-      focused,
-      hovered,
-      size,
-      variant,
+      active: providedSelected,
+      pressed: isPressed,
+      hovered: isHovered,
+      validation,
+      onHoverIn,
+      onHoverOut,
+      onFocus,
+      onBlur,
       onPress,
+      onLongPress,
+      onPressIn,
+      onPressOut,
       ...props
     },
     ref
   ) => {
+    const disabled = !!props.disabled;
+    const [hovered, setHovered] = React.useState<boolean>(!!isHovered);
+    const [pressed, setPressed] = React.useState<boolean>(!!isPressed);
     const { setCurrentOpen } = React.useContext(DropdownMenuContext);
 
     const handleOnPress = React.useCallback(
@@ -587,14 +646,68 @@ const DropdownMenuSubTrigger = React.forwardRef<
       [onPress]
     );
 
-    const Element = asChild ? Slot.Pressable : Pressable;
+    const handleHoverIn = (e: MouseEvent) => {
+      setHovered(true);
+      onHoverIn?.(e);
+    };
+
+    const handleHoverOut = (e: MouseEvent) => {
+      setHovered(false);
+      onHoverOut?.(e);
+    };
+
+    const handleFocus = (e: NativeSyntheticEvent<TargetedEvent>) => {
+      if (!disabled) {
+        setHovered(true);
+        onFocus?.(e);
+      }
+    };
+
+    const handleBlur = (e: NativeSyntheticEvent<TargetedEvent>) => {
+      if (!disabled) {
+        setHovered(false);
+        onBlur?.(e);
+      }
+    };
+    const handleLongPressIn = (e: GestureResponderEvent) => {
+      setPressed(true);
+      onLongPress?.(e);
+    };
+    const handlePressOut = (e: GestureResponderEvent) => {
+      setPressed(false);
+      onPressOut?.(e);
+    };
+
+    const active = providedSelected;
 
     return (
-      <PopoverTrigger asChild>
-        <Element onPress={handleOnPress} ref={ref} {...props}>
-          {children}
-        </Element>
-      </PopoverTrigger>
+      <DropdownMenuItemContext.Provider
+        value={{
+          active,
+          pressed,
+          hovered,
+          disabled,
+          validation,
+        }}
+      >
+        <PopoverTrigger asChild>
+          <Pressable
+            ref={ref}
+            className={cn(
+              dropdownMenuItemVariants({ active, hovered, disabled, pressed }),
+              className
+            )}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onHoverIn={handleHoverIn}
+            onHoverOut={handleHoverOut}
+            onLongPress={handleLongPressIn}
+            onPressOut={handlePressOut}
+            onPress={handleOnPress}
+            {...props}
+          />
+        </PopoverTrigger>
+      </DropdownMenuItemContext.Provider>
     );
   }
 );
