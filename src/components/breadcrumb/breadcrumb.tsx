@@ -11,6 +11,8 @@ import {
 import { useControllableState } from "@usekeyhole/hooks";
 import { cn } from "@usekeyhole/utils";
 import { ChevronRight } from "@usekeyhole/nativewind";
+import { Ellipsis } from "../icons/ellipsis";
+//import { Href } from 'expo-router';
 
 /* -------------------------------------------------------------------------------------------------
  * Breadcrumb
@@ -83,12 +85,12 @@ const BreadcrumbItemContext = React.createContext<BreadcrumbItemContextProps>({
 
 type BreadcrumbItemProps = PressableProps & {
   hovered?: boolean;
-  value: string;
+  href: string;
 };
 
 const BreadcrumbItem = React.forwardRef<View, BreadcrumbItemProps>(
   (
-    { className, hovered: isHovered, value, onHoverIn, onHoverOut, ...props },
+    { className, hovered: isHovered, href, onHoverIn, onHoverOut, ...props },
     ref
   ) => {
     const [hovered, setHovered] = useControllableState({
@@ -96,7 +98,7 @@ const BreadcrumbItem = React.forwardRef<View, BreadcrumbItemProps>(
       defaultProp: false,
     });
     const { selectedValue, onChange } = React.useContext(BreadcrumbContext);
-    const active = selectedValue === value;
+    const active = selectedValue === href;
     return (
       <BreadcrumbItemContext.Provider value={{ active, hovered: !!hovered }}>
         <Pressable
@@ -111,7 +113,7 @@ const BreadcrumbItem = React.forwardRef<View, BreadcrumbItemProps>(
             onHoverOut?.(e);
           }}
           onPress={() => {
-            onChange(value);
+            onChange(href);
           }}
           {...props}
         />
@@ -132,6 +134,19 @@ const BreadcrumbSeparator = ({
   ...props
 }: BreadcrumbSeparatorProps) => {
   return <ChevronRight className={className} {...props} />;
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * BreadcrumbEllipsis
+ * -----------------------------------------------------------------------------------------------*/
+
+type BreadcrumbEllipsisProps = ViewProps;
+
+const BreadcrumbEllipsis = ({
+  className,
+  ...props
+}: BreadcrumbEllipsisProps) => {
+  return <Ellipsis className={cn("size-5", className)} {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -211,15 +226,17 @@ BreadcrumbText.displayName = "BreadcrumbText";
 
 export {
   Breadcrumb,
-  BreadcrumbProps,
-  BreadcrumbList,
-  BreadcrumbListProps,
-  BreadcrumbItem,
-  BreadcrumbItemProps,
-  BreadcrumbSeparator,
-  BreadcrumbSeparatorProps,
+  BreadcrumbEllipsis,
+  BreadcrumbEllipsisProps,
   BreadcrumbIcon,
   BreadcrumbIconProps,
+  BreadcrumbItem,
+  BreadcrumbItemProps,
+  BreadcrumbList,
+  BreadcrumbListProps,
+  BreadcrumbProps,
+  BreadcrumbSeparator,
+  BreadcrumbSeparatorProps,
   BreadcrumbText,
   BreadcrumbTextProps,
 };

@@ -1,13 +1,3 @@
-import { Text, View } from "react-native";
-import {
-  Breadcrumb,
-  BreadcrumbEllipsis,
-  BreadcrumbIcon,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-  BreadcrumbText,
-} from "@/components/breadcrumb/breadcrumb";
 import {
   Building,
   Button,
@@ -16,23 +6,33 @@ import {
   Layers,
   User,
 } from "@usekeyhole/nativewind";
+import * as React from "react";
+import { Text, View, ViewComponent } from "react-native";
+import {
+  Breadcrumb,
+  BreadcrumbIcon,
+  BreadcrumbItem,
+  BreadcrumbText,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis,
+} from "@/components/breadcrumb/breadcrumb";
 import { Href, router, usePathname } from "expo-router";
+import { Home } from "@/components/icons/home";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuIcon,
   DropdownMenuItem,
+  DropdownMenuItemText,
   DropdownMenuTrigger,
 } from "@/components/dropdownMenu/dropdownMenuV2";
-import React from "react";
-import { Home } from "@/components/icons/home";
-import { DropdownMenuItemText } from "@usekeyhole/web";
 
 export default function Page() {
   const pathname = usePathname();
   return (
     <View className="bg-white">
-      <Text>User</Text>
+      <Text>Other Settings</Text>
       <Text>URL: {pathname}</Text>
       <Content />
     </View>
@@ -40,16 +40,16 @@ export default function Page() {
 }
 
 function Content() {
-  const [selectedValue, setSelectedValue] =
-    React.useState<string>("/breadcrumb/user");
-  function NavigateTo(value: string) {
-    setSelectedValue(value);
-    router.push(value as Href<string>);
+  const [selectedValue, setSelectedValue] = React.useState<string>(
+    "/breadcrumb/othersettings"
+  );
+  function NavigateTo(href: string) {
+    setSelectedValue(href);
+    router.push(href as Href<string>);
   }
-
-  function dropdownMenuFunction(value: string) {
-    console.log(value);
-    router.push(value as Href<string>);
+  function dropdownMenuFunction(href: string) {
+    console.log(href);
+    router.push(href as Href<string>);
   }
   return (
     <View className="flex-1 p-20">
@@ -71,7 +71,10 @@ function Content() {
                     <BreadcrumbEllipsis />
                   </BreadcrumbItem>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent onValueChange={dropdownMenuFunction}>
+                <DropdownMenuContent
+                  active={selectedValue}
+                  onValueChange={dropdownMenuFunction}
+                >
                   <DropdownMenuItem value="/breadcrumb/settings">
                     <User />
                     <DropdownMenuItemText>User Settings</DropdownMenuItemText>
