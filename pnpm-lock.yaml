@@ -12,17 +12,17 @@ importers:
         specifier: 0.0.25
         version: 0.0.25(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@usekeyhole/nativewind':
-        specifier: ^0.2.57
-        version: 0.2.57(t456wkz65tneuv3neii64hy6be)
+        specifier: ^0.3.1
+        version: 0.3.1(t456wkz65tneuv3neii64hy6be)
       '@usekeyhole/ui':
-        specifier: ^0.1.6
-        version: 0.1.6(whgzlsew6izhem4mmye6pfljby)
+        specifier: ^0.2.0
+        version: 0.2.0(whgzlsew6izhem4mmye6pfljby)
       '@usekeyhole/utils':
         specifier: ^0.1.2
         version: 0.1.2(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
       '@usekeyhole/web':
-        specifier: ^0.1.58
-        version: 0.1.58(6u2jiqivphkogxneeweh3ngv3i)
+        specifier: ^0.2.1
+        version: 0.2.1(6u2jiqivphkogxneeweh3ngv3i)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -2077,8 +2077,8 @@ packages:
       react: '>=18.2.0'
       react-native: '>=0.73.0'
 
-  '@usekeyhole/nativewind@0.2.57':
-    resolution: {integrity: sha512-YeIwwCzXLgCdj24rYucl8n+qDyi+h3GZuSXf0SuA+rVONy592Z09OJQFcdFvOmyzbvXkDLci8HgpNBqbPPOeeg==}
+  '@usekeyhole/nativewind@0.3.1':
+    resolution: {integrity: sha512-bvumg8Ow40Z+6Igvx00rlonCcgwp1Pmi6aMeRNNCLjt3XoZUV8DmWJK7M/ptqrvyX3WnrWrQIUGPQp1GF1OHAg==}
     peerDependencies:
       '@react-native-community/slider': '>=4.0.0'
       '@tanstack/react-table': '>=8.0.0'
@@ -2101,8 +2101,8 @@ packages:
     peerDependencies:
       expo: '*'
 
-  '@usekeyhole/ui@0.1.6':
-    resolution: {integrity: sha512-4FKBCHXQXgHpa7zzxXGsdVMNBNFXxOlq6nOYOU+m0iqrcMRb4QFA4pU7E7it4nhjq5TbU0LooZXiKK4CZT6v6g==}
+  '@usekeyhole/ui@0.2.0':
+    resolution: {integrity: sha512-qntrQoQfAAgMkKqxAgDj5ip+RxgY6ekob/sDYjlsKxA36uSssGNZEu4eBcxKwLpvrk0J4Kmlo2oIYWQiclfpBA==}
     peerDependencies:
       '@react-native-community/slider': '>=4.0.0'
       '@tanstack/react-table': '>=8.0.0'
@@ -2122,10 +2122,11 @@ packages:
       react-native: '>=0.73.0'
       zod: '>=3.0.0'
 
-  '@usekeyhole/web@0.1.58':
-    resolution: {integrity: sha512-XH+s03mcziJ1DYgUmE0o1naJXBFZ8jQEniOPauJkUgkLDFyjPWnwka/yGqH9JOwWM5gFRePPGEG9Nd/bQC9p7g==}
+  '@usekeyhole/web@0.2.1':
+    resolution: {integrity: sha512-ARe0yN+lvcTAipT6gjmV6sNWy0ArJqDdwHC2Jtgpzfy80EFRejkA2dQklDgaFe3VNI+PvQpoznRM5kxGEHvXhA==}
     peerDependencies:
       '@tanstack/react-table': '>=8.0.0'
+      expo-crypto: '>=13.0.0'
       expo-image: '>=1.0.0'
       nativewind: '>=4.0.0'
       react: '>=18.2.0'
@@ -4652,6 +4653,11 @@ packages:
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
+
+  react-international-phone@4.3.0:
+    resolution: {integrity: sha512-lIntIkwq2j0m3j4RsRiGJl/buHMLBd+mQ9S9RfiX3KbiUCUtbawoPCV2r8BvyeRMZI0cDtovoukBCuZ+70QzJA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -8307,7 +8313,7 @@ snapshots:
       react: 18.2.0
       react-native: 0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0)
 
-  '@usekeyhole/nativewind@0.2.57(t456wkz65tneuv3neii64hy6be)':
+  '@usekeyhole/nativewind@0.3.1(t456wkz65tneuv3neii64hy6be)':
     dependencies:
       '@react-native-community/slider': 4.5.5
       '@rn-primitives/portal': 1.1.0(@types/react@18.2.79)(react-native-web@0.19.13(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
@@ -8315,7 +8321,7 @@ snapshots:
       '@rn-primitives/tooltip': 1.1.0(@rn-primitives/portal@1.1.0(@types/react@18.2.79)(react-native-web@0.19.13(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react-native-web@0.19.13(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       '@tanstack/react-table': 8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@usekeyhole/hooks': 0.0.9(@usekeyhole/utils@0.1.2(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8))(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
-      '@usekeyhole/ui': 0.1.6(whgzlsew6izhem4mmye6pfljby)
+      '@usekeyhole/ui': 0.2.0(whgzlsew6izhem4mmye6pfljby)
       '@usekeyhole/utils': 0.1.2(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
       class-variance-authority: 0.7.0
       expo-crypto: 13.0.2(expo@51.0.38(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0)))
@@ -8346,7 +8352,7 @@ snapshots:
     dependencies:
       expo: 51.0.38(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))
 
-  '@usekeyhole/ui@0.1.6(whgzlsew6izhem4mmye6pfljby)':
+  '@usekeyhole/ui@0.2.0(whgzlsew6izhem4mmye6pfljby)':
     dependencies:
       '@react-native-community/slider': 4.5.5
       '@tanstack/react-table': 8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -8382,7 +8388,7 @@ snapshots:
       tailwind-merge: 2.5.4
       zod: 3.23.8
 
-  '@usekeyhole/web@0.1.58(6u2jiqivphkogxneeweh3ngv3i)':
+  '@usekeyhole/web@0.2.1(6u2jiqivphkogxneeweh3ngv3i)':
     dependencies:
       '@radix-ui/react-dialog': 1.1.2(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@radix-ui/react-dropdown-menu': 2.1.2(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -8391,19 +8397,21 @@ snapshots:
       '@radix-ui/react-tooltip': 1.1.3(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@rn-primitives/slot': 1.1.0(react-native-web@0.19.13(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       '@tanstack/react-table': 8.20.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@usekeyhole/nativewind': 0.2.57(t456wkz65tneuv3neii64hy6be)
-      '@usekeyhole/ui': 0.1.6(whgzlsew6izhem4mmye6pfljby)
+      '@usekeyhole/nativewind': 0.3.1(t456wkz65tneuv3neii64hy6be)
+      '@usekeyhole/ui': 0.2.0(whgzlsew6izhem4mmye6pfljby)
       '@usekeyhole/utils': 0.1.2(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(zod@3.23.8)
       class-variance-authority: 0.7.0
       clsx: 2.1.1
       cmdk: 1.0.4(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       countries-list: 3.1.1
+      expo-crypto: 13.0.2(expo@51.0.38(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0)))
       expo-image: 1.13.0(expo@51.0.38(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0)))
       lodash: 4.17.21
       lucide-react: 0.378.0(react@18.2.0)
       nativewind: 4.1.23(react-native-reanimated@3.16.1(@babel/core@7.26.0)(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-safe-area-context@4.10.1(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-svg@15.8.0(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)(tailwindcss@3.4.14)
       polished: 4.3.1
       react: 18.2.0
+      react-international-phone: 4.3.0(react@18.2.0)
       react-native: 0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0)
       react-native-reanimated: 3.16.1(@babel/core@7.26.0)(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       tailwind-merge: 2.5.4
@@ -8412,7 +8420,6 @@ snapshots:
       - '@react-native-community/slider'
       - '@types/react'
       - '@types/react-dom'
-      - expo-crypto
       - expo-document-picker
       - expo-image-picker
       - expo-linear-gradient
@@ -11156,6 +11163,10 @@ snapshots:
       react: 18.2.0
 
   react-hook-form@7.53.2(react@18.2.0):
+    dependencies:
+      react: 18.2.0
+
+  react-international-phone@4.3.0(react@18.2.0):
     dependencies:
       react: 18.2.0
 
