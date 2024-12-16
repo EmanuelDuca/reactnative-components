@@ -89,17 +89,31 @@ type BreadcrumbItemProps = PressableProps & {
 
 const BreadcrumbItem = React.forwardRef<View, BreadcrumbItemProps>(
   (
-    { className, hovered: isHovered, href, onHoverIn, onHoverOut, ...props },
+    {
+      className,
+      hovered: isControlHovered,
+      href,
+      onHoverIn,
+      onHoverOut,
+      onFocus,
+      onBlur,
+      ...props
+    },
     ref
   ) => {
     const [hovered, setHovered] = useControllableState({
-      prop: isHovered,
+      prop: isControlHovered,
       defaultProp: false,
     });
+    const [focused, setFocused] = React.useState(false);
+
     const { selectedValue, onChange } = React.useContext(BreadcrumbContext);
     const active = selectedValue === href;
+
+    const isHovered = hovered || focused;
+
     return (
-      <BreadcrumbItemContext.Provider value={{ active, hovered: !!hovered }}>
+      <BreadcrumbItemContext.Provider value={{ active, hovered: isHovered }}>
         <Pressable
           ref={ref}
           className={cn("flex flex-row items-center gap-2", className)}
@@ -110,6 +124,14 @@ const BreadcrumbItem = React.forwardRef<View, BreadcrumbItemProps>(
           onHoverOut={(e) => {
             setHovered(false);
             onHoverOut?.(e);
+          }}
+          onFocus={(e) => {
+            setFocused(true);
+            onFocus?.(e);
+          }}
+          onBlur={(e) => {
+            setFocused(false);
+            onBlur?.(e);
           }}
           onPress={() => {
             onChange(href);
