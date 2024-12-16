@@ -2,7 +2,7 @@ import { cn } from "@usekeyhole/utils";
 import React from "react";
 import { PressableProps, View, ViewProps } from "react-native";
 import { useControllableState } from "@usekeyhole/hooks";
-import { Toggle, ToggleProps } from "./toggle";
+import { Toggle, ToggleProps } from "@usekeyhole/nativewind";
 
 /* -------------------------------------------------------------------------------------------------
  * ToggleGroup
@@ -128,7 +128,12 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
       color,
       variant,
     } = React.useContext(ToggleGroupContext);
-    const isSelected = selectedValue.includes(value);
+    // Check based on type
+    const isSelected =
+      typeof selectedValue === "string"
+        ? selectedValue === value // Single mode check
+        : selectedValue.includes(value); // Multiple mode check
+
     const isDisabled = disabled || disabledItem;
     return (
       <Toggle
@@ -138,6 +143,7 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
         ref={ref}
         disabled={isDisabled}
         pressed={isSelected}
+        className={className}
         {...props}
         onPress={() => {
           setSelectedValue(value);

@@ -29,6 +29,13 @@ export default function Page() {
 function Content() {
   const [value, setValue] = React.useState<string>();
   const [values, setValues] = React.useState<string[]>([]);
+  const [scoreValue, setScoreValue] = React.useState<string>("9");
+  function handleScoreChange(value: string) {
+    if (value) {
+      setScoreValue(value); // Local state update
+      //form.setValue("score", Number(value)); // Sync with react-hook-form
+    }
+  }
 
   return (
     <View className="flex-1 p-20">
@@ -153,6 +160,39 @@ function Content() {
               <ChevronRight />
             </ToggleIcon>
           </ToggleGroupItem>
+        </ToggleGroup>
+      </View>
+      <View className="flex flex-row items-center  my-5 w-fit">
+        <ToggleGroup
+          type="single"
+          className="flex flex-wrap gap-1.5"
+          value={scoreValue}
+          onValueChange={handleScoreChange}
+        >
+          {/* First Row - First 5 Elements */}
+          <View className="flex flex-row gap-1.5">
+            {Array.from({ length: 5 }, (_, i) => i + 1).map((item) => (
+              <ToggleGroupItem
+                key={`score-item-${item}`}
+                value={item.toString()}
+                className="w-10 sm:w-9"
+              >
+                {item}
+              </ToggleGroupItem>
+            ))}
+          </View>
+          {/* Second Row - Remaining Elements */}
+          <View className="flex flex-row gap-1.5">
+            {Array.from({ length: 5 }, (_, i) => i + 6).map((item) => (
+              <ToggleGroupItem
+                key={`score-item-${item}`}
+                value={item.toString()}
+                className="w-10 sm:w-9"
+              >
+                {item}
+              </ToggleGroupItem>
+            ))}
+          </View>
         </ToggleGroup>
       </View>
     </View>

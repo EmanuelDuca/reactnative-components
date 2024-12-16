@@ -10,9 +10,8 @@ import {
 } from "react-native";
 import { useControllableState } from "@usekeyhole/hooks";
 import { cn } from "@usekeyhole/utils";
-import { ChevronRight } from "@usekeyhole/nativewind";
 import { Ellipsis } from "../icons/ellipsis";
-//import { Href } from 'expo-router';
+import { ChevronRight } from "@usekeyhole/nativewind";
 
 /* -------------------------------------------------------------------------------------------------
  * Breadcrumb
@@ -133,7 +132,12 @@ const BreadcrumbSeparator = ({
   className,
   ...props
 }: BreadcrumbSeparatorProps) => {
-  return <ChevronRight className={className} {...props} />;
+  return (
+    <ChevronRight
+      className={cn("size-4 stroke-neutral-400", className)}
+      {...props}
+    />
+  );
 };
 
 /* -------------------------------------------------------------------------------------------------
