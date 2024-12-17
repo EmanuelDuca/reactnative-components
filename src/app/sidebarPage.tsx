@@ -52,6 +52,15 @@ import { Globe } from "@/components/icons/globe";
 import { Sun } from "@/components/icons/sun";
 import { Moon } from "@/components/icons/Moon";
 import { SunMoon } from "@/components/icons/Sun-moon";
+import {
+  Stepper,
+  StepperContent,
+  StepperItem,
+  StepperItemProps,
+  StepperSeparator,
+  StepperStatus,
+  StepperText,
+} from "@/components/stepper";
 
 export default function Page() {
   const [selectedValue, setSelectedValue] = React.useState<string>("");
@@ -296,10 +305,44 @@ function SidebarSection({ selectedValue, handleValueChange }) {
   );
 }
 
+const states: StepperItemProps["state"][] = [
+  "default",
+  "current",
+  "partialComplete",
+  "completed",
+  "failed",
+];
+
 function Content({ stringText }) {
   return (
-    <View className="flex gap-3">
+    <View className="flex gap-3 px-5">
       <Text className="p-10">{stringText} Content</Text>
+      <Stepper className="flex gap-4">
+        {states.map((state) => (
+          <>
+            <StepperItem key={crypto.randomUUID()} state={state}>
+              <StepperStatus />
+              <StepperContent>
+                <StepperText>{state}</StepperText>
+              </StepperContent>
+            </StepperItem>
+            <StepperSeparator direction="vertical" />
+          </>
+        ))}
+      </Stepper>
+      <Stepper className="flex flex-row gap-4 items-center">
+        {states.map((state) => (
+          <>
+            <StepperItem key={crypto.randomUUID()} state={state}>
+              <StepperStatus />
+              <StepperContent>
+                <StepperText>{state}</StepperText>
+              </StepperContent>
+            </StepperItem>
+            <StepperSeparator />
+          </>
+        ))}
+      </Stepper>
     </View>
   );
 }
