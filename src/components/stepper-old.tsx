@@ -378,17 +378,13 @@ type StepperSeparatorProps = ViewProps & {
 
 const StepperSeparator = React.forwardRef<View, StepperSeparatorProps>(
   ({ className, children, direction = "horizontal", ...props }, ref) => {
-    const classNameParent =
-      direction == "vertical" ? "w-5 h-fit items-center" : undefined;
     const classNameChildren =
       direction == "vertical" ? "w-[1px] h-4" : "w-4 h-[1px]";
     return (
-      <View className={cn("flex", classNameParent)}>
-        <View
-          className={cn("bg-neutral-200", classNameChildren, className)}
-          {...props}
-        />
-      </View>
+      <View
+        className={cn("bg-neutral-200", classNameChildren, className)}
+        {...props}
+      />
     );
   }
 );

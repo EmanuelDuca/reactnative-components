@@ -22,6 +22,13 @@ import {
   Badge,
   BadgeText,
   Building,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  CircleAlert,
   EllipsisVertical,
   FilePen,
   KeySquare,
@@ -53,14 +60,25 @@ import { Sun } from "@/components/icons/sun";
 import { Moon } from "@/components/icons/Moon";
 import { SunMoon } from "@/components/icons/Sun-moon";
 import {
+  StatisticsHeader,
+  StatisticsHeaderContent,
+  StatisticsHeaderItem,
+  StatisticsHeaderLabel,
+  StatisticsHeaderNumber,
+  StatisticsHeaderTitle,
+} from "@/components/statistics-header";
+import {
+  Step,
+  StepContent,
+  StepStatus,
+  StepText,
+} from "@/components/stepper/step";
+import {
   Stepper,
-  StepperContent,
   StepperItem,
   StepperItemProps,
   StepperSeparator,
-  StepperStatus,
-  StepperText,
-} from "@/components/stepper";
+} from "@/components/stepper/stepper";
 
 export default function Page() {
   const [selectedValue, setSelectedValue] = React.useState<string>("");
@@ -305,6 +323,29 @@ function SidebarSection({ selectedValue, handleValueChange }) {
   );
 }
 
+const array = [
+  {
+    label: "Email address",
+    description: "Verify your email for seamless communication",
+  },
+  {
+    label: "Your profile",
+    description: "Add details for a personal touch in your account",
+  },
+  {
+    label: "Company profile",
+    description: "Add details to meet compliance requirements",
+  },
+  {
+    label: "Administrators",
+    description: "Add people to act on behalf of your organization",
+  },
+  {
+    label: "Bank account",
+    description: "Add banking details for transactions",
+  },
+];
+
 const states: StepperItemProps["state"][] = [
   "default",
   "current",
@@ -315,34 +356,40 @@ const states: StepperItemProps["state"][] = [
 
 function Content({ stringText }) {
   return (
-    <View className="flex gap-3 px-5">
-      <Text className="p-10">{stringText} Content</Text>
-      <Stepper className="flex gap-4">
-        {states.map((state) => (
+    <View className="w-full gap-3 p-8 bg-neutral-100 dark:bg-neutral-950">
+      <Stepper className="gap-4">
+        {array.map((item, index) => (
           <>
-            <StepperItem key={crypto.randomUUID()} state={state}>
-              <StepperStatus />
-              <StepperContent>
-                <StepperText>{state}</StepperText>
-              </StepperContent>
+            <StepperItem
+              key={crypto.randomUUID()}
+              state={index == 0 ? "current" : "default"}
+            >
+              <StepStatus />
+              <StepContent>
+                <StepText className="font-semibold">{item.label}</StepText>
+                <StepText className="text-neutral-500 dark:text-neutral-400">
+                  {item.description}
+                </StepText>
+              </StepContent>
             </StepperItem>
-            <StepperSeparator direction="vertical" />
+            {index != array.length - 1 && <StepperSeparator />}
           </>
         ))}
       </Stepper>
-      <Stepper className="flex flex-row gap-4 items-center">
+      {/* <View className="h-6"></View>
+      <Stepper className="flex flex-row items-center gap-4">
         {states.map((state) => (
           <>
-            <StepperItem key={crypto.randomUUID()} state={state}>
-              <StepperStatus />
-              <StepperContent>
-                <StepperText>{state}</StepperText>
-              </StepperContent>
-            </StepperItem>
+            <Step key={crypto.randomUUID()} state={state}>
+              <StepStatus />
+              <StepContent>
+                <StepText>{state}</StepText>
+              </StepContent>
+            </Step>
             <StepperSeparator />
           </>
         ))}
-      </Stepper>
+      </Stepper> */}
     </View>
   );
 }
