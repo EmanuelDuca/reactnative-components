@@ -22,6 +22,8 @@ import {
   Badge,
   BadgeText,
   Building,
+  Button,
+  ButtonText,
   Card,
   CardContent,
   CardDescription,
@@ -36,9 +38,17 @@ import {
   LogOut,
   Megaphone,
   ScanFace,
+  toast,
+  Toast,
+  ToastAction,
+  ToastActionGroup,
+  ToastClose,
+  ToastContent,
+  ToastDescription,
+  ToastIcon,
+  ToastTitle,
   User,
 } from "@usekeyhole/nativewind";
-import { Link } from "expo-router";
 import * as React from "react";
 import { Text, View, useWindowDimensions, useColorScheme } from "react-native";
 import { KeyholeIcon } from "@/components/icons/keyholeIcon";
@@ -59,14 +69,6 @@ import { Globe } from "@/components/icons/globe";
 import { Sun } from "@/components/icons/sun";
 import { Moon } from "@/components/icons/Moon";
 import { SunMoon } from "@/components/icons/Sun-moon";
-import {
-  StatisticsHeader,
-  StatisticsHeaderContent,
-  StatisticsHeaderItem,
-  StatisticsHeaderLabel,
-  StatisticsHeaderNumber,
-  StatisticsHeaderTitle,
-} from "@/components/statistics-header";
 import {
   Step,
   StepContent,
@@ -355,9 +357,51 @@ const states: StepperItemProps["state"][] = [
 ];
 
 function Content({ stringText }) {
+  const addToast = () => {
+    toast.add({
+      type: "error",
+      title: "Error Title",
+      description: "Description",
+    });
+  };
+
   return (
-    <View className="w-full gap-3 p-8 bg-neutral-100 dark:bg-neutral-950">
-      <Stepper className="gap-4">
+    <View className="w-full gap-3 p-8 dark:bg-neutral-950">
+      <View className="w-1/3">
+        <Toast color="red">
+          <ToastContent>
+            <ToastTitle>Test</ToastTitle>
+            <ToastIcon>
+              <CircleAlert />
+            </ToastIcon>
+            <ToastDescription>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta
+              adipisci minima corporis harum est atque voluptatum suscipit quia
+              nostrum!.
+            </ToastDescription>
+            <ToastActionGroup>
+              <ToastAction
+                onPress={() => {
+                  console.log("Button was pressed");
+                }}
+                primary
+              >
+                {" "}
+                Primary
+              </ToastAction>
+              <ToastAction
+                onPress={() => {
+                  console.log("Button was pressed");
+                }}
+              >
+                Secondary
+              </ToastAction>
+            </ToastActionGroup>
+            <ToastClose />
+          </ToastContent>
+        </Toast>
+      </View>
+      <Stepper direction="vertical">
         {array.map((item, index) => (
           <>
             <StepperItem
@@ -376,20 +420,26 @@ function Content({ stringText }) {
           </>
         ))}
       </Stepper>
-      {/* <View className="h-6"></View>
-      <Stepper className="flex flex-row items-center gap-4">
-        {states.map((state) => (
+      <View className="h-6"></View>
+      <Stepper>
+        {array.map((item, index) => (
           <>
-            <Step key={crypto.randomUUID()} state={state}>
+            <StepperItem key={crypto.randomUUID()} state={"current"}>
               <StepStatus />
               <StepContent>
-                <StepText>{state}</StepText>
+                <StepText className="font-semibold">{item.label}</StepText>
+                <StepText className="text-neutral-500 dark:text-neutral-400">
+                  Description
+                </StepText>
+                <StepText className="text-neutral-500 dark:text-neutral-400">
+                  Description
+                </StepText>
               </StepContent>
-            </Step>
-            <StepperSeparator />
+            </StepperItem>
+            {index != array.length - 1 && <StepperSeparator />}
           </>
         ))}
-      </Stepper> */}
+      </Stepper>
     </View>
   );
 }

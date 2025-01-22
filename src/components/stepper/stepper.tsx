@@ -18,7 +18,7 @@ type StepperContextProps = {
 };
 
 const StepperContext = React.createContext<StepperContextProps>({
-  direction: "vertical",
+  direction: "horizontal",
 });
 
 type StepperProps = ViewProps & {
@@ -26,11 +26,18 @@ type StepperProps = ViewProps & {
 };
 
 const Stepper = React.forwardRef<View, StepperProps>(
-  ({ className, direction = "vertical", ...props }, ref) => (
-    <StepperContext.Provider value={{ direction }}>
-      <View ref={ref} className={cn(className)} {...props} />
-    </StepperContext.Provider>
-  )
+  ({ className, direction = "horizontal", ...props }, ref) => {
+    const classNameChildren = direction == "horizontal" && "flex flex-row";
+    return (
+      <StepperContext.Provider value={{ direction }}>
+        <View
+          ref={ref}
+          className={cn("gap-4", classNameChildren, className)}
+          {...props}
+        />
+      </StepperContext.Provider>
+    );
+  }
 );
 Stepper.displayName = "Stepper";
 
@@ -44,7 +51,9 @@ const StepperSeparator = React.forwardRef<View, StepperSeparatorProps>(
   ({ className, children, ...props }, ref) => {
     const { direction } = React.useContext(StepperContext);
     const classNameChildren =
-      direction == "vertical" ? "w-[1px] h-4 ml-3" : "w-4 h-[1px]";
+      direction == "vertical"
+        ? "w-[1px] h-4 ml-[11px]"
+        : "w-4 h-[1px] mt-[11px]";
     return (
       <View
         ref={ref}
