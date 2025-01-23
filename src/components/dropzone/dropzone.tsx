@@ -1,34 +1,47 @@
 import * as React from "react";
-import { Text, View, ViewProps, ViewStyle, Style } from "react-native";
+import { Text, useColorScheme, View, ViewProps, ViewStyle } from "react-native";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
-
-import { cn, IFile, IS_WEB, theme } from "@usekeyhole/utils";
+import { cn, IFile, IS_WEB } from "@usekeyhole/utils";
 
 type DropzoneProps = ViewProps &
   Omit<DropzoneOptions, "onDropAccepted"> & {
     onFilesAdded: (files: IFile<undefined>[]) => void;
+    baseColor?: string;
+    activeDragColor?: string;
+    windowDragColor?: string;
     activeText?: string;
     activeMultipleText?: string;
     windowDragText?: string;
     windowDragMultipleText?: string;
     children: React.ReactNode;
+    style?: ViewStyle;
   };
 
-export const Dropzone: React.FC<DropzoneProps> = ({
+const Dropzone: React.FC<DropzoneProps> = ({
   onFilesAdded,
-  activeText = "Drop file here",
-  activeMultipleText = "Drop files here",
-  windowDragText = "Drop file here",
-  windowDragMultipleText = "Drop files here",
+  baseColor = "transparent",
+  windowDragColor,
+  activeText = "Drag and drop file here",
+  activeMultipleText = "Drag and drop files here",
+  windowDragText = "Drag and drop file here",
+  windowDragMultipleText = "Drag and drop files here",
+  style,
   className,
   children,
   ...dropzoneOptions
 }) => {
   if (!IS_WEB) return children;
 
+  const [containerSize, setContainerSize] = React.useState({
+    width: 0,
+    height: 0,
+  });
   const [isWindowDragOver, setIsWindowDragOver] = React.useState(false);
 
   const [isDraggingMultiple, setIsDraggingMultiple] = React.useState(false);
+
+  const colorScheme = useColorScheme(); // Detect light or dark mode
+  const borderColor = colorScheme == "light" ? "#171717" : "#ffffff";
 
   const { getRootProps, getInputProps, isDragActive, draggedFiles } =
     useDropzone({
@@ -102,58 +115,94 @@ export const Dropzone: React.FC<DropzoneProps> = ({
       (!dropzoneOptions.multiple && isDraggingMultiple)
   );
 
-  let opacity = 1;
   let text = null;
+  let color = baseColor;
 
-  if (!disabled) {
-    if (isDragActive) {
-      opacity = 0.8;
-      text = isDraggingMultiple ? activeMultipleText : activeText;
-    } else if (isWindowDragOver) {
-      opacity = 0.6;
-      text = isDraggingMultiple ? windowDragMultipleText : windowDragText;
-    }
+  if (!disabled && isWindowDragOver) {
+    color = borderColor;
+    text = isDraggingMultiple ? windowDragMultipleText : windowDragText;
   }
 
-  const forceToOpen = true;
-
   return (
-    <View className="flex w-full h-full">
-      <View
+    <View
+      className={cn("h-full w-full flex-1", className)}
+      onLayout={(e) => {
+        setContainerSize(e.nativeEvent.layout);
+      }}
+    >
+      <div
         {...getRootProps()}
-        className="flex-1 w-full h-full items-center justify-center relative"
+        style={{
+          flex: 1,
+          width: "100%",
+          height: "100%",
+          position: "relative",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          transition: "opacity 0.24s ease-in-out",
+        }}
       >
-        {/* Border */}
-        <View
-          className={cn(
-            isDragActive || isWindowDragOver ? "opacity-100" : "opacity-0",
-            "z-20 pointer-events-none absolute w-full h-full border-2 border-dashed rounded-xl border-neutral-900 dark:border-white"
-          )}
-        />
-
         {/* White Background Overlay */}
         <View
           className={cn(
             isDragActive || isWindowDragOver ? "opacity-80" : "opacity-0",
-            "absolute w-full h-full bg-white z-10 rounded-xl pointer-events-none"
+            "pointer-events-none absolute z-10 h-full w-full rounded-xl bg-white transition-colors dark:bg-neutral-900"
           )}
         />
 
         {/* File Input */}
         <input {...getInputProps()} />
 
+        {/* Border SVG */}
+        <svg
+          width={containerSize.width}
+          height={containerSize.height}
+          xmlns="http://www.w3.org/2000/svg"
+          style={{
+            position: "absolute",
+            top: "0px",
+            left: "0px",
+            transition:
+              "color 0.24s ease-in-out, background-color 0.24s ease-in-out, opacity 0.24s ease-in-out",
+            color,
+            zIndex: 20,
+            pointerEvents: "none",
+          }}
+        >
+          <rect
+            x="0.5"
+            y="0.5"
+            rx="12"
+            ry="12"
+            width={containerSize.width - 1}
+            height={containerSize.height - 1}
+            fill="transparent"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeDasharray="6 6"
+            strokeDashoffset="18"
+            style={{
+              pointerEvents: "none",
+            }}
+          />
+        </svg>
+
         {/* Text Overlay */}
         <Text
-          className={`absolute uppercase text-center font-bold transition-opacity z-20 ${
+          className={cn(
+            "absolute z-20 stroke-neutral-900 text-center text-2xl font-bold uppercase italic text-neutral-800 transition-opacity dark:stroke-white dark:text-neutral-100",
             text ? "opacity-100" : "opacity-0"
-          }`}
+          )}
         >
           {text}
         </Text>
 
-        {/* Content (always visible below the overlay) */}
-        <View>{children}</View>
-      </View>
+        {/* Content */}
+        {children}
+      </div>
     </View>
   );
 };
+
+export { Dropzone, DropzoneProps };

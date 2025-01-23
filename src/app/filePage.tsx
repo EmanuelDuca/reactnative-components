@@ -11,34 +11,26 @@ import {
   Upload,
 } from "@usekeyhole/nativewind";
 import * as React from "react";
-import { Image, Text, View, ViewComponent } from "react-native";
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/newToggleVariant/toggle-group";
-import {
-  Toggle,
-  ToggleIcon,
-  ToggleText,
-} from "@/components/newToggleVariant/toggle";
+import { Image, ScrollView, Text, View, ViewComponent } from "react-native";
 import {
   File,
+  FileButtons,
   FileContent,
   FileDescription,
   FileIcon,
   FileIconAction,
   FileLabel,
 } from "@/components/file/file";
-import { FilesCard, FilesCardHeading } from "@usekeyhole/ui";
 import { IFile } from "@usekeyhole/utils";
-import { getDocumentAsync } from "expo-document-picker";
-import { Dropzone } from "@/components/dropzone/dropzoneV2";
+import { Dropzone } from "@/components/dropzone/dropzone";
 
 export default function Page() {
   return (
-    <View className="flex flex-1 bg-white dark:bg-black">
-      <Content />
-    </View>
+    <ScrollView>
+      <View className="flex flex-1 bg-white dark:bg-black">
+        <Content />
+      </View>
+    </ScrollView>
   );
 }
 
@@ -72,10 +64,11 @@ function Content() {
   };
 
   return (
-    <View className="flex-1 flex-col gap-3 bg-red-50 dark:bg-neutral-900 p-20">
+    <View className="flex-1 flex-col gap-3 bg-neutral-50 dark:bg-neutral-900 p-20">
+      <Text>Base size</Text>
       <View className="flex flex-row w-fit gap-3">
         <View>
-          <File className="bg-white">
+          <File>
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -95,27 +88,332 @@ function Content() {
             </FileButtons> */}
           </File>
         </View>
-        <View className="border w-fit h-fit rounded-xl border-neutral-200 bg-white">
-          <Dropzone onFilesAdded={handleFilesAdded}>
-            <View className="px-4 py-3 flex flex-row items-center gap-3">
-              <FileIcon>
-                <FileKey2 />
-              </FileIcon>
-              <FileContent>
-                <FileLabel>Dropzone</FileLabel>
-                <FileDescription>
-                  Drag and drop or browse from your device.
-                </FileDescription>
-              </FileContent>
-            </View>
-          </Dropzone>
+        <View>
+          <File hovered>
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileIconAction>
+              <Upload />
+            </FileIconAction>
+            {/*  <FileButtons>
+              <Button>
+                <ButtonText>add file</ButtonText>
+              </Button>
+            </FileButtons> */}
+          </File>
+        </View>
+      </View>
+      <View className="flex flex-row w-fit gap-3">
+        <View>
+          <File variant="destructive">
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileIconAction>
+              <Upload />
+            </FileIconAction>
+            {/*  <FileButtons>
+              <Button>
+                <ButtonText>add file</ButtonText>
+              </Button>
+            </FileButtons> */}
+          </File>
+        </View>
+        <View>
+          <File variant="destructive" hovered>
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileIconAction>
+              <Upload />
+            </FileIconAction>
+            {/*  <FileButtons>
+              <Button>
+                <ButtonText>add file</ButtonText>
+              </Button>
+            </FileButtons> */}
+          </File>
+        </View>
+      </View>
+      <View className="flex flex-row w-fit gap-3">
+        <View>
+          <File variant="failed">
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileIconAction>
+              <Upload />
+            </FileIconAction>
+            {/*  <FileButtons>
+              <Button>
+                <ButtonText>add file</ButtonText>
+              </Button>
+            </FileButtons> */}
+          </File>
+        </View>
+        <View>
+          <File variant="failed" hovered>
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileIconAction>
+              <Upload />
+            </FileIconAction>
+            {/*  <FileButtons>
+              <Button>
+                <ButtonText>add file</ButtonText>
+              </Button>
+            </FileButtons> */}
+          </File>
+        </View>
+      </View>
+      <View className="flex flex-row w-fit gap-3">
+        <View>
+          <File variant="uploading">
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileIconAction>
+              <Upload />
+            </FileIconAction>
+            {/*  <FileButtons>
+              <Button>
+                <ButtonText>add file</ButtonText>
+              </Button>
+            </FileButtons> */}
+          </File>
+        </View>
+        <View>
+          <File variant="uploading" hovered>
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileIconAction>
+              <Upload />
+            </FileIconAction>
+            {/*  <FileButtons>
+              <Button>
+                <ButtonText>add file</ButtonText>
+              </Button>
+            </FileButtons> */}
+          </File>
+        </View>
+      </View>
+      <Text>Large size</Text>
+      <View className="flex flex-row w-fit gap-3">
+        <View className="w-[444px]">
+          <File size="large">
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileButtons>
+              <Button color="brand">
+                <ButtonText>Add manually</ButtonText>
+              </Button>
+              <Button>
+                <ButtonText>Browse files</ButtonText>
+              </Button>
+            </FileButtons>
+          </File>
+        </View>
+        <View className="w-[444px]">
+          <File size="large" hovered>
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileButtons>
+              <Button color="brand">
+                <ButtonText>Add manually</ButtonText>
+              </Button>
+              <Button>
+                <ButtonText>Browse files</ButtonText>
+              </Button>
+            </FileButtons>
+          </File>
+        </View>
+      </View>
+      <View className="flex flex-row w-fit gap-3">
+        <View className="w-[444px]">
+          <File size="large">
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileButtons>
+              <Button color="brand-soft">
+                <ButtonText>Add manually</ButtonText>
+              </Button>
+              <Button>
+                <ButtonText>Browse files</ButtonText>
+              </Button>
+            </FileButtons>
+          </File>
+        </View>
+        <View className="w-[444px]">
+          <File size="large" hovered>
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileButtons>
+              <Button color="brand-soft">
+                <ButtonText>Add manually</ButtonText>
+              </Button>
+              <Button>
+                <ButtonText>Browse files</ButtonText>
+              </Button>
+            </FileButtons>
+          </File>
+        </View>
+      </View>
+      <View className="flex flex-row w-fit gap-3">
+        <View className="w-[444px]">
+          <File size="large" variant="failed">
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Failed to analyze the uploaded document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileButtons>
+              <Button color="brand">
+                <ButtonText>Add manually</ButtonText>
+              </Button>
+              <Button>
+                <ButtonText>Browse files</ButtonText>
+              </Button>
+            </FileButtons>
+          </File>
+        </View>
+        <View className="w-[444px]">
+          <File size="large" variant="failed" hovered>
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Failed to analyze the uploaded document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileButtons>
+              <Button color="brand">
+                <ButtonText>Add manually</ButtonText>
+              </Button>
+              <Button>
+                <ButtonText>Browse files</ButtonText>
+              </Button>
+            </FileButtons>
+          </File>
+        </View>
+      </View>
+      <View className="flex flex-row w-fit gap-3">
+        <View className="w-[444px]">
+          <File size="large" variant="uploading">
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Failed to analyze the uploaded document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <Button>
+              <ButtonText>Cancel</ButtonText>
+            </Button>
+          </File>
+        </View>
+        <View className="w-[444px]">
+          <File size="large" variant="uploading" hovered>
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Failed to analyze the uploaded document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <Button>
+              <ButtonText>Cancel</ButtonText>
+            </Button>
+          </File>
         </View>
       </View>
       <View className=" flex flex-row w-full">
-        <View className="w-2/3 border rounded-xl border-neutral-200 dark:border-red-500 bg-white dark:bg-neutral-900">
+        <View className="w-2/3 border rounded-xl border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800">
           <Dropzone onFilesAdded={handleFilesAdded}>
             <View className="px-4 py-3 flex flex-row items-center gap-3">
-              <FileIcon>
+              <FileIcon className="dark:stroke-neutral-100">
                 <FileKey2 />
               </FileIcon>
               <FileContent>
