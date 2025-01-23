@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useControllableState } from "@usekeyhole/hooks";
 import { cn } from "@usekeyhole/utils";
+import { Dropzone } from "../dropzone/dropzone";
 
 /* -------------------------------------------------------------------------------------------------
  * File
@@ -120,7 +121,6 @@ const File = React.forwardRef<View, FileProps>(
             }),
             className
           )}
-          {...props}
           onHoverIn={(e) => {
             setHovered(true);
             onHoverIn?.(e);
@@ -129,6 +129,7 @@ const File = React.forwardRef<View, FileProps>(
             setHovered(false);
             onHoverOut?.(e);
           }}
+          {...props}
         />
       </FileContext.Provider>
     );
@@ -150,7 +151,11 @@ const FileIcon = React.forwardRef<View, FileIconProps>(
     const sizeClassName = size == "large" ? "size-8" : undefined;
     if (children) {
       return React.cloneElement(children, {
-        className: cn(sizeClassName, className),
+        className: cn(
+          "stroke-neutral-700 dark:stroke-neutral-100",
+          sizeClassName,
+          className
+        ),
         ...props,
       });
     } else {
@@ -252,30 +257,6 @@ const FileDescription = React.forwardRef<Text, FileDescriptionProps>(
 FileDescription.displayName = "FileDescription";
 
 /* -------------------------------------------------------------------------------------------------
- * FileIconAction
- * -----------------------------------------------------------------------------------------------*/
-
-type FileIconActionProps = ViewProps & {
-  children?: JSX.Element;
-};
-
-const FileIconAction = React.forwardRef<View, FileIconActionProps>(
-  ({ className, children, ...props }, ref) => {
-    const { size } = React.useContext(FileContext);
-    const sizeClassName = size == "large" ? "size-8" : undefined;
-    if (children) {
-      return React.cloneElement(children, {
-        className: cn(sizeClassName, className),
-        ...props,
-      });
-    } else {
-      return <></>;
-    }
-  }
-);
-FileIconAction.displayName = "FileIconAction";
-
-/* -------------------------------------------------------------------------------------------------
  * FileButtons
  * -----------------------------------------------------------------------------------------------*/
 
@@ -305,6 +286,5 @@ export {
   FileContent,
   FileLabel,
   FileDescription,
-  FileIconAction,
   FileButtons,
 };

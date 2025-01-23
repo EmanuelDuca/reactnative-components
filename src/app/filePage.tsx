@@ -18,7 +18,6 @@ import {
   FileContent,
   FileDescription,
   FileIcon,
-  FileIconAction,
   FileLabel,
 } from "@/components/file/file";
 import { IFile } from "@usekeyhole/utils";
@@ -78,9 +77,9 @@ function Content() {
                 Drag and drop or browse from your device.
               </FileDescription>
             </FileContent>
-            <FileIconAction>
+            <FileIcon>
               <Upload />
-            </FileIconAction>
+            </FileIcon>
             {/*  <FileButtons>
               <Button>
                 <ButtonText>add file</ButtonText>
@@ -99,9 +98,9 @@ function Content() {
                 Drag and drop or browse from your device.
               </FileDescription>
             </FileContent>
-            <FileIconAction>
+            <FileIcon>
               <Upload />
-            </FileIconAction>
+            </FileIcon>
             {/*  <FileButtons>
               <Button>
                 <ButtonText>add file</ButtonText>
@@ -122,9 +121,9 @@ function Content() {
                 Drag and drop or browse from your device.
               </FileDescription>
             </FileContent>
-            <FileIconAction>
+            <FileIcon>
               <Upload />
-            </FileIconAction>
+            </FileIcon>
             {/*  <FileButtons>
               <Button>
                 <ButtonText>add file</ButtonText>
@@ -143,9 +142,9 @@ function Content() {
                 Drag and drop or browse from your device.
               </FileDescription>
             </FileContent>
-            <FileIconAction>
+            <FileIcon>
               <Upload />
-            </FileIconAction>
+            </FileIcon>
             {/*  <FileButtons>
               <Button>
                 <ButtonText>add file</ButtonText>
@@ -166,9 +165,9 @@ function Content() {
                 Drag and drop or browse from your device.
               </FileDescription>
             </FileContent>
-            <FileIconAction>
+            <FileIcon>
               <Upload />
-            </FileIconAction>
+            </FileIcon>
             {/*  <FileButtons>
               <Button>
                 <ButtonText>add file</ButtonText>
@@ -187,9 +186,9 @@ function Content() {
                 Drag and drop or browse from your device.
               </FileDescription>
             </FileContent>
-            <FileIconAction>
+            <FileIcon>
               <Upload />
-            </FileIconAction>
+            </FileIcon>
             {/*  <FileButtons>
               <Button>
                 <ButtonText>add file</ButtonText>
@@ -210,9 +209,9 @@ function Content() {
                 Drag and drop or browse from your device.
               </FileDescription>
             </FileContent>
-            <FileIconAction>
+            <FileIcon>
               <Upload />
-            </FileIconAction>
+            </FileIcon>
             {/*  <FileButtons>
               <Button>
                 <ButtonText>add file</ButtonText>
@@ -231,9 +230,9 @@ function Content() {
                 Drag and drop or browse from your device.
               </FileDescription>
             </FileContent>
-            <FileIconAction>
+            <FileIcon>
               <Upload />
-            </FileIconAction>
+            </FileIcon>
             {/*  <FileButtons>
               <Button>
                 <ButtonText>add file</ButtonText>
