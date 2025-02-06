@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@react-email/components": "0.0.25",
+    "@react-native-community/progress-bar-android": "^1.0.5",
     "@usekeyhole/nativewind": "^0.3.11",
     "@usekeyhole/ui": "^0.2.0",
     "@usekeyhole/utils": "^0.1.2",

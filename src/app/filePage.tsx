@@ -19,7 +19,7 @@ import {
   FileDescription,
   FileIcon,
   FileLabel,
-} from "@/components/file/file";
+} from "@/components/file/file-nativewind";
 import { IFile } from "@usekeyhole/utils";
 import { Dropzone } from "@/components/dropzone/dropzone";
 
@@ -63,10 +63,37 @@ function Content() {
   };
 
   return (
-    <View className="flex-1 flex-col gap-3 bg-neutral-50 dark:bg-neutral-900 p-20">
+    <View className="flex-1 flex-col gap-3 bg-white dark:bg-neutral-900 p-20">
       <Text>Base size</Text>
+      {/* <Dropzone onFilesAdded={handleFilesAdded}>
+        <View className="w-full h-16 bg-neutral-200 border rounded-lg justify-center items-center">
+          <Text className="font-semibold text-lg">
+            Just a View with text component
+          </Text>
+        </View>
+      </Dropzone>
+      <Dropzone onFilesAdded={handleFilesAdded}>
+        <File disabled>
+          <FileIcon>
+            <FileKey2 />
+          </FileIcon>
+          <FileContent>
+            <FileLabel>Upload document</FileLabel>
+            <FileDescription>
+              Drag and drop or browse from your device.
+            </FileDescription>
+          </FileContent>
+          <FileIcon
+            onPress={() => {
+              console.log("Icon was pressed.");
+            }}
+          >
+            <Upload />
+          </FileIcon>
+        </File>
+      </Dropzone> */}
       <View className="flex flex-row w-fit gap-3">
-        <View>
+        <View className="w-[444px]">
           <File>
             <FileIcon>
               <FileKey2 />
@@ -77,17 +104,16 @@ function Content() {
                 Drag and drop or browse from your device.
               </FileDescription>
             </FileContent>
-            <FileIcon>
+            <FileIcon
+              onPress={() => {
+                console.log("Icon was pressed.");
+              }}
+            >
               <Upload />
             </FileIcon>
-            {/*  <FileButtons>
-              <Button>
-                <ButtonText>add file</ButtonText>
-              </Button>
-            </FileButtons> */}
           </File>
         </View>
-        <View>
+        <View className="w-[444px]">
           <File hovered>
             <FileIcon>
               <FileKey2 />
@@ -110,7 +136,7 @@ function Content() {
         </View>
       </View>
       <View className="flex flex-row w-fit gap-3">
-        <View>
+        <View className="w-[444px]">
           <File variant="destructive">
             <FileIcon>
               <FileKey2 />
@@ -131,7 +157,7 @@ function Content() {
             </FileButtons> */}
           </File>
         </View>
-        <View>
+        <View className="w-[444px]">
           <File variant="destructive" hovered>
             <FileIcon>
               <FileKey2 />
@@ -154,7 +180,7 @@ function Content() {
         </View>
       </View>
       <View className="flex flex-row w-fit gap-3">
-        <View>
+        <View className="w-[444px]">
           <File variant="failed">
             <FileIcon>
               <FileKey2 />
@@ -175,7 +201,7 @@ function Content() {
             </FileButtons> */}
           </File>
         </View>
-        <View>
+        <View className="w-[444px]">
           <File variant="failed" hovered>
             <FileIcon>
               <FileKey2 />
@@ -198,37 +224,28 @@ function Content() {
         </View>
       </View>
       <View className="flex flex-row w-fit gap-3">
-        <View>
+        <View className="w-[444px]">
           <File variant="uploading">
             <FileIcon>
               <FileKey2 />
             </FileIcon>
             <FileContent>
-              <FileLabel>Upload document</FileLabel>
-              <FileDescription>
-                Drag and drop or browse from your device.
-              </FileDescription>
+              <FileLabel>Document</FileLabel>
+              <FileDescription>Uploading.....</FileDescription>
             </FileContent>
             <FileIcon>
               <Upload />
             </FileIcon>
-            {/*  <FileButtons>
-              <Button>
-                <ButtonText>add file</ButtonText>
-              </Button>
-            </FileButtons> */}
           </File>
         </View>
-        <View>
+        <View className="w-[444px]">
           <File variant="uploading" hovered>
             <FileIcon>
               <FileKey2 />
             </FileIcon>
             <FileContent>
-              <FileLabel>Upload document</FileLabel>
-              <FileDescription>
-                Drag and drop or browse from your device.
-              </FileDescription>
+              <FileLabel>Document is uploading</FileLabel>
+              <FileDescription>75% -------------____ 100%</FileDescription>
             </FileContent>
             <FileIcon>
               <Upload />
@@ -381,10 +398,8 @@ function Content() {
               <FileKey2 />
             </FileIcon>
             <FileContent>
-              <FileLabel>Failed to analyze the uploaded document</FileLabel>
-              <FileDescription>
-                Drag and drop or browse from your device.
-              </FileDescription>
+              <FileLabel>Document is uploading</FileLabel>
+              <FileDescription>75% -------------____ 100%</FileDescription>
             </FileContent>
             <Button>
               <ButtonText>Cancel</ButtonText>
@@ -408,7 +423,7 @@ function Content() {
           </File>
         </View>
       </View>
-      <View className=" flex flex-row w-full">
+      {/*       <View className=" flex flex-row w-full">
         <View className="w-2/3 border rounded-xl border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800">
           <Dropzone onFilesAdded={handleFilesAdded}>
             <View className="px-4 py-3 flex flex-row items-center gap-3">
@@ -424,7 +439,7 @@ function Content() {
             </View>
           </Dropzone>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 }

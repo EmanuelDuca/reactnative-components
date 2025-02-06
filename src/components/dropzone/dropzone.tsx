@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, useColorScheme, View, ViewProps, ViewStyle } from "react-native";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
-import { cn, IFile, IS_WEB } from "@usekeyhole/utils";
+import { cn, ecn, IFile, IS_WEB } from "@usekeyhole/utils";
 
 type DropzoneProps = ViewProps &
   Omit<DropzoneOptions, "onDropAccepted"> & {
@@ -192,7 +192,8 @@ const Dropzone: React.FC<DropzoneProps> = ({
         <Text
           className={cn(
             "absolute z-20 stroke-neutral-900 text-center text-2xl font-bold uppercase italic text-neutral-800 transition-opacity dark:stroke-white dark:text-neutral-100",
-            text ? "opacity-100" : "opacity-0"
+            text ? "opacity-100" : "opacity-0",
+            ecn(className, ["text", "stroke"])
           )}
         >
           {text}

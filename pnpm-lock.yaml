@@ -11,6 +11,9 @@ importers:
       '@react-email/components':
         specifier: 0.0.25
         version: 0.0.25(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@react-native-community/progress-bar-android':
+        specifier: ^1.0.5
+        version: 1.0.5(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       '@usekeyhole/nativewind':
         specifier: ^0.3.11
         version: 0.3.11(t456wkz65tneuv3neii64hy6be)
@@ -1738,6 +1741,12 @@ packages:
     resolution: {integrity: sha512-hFJL4cgLPxncJJd/epQ4dHnMg5Jy/7Q56jFvA3MHViuKpzzfTCJCB+pGY54maZbtym53UJON9WTGpM3S81UfjQ==}
     engines: {node: '>=18'}
     hasBin: true
+
+  '@react-native-community/progress-bar-android@1.0.5':
+    resolution: {integrity: sha512-/IYLHdoqeDqqGQMh9/qYgIReISBIu09lLNbrn70r98+IqQe9WFLuhAr/sdrDKxCUZDQyLqUc0p3rJ50VV0tR3g==}
+    peerDependencies:
+      react: '>=16.8.6'
+      react-native: '>=0.60.0'
 
   '@react-native-community/slider@4.5.5':
     resolution: {integrity: sha512-x2N415pg4ZxIltArOKczPwn7JEYh+1OxQ4+hTnafomnMsqs65HZuEWcX+Ch8c5r8V83DiunuQUf5hWGWlw8hQQ==}
@@ -7852,6 +7861,11 @@ snapshots:
       - encoding
       - supports-color
       - utf-8-validate
+
+  '@react-native-community/progress-bar-android@1.0.5(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
+      react-native: 0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(react@18.2.0)
 
   '@react-native-community/slider@4.5.5': {}
 
