@@ -22,14 +22,14 @@ const FileContext = React.createContext<{
 }>({ hovered: false, size: "base", variant: "default" });
 
 const fileVariants = cva(
-  "flex-1 border rounded-xl bg-white dark:bg-neutral-900",
+  "flex-1 rounded-xl border bg-white dark:bg-neutral-900",
   {
     variants: {
       variant: {
         default: " border-neutral-200 dark:border-neutral-700",
-        destructive: "border-red-400 dark:border-red-400 border-dashed",
+        destructive: "border-dashed border-red-400 dark:border-red-400",
         failed:
-          " border-red-800 dark:border-red-300 ring-offset ring-2 ring-red-400 dark: dark:ring-red-400 ring-opacity-50  ",
+          " ring-offset dark: border-red-800 ring-2 ring-red-400 ring-opacity-50 dark:border-red-300 dark:ring-red-400  ",
         uploading: "border-brand-50 dark:border-brand-900",
       },
       size: {
@@ -83,6 +83,8 @@ const fileVariants = cva(
 type FileProps = PressableProps &
   VariantProps<typeof fileVariants> & {
     disabled?: boolean;
+    onHoverIn?: () => void;
+    onHoverOut?: () => void;
   };
 
 const File = React.forwardRef<View, FileProps>(
@@ -106,7 +108,7 @@ const File = React.forwardRef<View, FileProps>(
     });
 
     return (
-      <FileContext.Provider value={{ hovered, size, variant }}>
+      <FileContext.Provider value={{ hovered: !!hovered, size, variant }}>
         <Pressable
           ref={ref}
           className={cn(
@@ -151,6 +153,7 @@ const FileIcon = React.forwardRef<View, FileIconProps>(
     const sizeClassName = size == "large" ? "size-8" : undefined;
     if (children) {
       return React.cloneElement(children, {
+        ref: ref,
         className: cn(
           "stroke-neutral-700 dark:stroke-neutral-100",
           sizeClassName,
@@ -283,8 +286,13 @@ export {
   File,
   FileProps,
   FileIcon,
+  FileIconProps,
   FileContent,
+  FileContentProps,
   FileLabel,
+  FileLabelProps,
   FileDescription,
+  FileDescriptionProps,
   FileButtons,
+  FileButtonsProps,
 };

@@ -28,6 +28,7 @@ const Dropzone: React.FC<DropzoneProps> = ({
   style,
   className,
   children,
+  noDrag,
   ...dropzoneOptions
 }) => {
   if (!IS_WEB) return children;
@@ -37,7 +38,6 @@ const Dropzone: React.FC<DropzoneProps> = ({
     height: 0,
   });
   const [isWindowDragOver, setIsWindowDragOver] = React.useState(false);
-
   const [isDraggingMultiple, setIsDraggingMultiple] = React.useState(false);
 
   const colorScheme = useColorScheme(); // Detect light or dark mode
@@ -47,6 +47,7 @@ const Dropzone: React.FC<DropzoneProps> = ({
     useDropzone({
       multiple: false,
       ...dropzoneOptions,
+      noDrag,
       onDropAccepted: (file) => {
         setTimeout(() => {
           onFilesAdded(
@@ -66,6 +67,10 @@ const Dropzone: React.FC<DropzoneProps> = ({
     });
 
   React.useEffect(() => {
+    if (noDrag) {
+      return () => {};
+    }
+
     const handleEnterWindow = (e: DragEvent) => {
       const isDraggingFiles = e.dataTransfer?.types.includes("Files");
       const amountOfFiles =

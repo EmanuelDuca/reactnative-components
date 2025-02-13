@@ -19,9 +19,8 @@ import {
   FileDescription,
   FileIcon,
   FileLabel,
-} from "@/components/file/file-nativewind";
+} from "@/components/file/file-web";
 import { IFile } from "@usekeyhole/utils";
-import { Dropzone } from "@/components/dropzone/dropzone";
 
 export default function Page() {
   return (
@@ -58,43 +57,19 @@ function Content() {
         })
       );
     }, 1000);
-
     setFiles([...files, ...addedFiles]);
   };
+
+  React.useEffect(() => {
+    console.log(files.length);
+  }, [files]);
 
   return (
     <View className="flex-1 flex-col gap-3 bg-white dark:bg-neutral-900 p-20">
       <Text>Base size</Text>
-      {/* <Dropzone onFilesAdded={handleFilesAdded}>
-        <View className="w-full h-16 bg-neutral-200 border rounded-lg justify-center items-center">
-          <Text className="font-semibold text-lg">
-            Just a View with text component
-          </Text>
-        </View>
-      </Dropzone>
-      <Dropzone onFilesAdded={handleFilesAdded}>
-        <File disabled>
-          <FileIcon>
-            <FileKey2 />
-          </FileIcon>
-          <FileContent>
-            <FileLabel>Upload document</FileLabel>
-            <FileDescription>
-              Drag and drop or browse from your device.
-            </FileDescription>
-          </FileContent>
-          <FileIcon
-            onPress={() => {
-              console.log("Icon was pressed.");
-            }}
-          >
-            <Upload />
-          </FileIcon>
-        </File>
-      </Dropzone> */}
       <View className="flex flex-row w-fit gap-3">
         <View className="w-[444px]">
-          <File>
+          <File noDrag onFilesAdded={handleFilesAdded}>
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -114,7 +89,7 @@ function Content() {
           </File>
         </View>
         <View className="w-[444px]">
-          <File hovered>
+          <File noDrag onFilesAdded={handleFilesAdded} hovered>
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -137,7 +112,7 @@ function Content() {
       </View>
       <View className="flex flex-row w-fit gap-3">
         <View className="w-[444px]">
-          <File variant="destructive">
+          <File noClick onFilesAdded={handleFilesAdded} variant="destructive">
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -158,51 +133,12 @@ function Content() {
           </File>
         </View>
         <View className="w-[444px]">
-          <File variant="destructive" hovered>
-            <FileIcon>
-              <FileKey2 />
-            </FileIcon>
-            <FileContent>
-              <FileLabel>Upload document</FileLabel>
-              <FileDescription>
-                Drag and drop or browse from your device.
-              </FileDescription>
-            </FileContent>
-            <FileIcon>
-              <Upload />
-            </FileIcon>
-            {/*  <FileButtons>
-              <Button>
-                <ButtonText>add file</ButtonText>
-              </Button>
-            </FileButtons> */}
-          </File>
-        </View>
-      </View>
-      <View className="flex flex-row w-fit gap-3">
-        <View className="w-[444px]">
-          <File variant="failed">
-            <FileIcon>
-              <FileKey2 />
-            </FileIcon>
-            <FileContent>
-              <FileLabel>Upload document</FileLabel>
-              <FileDescription>
-                Drag and drop or browse from your device.
-              </FileDescription>
-            </FileContent>
-            <FileIcon>
-              <Upload />
-            </FileIcon>
-            {/*  <FileButtons>
-              <Button>
-                <ButtonText>add file</ButtonText>
-              </Button>
-            </FileButtons> */}
-          </File>
-        </View>
-        <View className="w-[444px]">
-          <File variant="failed" hovered>
+          <File
+            noClick
+            onFilesAdded={handleFilesAdded}
+            variant="destructive"
+            hovered
+          >
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -225,7 +161,51 @@ function Content() {
       </View>
       <View className="flex flex-row w-fit gap-3">
         <View className="w-[444px]">
-          <File variant="uploading">
+          <File onFilesAdded={handleFilesAdded} variant="failed">
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileIcon>
+              <Upload />
+            </FileIcon>
+            {/*  <FileButtons>
+              <Button>
+                <ButtonText>add file</ButtonText>
+              </Button>
+            </FileButtons> */}
+          </File>
+        </View>
+        <View className="w-[444px]">
+          <File onFilesAdded={handleFilesAdded} variant="failed" hovered>
+            <FileIcon>
+              <FileKey2 />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Upload document</FileLabel>
+              <FileDescription>
+                Drag and drop or browse from your device.
+              </FileDescription>
+            </FileContent>
+            <FileIcon>
+              <Upload />
+            </FileIcon>
+            {/*  <FileButtons>
+              <Button>
+                <ButtonText>add file</ButtonText>
+              </Button>
+            </FileButtons> */}
+          </File>
+        </View>
+      </View>
+      <View className="flex flex-row w-fit gap-3">
+        <View className="w-[444px]">
+          <File onFilesAdded={handleFilesAdded} variant="uploading">
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -239,7 +219,7 @@ function Content() {
           </File>
         </View>
         <View className="w-[444px]">
-          <File variant="uploading" hovered>
+          <File onFilesAdded={handleFilesAdded} variant="uploading" hovered>
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -259,9 +239,9 @@ function Content() {
         </View>
       </View>
       <Text>Large size</Text>
-      <View className="flex flex-row w-fit gap-3">
+      <View className="flex w-fit flex-row gap-3">
         <View className="w-[444px]">
-          <File size="large">
+          <File onFilesAdded={handleFilesAdded} size="large">
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -282,7 +262,7 @@ function Content() {
           </File>
         </View>
         <View className="w-[444px]">
-          <File size="large" hovered>
+          <File onFilesAdded={handleFilesAdded} size="large" hovered>
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -305,7 +285,7 @@ function Content() {
       </View>
       <View className="flex flex-row w-fit gap-3">
         <View className="w-[444px]">
-          <File size="large">
+          <File onFilesAdded={handleFilesAdded} size="large">
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -326,7 +306,7 @@ function Content() {
           </File>
         </View>
         <View className="w-[444px]">
-          <File size="large" hovered>
+          <File onFilesAdded={handleFilesAdded} size="large" hovered>
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -349,7 +329,7 @@ function Content() {
       </View>
       <View className="flex flex-row w-fit gap-3">
         <View className="w-[444px]">
-          <File size="large" variant="failed">
+          <File onFilesAdded={handleFilesAdded} size="large" variant="failed">
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -370,7 +350,12 @@ function Content() {
           </File>
         </View>
         <View className="w-[444px]">
-          <File size="large" variant="failed" hovered>
+          <File
+            onFilesAdded={handleFilesAdded}
+            size="large"
+            variant="failed"
+            hovered
+          >
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -393,7 +378,11 @@ function Content() {
       </View>
       <View className="flex flex-row w-fit gap-3">
         <View className="w-[444px]">
-          <File size="large" variant="uploading">
+          <File
+            onFilesAdded={handleFilesAdded}
+            size="large"
+            variant="uploading"
+          >
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -407,7 +396,12 @@ function Content() {
           </File>
         </View>
         <View className="w-[444px]">
-          <File size="large" variant="uploading" hovered>
+          <File
+            onFilesAdded={handleFilesAdded}
+            size="large"
+            variant="uploading"
+            hovered
+          >
             <FileIcon>
               <FileKey2 />
             </FileIcon>

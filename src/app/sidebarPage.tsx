@@ -81,6 +81,15 @@ import {
   StepperItemProps,
   StepperSeparator,
 } from "@/components/stepper/stepper";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionHeader,
+  AccordionIcon,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionTriggerTitle,
+} from "@/components/accordion/accordion";
 
 export default function Page() {
   const [selectedValue, setSelectedValue] = React.useState<string>("");
@@ -142,6 +151,52 @@ function SidebarSection({ selectedValue, handleValueChange }) {
                 </MenuContent>
               )}
             </MenuItem>
+            {/* Experimental code */}
+            <Accordion multiple>
+              <AccordionItem value="someID">
+                <AccordionTrigger
+                  iconClassName="right-3 top-3" /* className="rounded-lg bg-accent p-4 hover:bg-accent active:bg-accent" */
+                >
+                  {/* <AccordionHeader className="hover:bg-neutral-50 px-3 py-2 active:bg-neutral-50 o">
+                    <AccordionIcon className="size-6">
+                      <ScanFace />
+                    </AccordionIcon>
+                    <AccordionTriggerTitle className="text-sm font-semibold text-neutral-800 dark:text-neutral-100">
+                      Tenant screening
+                    </AccordionTriggerTitle>
+                  </AccordionHeader> */}
+                  <MenuItem disabled value={"CreditCheck"}>
+                    <MenuIcon>
+                      <ScanFace />
+                    </MenuIcon>
+                    {!isSmallScreen && (
+                      <MenuContent>
+                        <MenuLabel>Tenant Screening</MenuLabel>
+                      </MenuContent>
+                    )}
+                  </MenuItem>
+                </AccordionTrigger>
+                <AccordionContent className="gap-1">
+                  <MenuItem value={"CreditCheck"}>
+                    <View className="size-6" />
+                    {!isSmallScreen && (
+                      <MenuContent>
+                        <MenuLabel>Tenant Screening</MenuLabel>
+                      </MenuContent>
+                    )}
+                  </MenuItem>
+                  <MenuItem value={"TenantScreeningPlus"}>
+                    <View className="size-6" />
+
+                    {!isSmallScreen && (
+                      <MenuContent>
+                        <MenuLabel>Tenant Screening Plus</MenuLabel>
+                      </MenuContent>
+                    )}
+                  </MenuItem>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
             <MenuItem value="Leases" className={ItemSquareSmallScrenn}>
               <MenuIcon>
                 <KeySquare />
@@ -401,7 +456,7 @@ function Content({ stringText }) {
           </ToastContent>
         </Toast>
       </View>
-      <Stepper direction="vertical">
+      {/* <Stepper direction="vertical">
         {array.map((item, index) => (
           <>
             <StepperItem
@@ -439,7 +494,7 @@ function Content({ stringText }) {
             {index != array.length - 1 && <StepperSeparator />}
           </>
         ))}
-      </Stepper>
+      </Stepper> */}
     </View>
   );
 }
