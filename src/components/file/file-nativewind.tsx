@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useControllableState } from "@usekeyhole/hooks";
 import { cn } from "@usekeyhole/utils";
+import { Button } from "@usekeyhole/nativewind";
 
 /* -------------------------------------------------------------------------------------------------
  * File
@@ -144,11 +145,10 @@ File.displayName = "File";
 
 type FileIconProps = ViewProps & {
   children?: JSX.Element;
-  onPress?: () => void;
 };
 
 const FileIcon = React.forwardRef<View, FileIconProps>(
-  ({ className, children, onPress, ...props }, ref) => {
+  ({ className, children, ...props }, ref) => {
     const { size } = React.useContext(FileContext);
     const sizeClassName = size == "large" ? "size-8" : undefined;
     if (children) {

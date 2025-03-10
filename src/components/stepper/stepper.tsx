@@ -4,13 +4,16 @@ import { View, ViewProps } from "react-native";
 import {
   Step as StepperItem,
   StepProps as StepperItemProps,
-  StepStatus,
-  StepStatusProps,
-  StepContent,
-  StepContentProps,
-  StepText,
-  StepTextProps,
+  StepStatus as StepperStatus,
+  StepStatusProps as StepperStatusProps,
+  StepContent as StepperContent,
+  StepContentProps as StepperContentProps,
+  StepText as StepperText,
+  StepTextProps as StepperTextProps,
+  StepEndAdornment as StepperEndAdornment,
+  StepEndAdornmentProps as StepperEndAdornmentProps,
 } from "./step";
+
 type Direction = "horizontal" | "vertical";
 
 type StepperContextProps = {
@@ -71,10 +74,12 @@ export {
   StepperSeparatorProps,
   StepperItem,
   StepperItemProps,
-  StepStatus,
-  StepStatusProps,
-  StepContent,
-  StepContentProps,
-  StepText,
-  StepTextProps,
+  StepperStatus,
+  StepperStatusProps,
+  StepperContent,
+  StepperContentProps,
+  StepperText,
+  StepperTextProps,
+  StepperEndAdornment,
+  StepperEndAdornmentProps,
 };

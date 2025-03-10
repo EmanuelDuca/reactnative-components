@@ -48,6 +48,7 @@ const File: React.FC<FileProps> = ({
       }}
     >
       <Dropzone
+        disabled={disabled}
         noClick={!!noClick}
         noDrag={!!noDrag}
         onFilesAdded={onFilesAdded}
@@ -64,8 +65,7 @@ const File: React.FC<FileProps> = ({
     </div>
   );
 };
-
-export default File;
+File.displayName = "File";
 
 /* -------------------------------------------------------------------------------------------------
  * Export Components

@@ -2,12 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
-  "extends": "expo/tsconfig.base",
+  "extends": "@usekeyhole/ts-config/expo.json",
   "include": [
     "global.d.ts",
     "**/*.ts",

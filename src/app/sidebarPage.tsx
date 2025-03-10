@@ -16,6 +16,8 @@ import {
 } from "@/components/sidebar";
 import { KeyholeLogo } from "@/components/icons/keyholeLogo";
 import {
+  AccordionContentText,
+  AccordionDescription,
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -24,35 +26,31 @@ import {
   Building,
   Button,
   ButtonText,
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  CircleAlert,
+  ChevronDown,
   EllipsisVertical,
+  FileKey2,
   FilePen,
   KeySquare,
   Layers,
+  LoaderCircle,
   LogOut,
   Megaphone,
   ScanFace,
-  toast,
-  Toast,
-  ToastAction,
-  ToastActionGroup,
-  ToastClose,
-  ToastContent,
-  ToastDescription,
-  ToastIcon,
-  ToastTitle,
+  Star,
+  Upload,
   User,
+  X,
 } from "@usekeyhole/nativewind";
 import * as React from "react";
 import { Text, View, useWindowDimensions, useColorScheme } from "react-native";
 import { KeyholeIcon } from "@/components/icons/keyholeIcon";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuEndAdornment,
@@ -70,12 +68,6 @@ import { Sun } from "@/components/icons/sun";
 import { Moon } from "@/components/icons/Moon";
 import { SunMoon } from "@/components/icons/Sun-moon";
 import {
-  Step,
-  StepContent,
-  StepStatus,
-  StepText,
-} from "@/components/stepper/step";
-import {
   Stepper,
   StepperItem,
   StepperItemProps,
@@ -90,6 +82,17 @@ import {
   AccordionTrigger,
   AccordionTriggerTitle,
 } from "@/components/accordion/accordion";
+import {
+  File,
+  FileButtons,
+  FileContent,
+  FileDescription,
+  FileIcon,
+  FileIconProps,
+  FileLabel,
+  FileProps,
+} from "@/components/file/file-web";
+import { IFile } from "@usekeyhole/utils";
 
 export default function Page() {
   const [selectedValue, setSelectedValue] = React.useState<string>("");
@@ -109,7 +112,13 @@ export default function Page() {
   );
 }
 
-function SidebarSection({ selectedValue, handleValueChange }) {
+function SidebarSection({
+  selectedValue,
+  handleValueChange,
+}: {
+  selectedValue: string;
+  handleValueChange: (text: string) => void;
+}) {
   const { width } = useWindowDimensions();
   const isSmallScreen = width < 1000;
 
@@ -141,40 +150,22 @@ function SidebarSection({ selectedValue, handleValueChange }) {
                 </MenuContent>
               )}
             </MenuItem>
-            <MenuItem value="Tentants" className={ItemSquareSmallScrenn}>
-              <MenuIcon>
-                <ScanFace />
-              </MenuIcon>
-              {!isSmallScreen && (
-                <MenuContent>
-                  <MenuLabel>Tentants screening</MenuLabel>
-                </MenuContent>
-              )}
-            </MenuItem>
+
             {/* Experimental code */}
             <Accordion multiple>
               <AccordionItem value="someID">
                 <AccordionTrigger
-                  iconClassName="right-3 top-3" /* className="rounded-lg bg-accent p-4 hover:bg-accent active:bg-accent" */
+                  iconClassName="right-3 top-3"
+                  className="rounded-lg bg-accent px-4 py-3"
                 >
-                  {/* <AccordionHeader className="hover:bg-neutral-50 px-3 py-2 active:bg-neutral-50 o">
+                  <AccordionHeader className="">
                     <AccordionIcon className="size-6">
                       <ScanFace />
                     </AccordionIcon>
                     <AccordionTriggerTitle className="text-sm font-semibold text-neutral-800 dark:text-neutral-100">
                       Tenant screening
                     </AccordionTriggerTitle>
-                  </AccordionHeader> */}
-                  <MenuItem disabled value={"CreditCheck"}>
-                    <MenuIcon>
-                      <ScanFace />
-                    </MenuIcon>
-                    {!isSmallScreen && (
-                      <MenuContent>
-                        <MenuLabel>Tenant Screening</MenuLabel>
-                      </MenuContent>
-                    )}
-                  </MenuItem>
+                  </AccordionHeader>
                 </AccordionTrigger>
                 <AccordionContent className="gap-1">
                   <MenuItem value={"CreditCheck"}>
@@ -411,90 +402,220 @@ const states: StepperItemProps["state"][] = [
   "failed",
 ];
 
-function Content({ stringText }) {
-  const addToast = () => {
-    toast.add({
-      type: "error",
-      title: "Error Title",
-      description: "Description",
-    });
+function Content({ stringText }: { stringText: string }) {
+  const [files, setFiles] = React.useState<IFile<string | undefined>[]>([]);
+  const [fileVariant, setFileVariant] =
+    React.useState<Pick<FileProps, "variant">["variant"]>("default");
+  const [progress, setProgress] = React.useState(0);
+  const [fileStatus, setFileStatus] = React.useState<boolean>(false);
+  const [tryNumber, setTryNumber] = React.useState<number>(1);
+
+  const startUpload = () => {
+    setFileVariant("uploading");
+    setProgress(0);
+
+    let currentProgress = 0;
+    const interval = setInterval(() => {
+      currentProgress += 10;
+      setProgress(currentProgress);
+
+      if (currentProgress >= 90) {
+        clearInterval(interval);
+        setTimeout(() => {
+          if (number < 3) {
+            setFileVariant("failed");
+          } else {
+            setFileStatus(true);
+          }
+        }, 1000);
+      }
+    }, 300);
+    const number = tryNumber + 1;
+    setTryNumber(number);
+  };
+
+  const handleFilesAdded = (addedFiles: IFile<string | undefined>[]) => {
+    startUpload();
+    console.log(addedFiles.toString);
+    setFiles([...files, ...addedFiles]);
   };
 
   return (
-    <View className="w-full gap-3 p-8 dark:bg-neutral-950">
-      <View className="w-1/3">
-        <Toast color="red">
-          <ToastContent>
-            <ToastTitle>Test</ToastTitle>
-            <ToastIcon>
-              <CircleAlert />
-            </ToastIcon>
-            <ToastDescription>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta
-              adipisci minima corporis harum est atque voluptatum suscipit quia
-              nostrum!.
-            </ToastDescription>
-            <ToastActionGroup>
-              <ToastAction
-                onPress={() => {
-                  console.log("Button was pressed");
-                }}
-                primary
+    <View className="flex-1 gap-3 p-8 dark:bg-neutral-950">
+      <View className="w-1/2">
+        {fileStatus ? (
+          <File onFilesAdded={handleFilesAdded}>
+            <FileIcon>
+              <FilePen />
+            </FileIcon>
+            <FileContent>
+              <FileLabel>Rental Agreement</FileLabel>
+              <FileDescription>mentro-rental-agreement.pdf</FileDescription>
+            </FileContent>
+            <FileButtons>
+              <Button size={"sm"}>
+                <ButtonText>Add appendix</ButtonText>
+              </Button>
+            </FileButtons>
+            <FileIcon>
+              <X />
+            </FileIcon>
+          </File>
+        ) : (
+          <>
+            {fileVariant == "default" && (
+              <File onFilesAdded={handleFilesAdded}>
+                <FileIcon>
+                  <FileKey2 />
+                </FileIcon>
+                <FileContent>
+                  <FileLabel>Upload document</FileLabel>
+                  <FileDescription>
+                    Drag and drop or browse from your device.
+                  </FileDescription>
+                </FileContent>
+                <FileIcon>
+                  <Upload />
+                </FileIcon>
+              </File>
+            )}
+            {fileVariant == "uploading" && (
+              <File
+                disabled
+                onFilesAdded={handleFilesAdded}
+                variant="uploading"
+                hovered
               >
-                {" "}
-                Primary
-              </ToastAction>
-              <ToastAction
-                onPress={() => {
-                  console.log("Button was pressed");
-                }}
-              >
-                Secondary
-              </ToastAction>
-            </ToastActionGroup>
-            <ToastClose />
-          </ToastContent>
-        </Toast>
+                <FileIcon>
+                  <FileKey2 />
+                </FileIcon>
+                <FileContent>
+                  <FileLabel>Document is uploading</FileLabel>
+                  <FileDescription>
+                    {progress}% -------------____ 100%
+                  </FileDescription>
+                </FileContent>
+                <FileIcon className="animate-spin">
+                  <LoaderCircle />
+                </FileIcon>
+                {/* <FileButtons>
+                <Button >
+                  <ButtonText>add file</ButtonText>
+                </Button>
+              </FileButtons> */}
+              </File>
+            )}
+            {fileVariant == "failed" && (
+              <File onFilesAdded={handleFilesAdded} variant="failed">
+                <FileIcon>
+                  <FileKey2 />
+                </FileIcon>
+                <FileContent>
+                  <FileLabel>Upload document</FileLabel>
+                  <FileDescription>
+                    Drag and drop or browse from your device.
+                  </FileDescription>
+                </FileContent>
+                <FileIcon>
+                  <Upload />
+                </FileIcon>
+                {/*  <FileButtons>
+                <Button>
+                  <ButtonText>add file</ButtonText>
+                </Button>
+              </FileButtons> */}
+              </File>
+            )}
+          </>
+        )}
       </View>
-      {/* <Stepper direction="vertical">
-        {array.map((item, index) => (
-          <>
-            <StepperItem
-              key={crypto.randomUUID()}
-              state={index == 0 ? "current" : "default"}
-            >
-              <StepStatus />
-              <StepContent>
-                <StepText className="font-semibold">{item.label}</StepText>
-                <StepText className="text-neutral-500 dark:text-neutral-400">
-                  {item.description}
-                </StepText>
-              </StepContent>
-            </StepperItem>
-            {index != array.length - 1 && <StepperSeparator />}
-          </>
-        ))}
-      </Stepper>
-      <View className="h-6"></View>
-      <Stepper>
-        {array.map((item, index) => (
-          <>
-            <StepperItem key={crypto.randomUUID()} state={"current"}>
-              <StepStatus />
-              <StepContent>
-                <StepText className="font-semibold">{item.label}</StepText>
-                <StepText className="text-neutral-500 dark:text-neutral-400">
-                  Description
-                </StepText>
-                <StepText className="text-neutral-500 dark:text-neutral-400">
-                  Description
-                </StepText>
-              </StepContent>
-            </StepperItem>
-            {index != array.length - 1 && <StepperSeparator />}
-          </>
-        ))}
-      </Stepper> */}
+      <View className="w-2/3">
+        <Accordion multiple>
+          {" "}
+          {/* Good */}
+          <AccordionItem triggerHovered variant="card" value="item1">
+            <AccordionTrigger>
+              <AccordionHeader>
+                <AccordionIcon>
+                  <Star className="stroke-foreground" />
+                </AccordionIcon>
+                <AccordionTriggerTitle>
+                  Accordion Trigger 1
+                </AccordionTriggerTitle>
+                <Badge variant="green" size="small">
+                  <BadgeText>New</BadgeText>
+                </Badge>
+              </AccordionHeader>
+              <AccordionDescription>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Necessitatibus iste minus hic adipisci enim rerum error magni,
+                soluta accusantium modi pariatur atque nobis perferendis ipsa
+                possimus quisquam ullam sint repudiandae!
+              </AccordionDescription>
+            </AccordionTrigger>
+            <AccordionContent>
+              <AccordionContentText>
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Mollitia, voluptates at sequi tempora iusto ab? Fuga sed,
+                nesciunt quibusdam amet ipsam recusandae aspernatur! Quo ab
+                distinctio molestiae impedit laudantium sit!
+              </AccordionContentText>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item2" variant="card">
+            <AccordionTrigger>
+              <AccordionHeader>
+                <AccordionIcon>
+                  <Star className="stroke-foreground" />
+                </AccordionIcon>
+                <AccordionTriggerTitle>
+                  Accordion Trigger 2
+                </AccordionTriggerTitle>
+              </AccordionHeader>
+              <AccordionDescription>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Necessitatibus iste minus hic adipisci enim rerum error magni,
+                soluta accusantium modi pariatur atque nobis perferendis ipsa
+                possimus quisquam ullam sint repudiandae!
+              </AccordionDescription>
+            </AccordionTrigger>
+            <AccordionContent>
+              <AccordionContentText>
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Mollitia, voluptates at sequi tempora iusto ab? Fuga sed,
+                nesciunt quibusdam amet ipsam recusandae aspernatur! Quo ab
+                distinctio molestiae impedit laudantium sit!
+              </AccordionContentText>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item3">
+            <AccordionTrigger>
+              <AccordionHeader>
+                <AccordionIcon>
+                  <Star className="stroke-foreground" />
+                </AccordionIcon>
+                <AccordionTriggerTitle className="flex-1">
+                  Accordion Trigger 3
+                </AccordionTriggerTitle>
+              </AccordionHeader>
+              <AccordionDescription>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Necessitatibus iste minus hic adipisci enim rerum error magni,
+                soluta accusantium modi pariatur atque nobis perferendis ipsa
+                possimus quisquam ullam sint repudiandae!
+              </AccordionDescription>
+            </AccordionTrigger>
+            <AccordionContent>
+              <AccordionContentText>
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Mollitia, voluptates at sequi tempora iusto ab? Fuga sed,
+                nesciunt quibusdam amet ipsam recusandae aspernatur! Quo ab
+                distinctio molestiae impedit laudantium sit!
+              </AccordionContentText>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </View>
     </View>
   );
 }

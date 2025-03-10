@@ -1,11 +1,17 @@
+import "react-native-reanimated";
+export { ErrorBoundary } from "expo-router";
+export const unstable_settings = { initialRouteName: "index" };
+
 import { Button, ButtonText } from "@usekeyhole/nativewind";
 import { Link } from "expo-router";
 import React from "react";
 import "react-native-reanimated";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Page() {
+  const [isClient, setIsClient] = React.useState(false);
+
   return (
     <View className="flex flex-1 bg-white dark:bg-black">
       <Header />
@@ -42,7 +48,7 @@ function Content() {
                 className="flex h-9 items-center justify-center overflow-hidden rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 web:shadow ios:shadow transition-colors hover:bg-gray-900/90 active:bg-gray-400/90 web:focus-visible:outline-none web:focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
                 href="/avatarPage"
               >
-                Email Layout Page
+                Avatar Page
               </Link>
               <Link
                 suppressHighlighting
@@ -110,6 +116,13 @@ function Content() {
                 href="/filePage"
               >
                 FilePage & Dropzone
+              </Link>
+              <Link
+                suppressHighlighting
+                className="flex h-9 items-center justify-center overflow-hidden rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 web:shadow ios:shadow transition-colors hover:bg-gray-900/90 active:bg-gray-400/90 web:focus-visible:outline-none web:focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+                href="/stepPage"
+              >
+                Step Page
               </Link>
             </View>
           </View>

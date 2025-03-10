@@ -16,6 +16,10 @@ import {
 import { ChevronLeft } from "@usekeyhole/nativewind";
 import { useControllableState } from "@usekeyhole/hooks";
 
+/* -------------------------------------------------------------------------------------------------
+ * Accordion
+ * -----------------------------------------------------------------------------------------------*/
+
 type AccordionContextProps = {
   expanded: string[];
   toggle: (value: string) => void;
@@ -79,6 +83,11 @@ export const Accordion = React.forwardRef<View, AccordionProps>(
     );
   }
 );
+Accordion.displayName = "Accordion";
+
+/* -------------------------------------------------------------------------------------------------
+ * AccordionItem
+ * -----------------------------------------------------------------------------------------------*/
 
 const accordionItemVariants = cva("flex flex-col gap-x-2", {
   variants: {
@@ -181,6 +190,11 @@ export const AccordionItem = React.forwardRef<View, AccordionItemProps>(
     );
   }
 );
+AccordionItem.displayName = "AccordionItem";
+
+/* -------------------------------------------------------------------------------------------------
+ * AccordionTrigger
+ * -----------------------------------------------------------------------------------------------*/
 
 const accordionTriggerVariants = cva(
   "relative flex flex-col gap-2 transition-colors",
@@ -307,6 +321,11 @@ export const AccordionTrigger = React.forwardRef<View, AccordionTriggerProps>(
     );
   }
 );
+AccordionTrigger.displayName = "AccordionTrigger";
+
+/* -------------------------------------------------------------------------------------------------
+ * AccordionHeader
+ * -----------------------------------------------------------------------------------------------*/
 
 export interface AccordionHeaderProps extends TextProps {}
 
@@ -322,6 +341,11 @@ export const AccordionHeader = React.forwardRef<View, AccordionHeaderProps>(
     );
   }
 );
+AccordionHeader.displayName = "AccordionHeader";
+
+/* -------------------------------------------------------------------------------------------------
+ * AccordionTitle
+ * -----------------------------------------------------------------------------------------------*/
 
 export interface AccordionTitleProps extends TextProps {}
 
@@ -340,6 +364,11 @@ export const AccordionTitle = React.forwardRef<Text, AccordionTitleProps>(
     );
   }
 );
+AccordionTitle.displayName = "AccordionTitle";
+
+/* -------------------------------------------------------------------------------------------------
+ * AccordionTriggerTitle
+ * -----------------------------------------------------------------------------------------------*/
 
 const accordionTriggerTitleVariants = cva(
   "text-base font-semibold transition-colors",
@@ -371,6 +400,11 @@ export const AccordionTriggerTitle = React.forwardRef<
     </AccordionTitle>
   );
 });
+AccordionTriggerTitle.displayName = "AccordionTriggerTitle";
+
+/* -------------------------------------------------------------------------------------------------
+ * AccordionDescription
+ * -----------------------------------------------------------------------------------------------*/
 
 export interface AccordionDescriptionProps extends TextProps {}
 
@@ -395,6 +429,11 @@ const accordionContentVariants = cva("mt-2", {
     variant: undefined,
   },
 });
+AccordionDescription.displayName = "AccordionDescription";
+
+/* -------------------------------------------------------------------------------------------------
+ * AccordionContent
+ * -----------------------------------------------------------------------------------------------*/
 
 export type AccordionContentProps = ViewProps;
 
@@ -414,6 +453,11 @@ export const AccordionContent = React.forwardRef<View, AccordionContentProps>(
     );
   }
 );
+AccordionContent.displayName = "AccordionContent";
+
+/* -------------------------------------------------------------------------------------------------
+ * AccordionContentText
+ * -----------------------------------------------------------------------------------------------*/
 
 export interface AccordionContentTextProps extends TextProps {}
 
@@ -430,6 +474,11 @@ export const AccordionContentText = React.forwardRef<
     </Text>
   );
 });
+AccordionContentText.displayName = "AccordionContentText";
+
+/* -------------------------------------------------------------------------------------------------
+ * AccordionIcon
+ * -----------------------------------------------------------------------------------------------*/
 
 export type AccordionIconProps = ViewProps & {
   children: JSX.Element;
@@ -451,3 +500,4 @@ export const AccordionIcon = React.forwardRef<View, AccordionIconProps>(
     );
   }
 );
+AccordionIcon.displayName = "AccordionIcon";

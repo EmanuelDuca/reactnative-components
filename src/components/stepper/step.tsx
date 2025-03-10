@@ -1,4 +1,3 @@
-import { Check, CircleAlert, Text, TextProps, X } from "@usekeyhole/nativewind";
 import { cn } from "@usekeyhole/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
@@ -12,6 +11,14 @@ import {
   View,
   ViewProps,
 } from "react-native";
+import {
+  Text,
+  TextProps,
+  CircleAlertBold,
+  XBold,
+  CheckBold,
+} from "@usekeyhole/nativewind";
+import { useControllableState } from "@usekeyhole/hooks";
 
 /* -------------------------------------------------------------------------------------------------
  * Step
@@ -30,22 +37,41 @@ const stepVariants = cva("gap-2", {
       horizontal: "flex-row items-start justify-start",
       vertical: undefined,
     },
+    card: {
+      true: "p-4 rounded-lg bg-neutral-100",
+      false: undefined,
+    },
   },
+  compoundVariants: [
+    {
+      card: true,
+      state: "completed",
+      className: "bg-transparent",
+    },
+    {
+      card: true,
+      state: "current",
+      className: "bg-brand-50",
+    },
+  ],
   defaultVariants: {
     state: "default",
     direction: "horizontal",
+    card: false,
   },
 });
 
-type StepProps = PressableProps & VariantProps<typeof stepVariants>;
+type StepProps = PressableProps &
+  VariantProps<typeof stepVariants> & {
+    pressed?: boolean;
+    hovered?: boolean;
+  };
 
 // Once group-{modifier} works on web the hovered and pressed classes can be changed to group-hover and group-active
 
-const StepContext = React.createContext<{
-  hovered: boolean;
-  pressed: boolean;
-  state: StepProps["state"];
-}>({
+const StepContext = React.createContext<
+  Pick<StepProps, "hovered" | "pressed" | "state">
+>({
   hovered: false,
   pressed: false,
   state: "default",
@@ -57,54 +83,81 @@ const Step = React.forwardRef<View, StepProps>(
       className,
       direction,
       disabled,
-      state,
+      hovered: isHovered,
       onHoverIn,
       onHoverOut,
       onPressIn,
       onPressOut,
+      onPress,
+      pressed: isPressed,
+      state,
+      card,
       ...props
     },
     ref
   ) => {
-    const [hovered, setHovered] = React.useState(false);
-    const [pressed, setPressed] = React.useState(false);
+    const [pressed, setPressed] = useControllableState({
+      prop: isPressed,
+      defaultProp: false,
+    });
+    const [hovered, setHovered] = useControllableState({
+      prop: isHovered,
+      defaultProp: false,
+    });
 
     const handleHoverIn = React.useCallback(
       (e: NativeSyntheticEvent<NativeMouseEvent>) => {
-        if (!disabled) setHovered(true);
+        if (!disabled && !!onPress) setHovered(true);
         onHoverIn?.(e);
       },
-      []
+      [onPress, disabled, onHoverIn]
     );
 
     const handleHoverOut = React.useCallback(
       (e: NativeSyntheticEvent<NativeMouseEvent>) => {
-        if (!disabled) setHovered(false);
+        if (!disabled && !!onPress) setHovered(false);
         onHoverOut?.(e);
       },
-      []
+      [onPress, disabled, onHoverOut]
     );
 
-    const handlePressIn = React.useCallback((e: GestureResponderEvent) => {
-      if (!disabled) setPressed(true);
-      onPressIn?.(e);
-    }, []);
+    const handlePressIn = React.useCallback(
+      (e: GestureResponderEvent) => {
+        if (!disabled && !!onPress) setPressed(true);
+        onPressIn?.(e);
+      },
+      [onPress, disabled, onPressIn]
+    );
 
-    const handlePressOut = React.useCallback((e: GestureResponderEvent) => {
-      if (!disabled) setPressed(false);
-      onPressOut?.(e);
-    }, []);
+    const handlePressOut = React.useCallback(
+      (e: GestureResponderEvent) => {
+        if (!disabled && !!onPress) setPressed(false);
+        onPressOut?.(e);
+      },
+      [onPress, disabled, onPressOut]
+    );
 
     return (
-      <StepContext.Provider value={{ hovered, pressed, state }}>
+      <StepContext.Provider
+        value={{
+          hovered: !!hovered,
+          pressed: !!pressed,
+          state,
+        }}
+      >
         <Pressable
           ref={ref}
-          className={cn(stepVariants({ direction, state }), className)}
+          className={cn(
+            stepVariants({ direction, state, card }),
+            { "cursor-default": !onPress && disabled },
+            className
+          )}
           disabled={disabled}
           onHoverIn={handleHoverIn}
           onHoverOut={handleHoverOut}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
+          onPress={onPress}
           {...props}
         />
       </StepContext.Provider>
@@ -120,7 +173,7 @@ Step.displayName = "Step";
 type StepStatusProps = ViewProps;
 
 const stepStatusVariants = cva(
-  "bg-bg h-6 w-6 items-center justify-center rounded-full border transition-colors",
+  "size-5 items-center justify-center rounded-full border transition-colors",
   {
     variants: {
       state: {
@@ -225,17 +278,17 @@ const StepStatus = React.forwardRef<View, StepStatusProps>(
           (state === "current" && <StepStatusCircle />) ||
           (state === "partialComplete" && (
             <StepStatusIcon>
-              <CircleAlert />
+              <CircleAlertBold />
             </StepStatusIcon>
           )) ||
           (state === "completed" && (
             <StepStatusIcon>
-              <Check />
+              <CheckBold />
             </StepStatusIcon>
           )) ||
           (state === "failed" && (
             <StepStatusIcon>
-              <X />
+              <XBold />
             </StepStatusIcon>
           ))}
       </View>
@@ -258,7 +311,7 @@ const StepStatusIcon = ({
   ...props
 }: StepStatusIconProps) => {
   return React.cloneElement(children, {
-    className: cn("size-4 stroke-white stroke-2", className),
+    className: cn("size-3 stroke-white", className),
     ...props,
   });
 };
@@ -271,7 +324,7 @@ StepStatusIcon.displayName = "StepStatusIcon";
 type StepStatusCircleProps = ViewProps;
 
 const stepStatusCircleVariants = cva(
-  "bg-border h-2 w-2 rounded-full transition-colors",
+  "bg-border size-2 rounded-full transition-colors",
   {
     variants: {
       state: {
@@ -359,18 +412,37 @@ StepContent.displayName = "StepContent";
 
 type StepTextProps = TextProps;
 
-const StepText = React.forwardRef<Text, StepTextProps>(
+const StepText = React.forwardRef<React.ElementRef<typeof Text>, StepTextProps>(
   ({ className, ...props }, ref) => {
     return (
       <Text
-        //ref={ref} // There is an issue when trying to forward reference
         className={cn("text-foreground text-sm", className)}
+        ref={ref}
         {...props}
       />
     );
   }
 );
 StepText.displayName = "StepText";
+
+/* -------------------------------------------------------------------------------------------------
+ * StepEndAdornment
+ * -----------------------------------------------------------------------------------------------*/
+
+type StepEndAdornmentProps = ViewProps;
+
+const StepEndAdornment = React.forwardRef<View, StepEndAdornmentProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <View
+        ref={ref}
+        className={cn("justify-center h-full", className)}
+        {...props}
+      />
+    );
+  }
+);
+StepEndAdornment.displayName = "StepEndAdornment";
 
 export {
   Step,
@@ -385,4 +457,6 @@ export {
   StepContentProps,
   StepText,
   StepTextProps,
+  StepEndAdornment,
+  StepEndAdornmentProps,
 };

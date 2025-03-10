@@ -69,7 +69,7 @@ function Content() {
       <Text>Base size</Text>
       <View className="flex flex-row w-fit gap-3">
         <View className="w-[444px]">
-          <File noDrag onFilesAdded={handleFilesAdded}>
+          <File disabled onFilesAdded={handleFilesAdded}>
             <FileIcon>
               <FileKey2 />
             </FileIcon>
@@ -79,13 +79,17 @@ function Content() {
                 Drag and drop or browse from your device.
               </FileDescription>
             </FileContent>
-            <FileIcon
+            <Button
+              size="icon-sm"
+              variant="ghost"
               onPress={() => {
                 console.log("Icon was pressed.");
               }}
             >
-              <Upload />
-            </FileIcon>
+              <FileIcon>
+                <Upload />
+              </FileIcon>
+            </Button>
           </File>
         </View>
         <View className="w-[444px]">
@@ -99,9 +103,17 @@ function Content() {
                 Drag and drop or browse from your device.
               </FileDescription>
             </FileContent>
-            <FileIcon>
-              <Upload />
-            </FileIcon>
+            <Button
+              size="icon-sm"
+              variant="ghost"
+              onPress={() => {
+                console.log("Icon was pressed.");
+              }}
+            >
+              <FileIcon>
+                <Upload />
+              </FileIcon>
+            </Button>
             {/*  <FileButtons>
               <Button>
                 <ButtonText>add file</ButtonText>
@@ -213,9 +225,17 @@ function Content() {
               <FileLabel>Document</FileLabel>
               <FileDescription>Uploading.....</FileDescription>
             </FileContent>
-            <FileIcon>
-              <Upload />
-            </FileIcon>
+            <Button
+              size="icon"
+              variant="ghost"
+              onPress={() => {
+                console.log("Icon was pressed.");
+              }}
+            >
+              <FileIcon>
+                <Upload />
+              </FileIcon>
+            </Button>
           </File>
         </View>
         <View className="w-[444px]">
