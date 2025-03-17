@@ -28,6 +28,7 @@ import {
   StepperStatus,
   StepperSeparator,
   StepperText,
+  StepperEndAdornment,
 } from "@/components/stepper/stepper";
 
 export default function Page() {
@@ -48,8 +49,8 @@ function Content() {
     <View className="flex-1 bg-white dark:bg-black">
       <View className="py-12 xl:py-48">
         <View className="px-4 md:px-6">
-          <View className="flex flex-col p-6 gap-4 text-center">
-            <Step state="completed" card>
+          <View className="flex flex-col p-6 gap-4 text-center w-1/2">
+            {/* <Step state="completed" card>
               <StepStatus />
               <StepContent>
                 <StepText className="font-semibold">
@@ -86,7 +87,7 @@ function Content() {
                   </ButtonIcon>
                 </Button>
               </StepEndAdornment>
-            </Step>
+            </Step> */}
 
             <Step state="default" card>
               <StepStatus />
@@ -99,7 +100,7 @@ function Content() {
                 </StepText>
               </StepContent>
             </Step>
-            <Stepper direction="vertical">
+            <Stepper card direction="vertical">
               <StepperItem key={crypto.randomUUID()} state="completed">
                 <StepperStatus />
                 <StepperContent>
@@ -110,6 +111,13 @@ function Content() {
                     Start by listing your property on Keyhole.
                   </StepperText>
                 </StepperContent>
+                <StepperEndAdornment>
+                  <Button size={"icon"} color="brand-soft">
+                    <ButtonIcon className="stroke-teal-700 dark:stroke-teal-400">
+                      <Check />
+                    </ButtonIcon>
+                  </Button>
+                </StepperEndAdornment>
               </StepperItem>
               <StepperSeparator />
               <StepperItem key={crypto.randomUUID()} state="current">
@@ -122,6 +130,13 @@ function Content() {
                     Next, add the rentals you want to list.
                   </StepperText>
                 </StepperContent>
+                <StepperEndAdornment>
+                  <Button size={"icon"} color={"brand"}>
+                    <ButtonIcon>
+                      <ChevronRight />
+                    </ButtonIcon>
+                  </Button>
+                </StepperEndAdornment>
               </StepperItem>
               <StepperSeparator />
               <StepperItem key={crypto.randomUUID()} state="default">
