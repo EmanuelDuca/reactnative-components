@@ -88,6 +88,21 @@ function Content() {
                 </Button>
               </StepEndAdornment>
             </Step> */}
+            <View>
+              {states.map((state) => (
+                <>
+                  <Step key={crypto.randomUUID()} state={state}>
+                    <StepStatus />
+                    <StepContent>
+                      <StepText className="font-semibold">{state}</StepText>
+                      <StepText className="text-neutral-500 dark:text-neutral-400">
+                        Description
+                      </StepText>
+                    </StepContent>
+                  </Step>
+                </>
+              ))}
+            </View>
 
             <Step state="default" card>
               <StepStatus />

@@ -173,7 +173,7 @@ Step.displayName = "Step";
 type StepStatusProps = ViewProps;
 
 const stepStatusVariants = cva(
-  "size-5 items-center justify-center rounded-full border transition-colors",
+  "mt-[2px] size-5 items-center justify-center rounded-full border transition-colors",
   {
     variants: {
       state: {
@@ -192,69 +192,69 @@ const stepStatusVariants = cva(
         false: undefined,
       },
     },
-    compoundVariants: [
-      // Default
-      {
-        state: "default",
-        hovered: true,
-        className: "bg-accent",
-      },
-      {
-        state: "default",
-        pressed: true,
-        className: "bg-background",
-      },
-      // Current
-      {
-        state: "current",
-        hovered: true,
-        className: "bg-brand-50 dark:bg-brand-900",
-      },
-      {
-        state: "current",
-        pressed: true,
-        className: "bg-background dark:bg-background",
-      },
-      // Partial complete
-      {
-        state: "partialComplete",
-        hovered: true,
-        className:
-          "border-yellow-500 bg-yellow-500 dark:border-yellow-700 dark:bg-yellow-700",
-      },
-      {
-        state: "partialComplete",
-        pressed: true,
-        className:
-          "border-yellow-400 bg-yellow-400 dark:border-yellow-800 dark:bg-yellow-800",
-      },
-      // Completed
-      {
-        state: "completed",
-        hovered: true,
-        className:
-          "border-green-600 bg-green-600 dark:border-green-800 dark:bg-green-800",
-      },
-      {
-        state: "completed",
-        pressed: true,
-        className:
-          "border-green-500 bg-green-500 dark:border-green-900 dark:bg-green-900",
-      },
-      // Failed
-      {
-        state: "failed",
-        hovered: true,
-        className:
-          "border-red-600 bg-red-600 dark:border-red-800 dark:bg-red-800",
-      },
-      {
-        state: "failed",
-        pressed: true,
-        className:
-          "border-red-500 bg-red-500 dark:border-red-900 dark:bg-red-900",
-      },
-    ],
+    // compoundVariants: [
+    //   // Default
+    //   {
+    //     state: "default",
+    //     hovered: true,
+    //     className: "bg-accent",
+    //   },
+    //   {
+    //     state: "default",
+    //     pressed: true,
+    //     className: "bg-background",
+    //   },
+    //   // Current
+    //   {
+    //     state: "current",
+    //     hovered: true,
+    //     className: "bg-primary",
+    //   },
+    //   {
+    //     state: "current",
+    //     pressed: true,
+    //     className: "bg-background",
+    //   },
+    //   // Partial complete
+    //   {
+    //     state: "partialComplete",
+    //     hovered: true,
+    //     className:
+    //       "border-yellow-500 bg-yellow-500 dark:border-yellow-700 dark:bg-yellow-700",
+    //   },
+    //   {
+    //     state: "partialComplete",
+    //     pressed: true,
+    //     className:
+    //       "border-yellow-400 bg-yellow-400 dark:border-yellow-800 dark:bg-yellow-800",
+    //   },
+    //   // Completed
+    //   {
+    //     state: "completed",
+    //     hovered: true,
+    //     className:
+    //       "border-green-600 bg-green-600 dark:border-green-800 dark:bg-green-800",
+    //   },
+    //   {
+    //     state: "completed",
+    //     pressed: true,
+    //     className:
+    //       "border-green-500 bg-green-500 dark:border-green-900 dark:bg-green-900",
+    //   },
+    //   // Failed
+    //   {
+    //     state: "failed",
+    //     hovered: true,
+    //     className:
+    //       "border-red-600 bg-red-600 dark:border-red-800 dark:bg-red-800",
+    //   },
+    //   {
+    //     state: "failed",
+    //     pressed: true,
+    //     className:
+    //       "border-red-500 bg-red-500 dark:border-red-900 dark:bg-red-900",
+    //   },
+    // ],
     defaultVariants: {
       state: "default",
     },

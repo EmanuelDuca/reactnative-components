@@ -232,7 +232,7 @@ function Content() {
               <AlertDialogFooter className="w-full">
                 <Stepper card direction="vertical" className="w-full">
                   <StepperItem key={crypto.randomUUID()} state="completed">
-                    <StepperStatus />
+                    <StepperStatus className="mt-[2px]" />
                     <StepperContent>
                       <StepperText className="font-semibold">
                         Create your first property
@@ -251,7 +251,7 @@ function Content() {
                   </StepperItem>
                   <StepperSeparator />
                   <StepperItem key={crypto.randomUUID()} state="current">
-                    <StepperStatus />
+                    <StepperStatus className="mt-[2px]" />
                     <StepperContent>
                       <StepperText className="font-semibold">
                         Add your first rental
@@ -270,7 +270,7 @@ function Content() {
                   </StepperItem>
                   <StepperSeparator />
                   <StepperItem key={crypto.randomUUID()} state="default">
-                    <StepperStatus />
+                    <StepperStatus className="mt-[2px]" />
                     <StepperContent>
                       <StepperText className="font-semibold">
                         Invite your first tenant
