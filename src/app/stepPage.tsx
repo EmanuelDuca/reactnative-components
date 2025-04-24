@@ -45,9 +45,11 @@ function Content() {
     "failed",
   ];
 
+  function onNextStep();
+
   return (
     <View className="flex-1 bg-white dark:bg-black">
-      <View className="py-12 xl:py-48">
+      <View className="py-2 xl:py-2">
         <View className="px-4 md:px-6">
           <View className="flex flex-col p-6 gap-4 text-center w-1/2">
             {/* <Step state="completed" card>
@@ -88,7 +90,7 @@ function Content() {
                 </Button>
               </StepEndAdornment>
             </Step> */}
-            <View>
+            {/* <View>
               {states.map((state) => (
                 <>
                   <Step key={crypto.randomUUID()} state={state}>
@@ -102,7 +104,7 @@ function Content() {
                   </Step>
                 </>
               ))}
-            </View>
+            </View> */}
 
             <Step state="default" card>
               <StepStatus />

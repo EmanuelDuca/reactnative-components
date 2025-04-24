@@ -1,4 +1,4 @@
-import { Button, ButtonText } from "@/components/button";
+import { Button, ButtonText } from "~/components/button";
 import {
   Menu,
   MenuContent,
@@ -8,7 +8,7 @@ import {
   MenuIcon,
   MenuItem,
   MenuLabel,
-} from "@/components/navigation-menu";
+} from "~/components/navigation-menu";
 import {
   Avatar,
   AvatarFallback,

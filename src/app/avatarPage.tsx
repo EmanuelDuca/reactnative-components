@@ -1,6 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
-import WelcomeEmail from "@/components/emailLayout/email";
-import YelpRecentLoginEmail from "@/components/emailLayout/emailReactExample";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/avatar";
+import WelcomeEmail from "~/components/emailLayout/email";
+import YelpRecentLoginEmail from "~/components/emailLayout/emailReactExample";
 import { Link } from "expo-router";
 import * as React from "react";
 import { Text, View } from "react-native";
@@ -13,7 +13,6 @@ import {
   FileKey2,
   X,
 } from "@usekeyhole/nativewind";
-import { ScreenShareOff } from "@/components/icons/screen-share-off";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,7 +24,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@usekeyhole/web";
-import { Crown } from "@/components/icons/crown";
+import { Crown } from "~/components/icons/crown";
 import {
   Step,
   StepContent,
@@ -33,7 +32,7 @@ import {
   StepProps,
   StepStatus,
   StepText,
-} from "@/components/stepper/step";
+} from "~/components/stepper/step";
 import {
   Stepper,
   StepperContent,
@@ -43,7 +42,7 @@ import {
   StepperSeparator,
   StepperText,
   StepperEndAdornment,
-} from "@/components/stepper/stepper";
+} from "~/components/stepper/stepper";
 
 export default function Page() {
   return <Content />;

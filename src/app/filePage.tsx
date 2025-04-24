@@ -19,7 +19,7 @@ import {
   FileDescription,
   FileIcon,
   FileLabel,
-} from "@/components/file/file-web";
+} from "~/components/file/file-web";
 import { IFile } from "@usekeyhole/utils";
 
 export default function Page() {

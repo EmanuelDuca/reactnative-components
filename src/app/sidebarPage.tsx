@@ -5,7 +5,7 @@ import {
   MenuIcon,
   MenuItem,
   MenuLabel,
-} from "@/components/navigation-menu";
+} from "~/components/navigation-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -13,8 +13,8 @@ import {
   SidebarGroup,
   SidebarHeader,
   SidebarSeparator,
-} from "@/components/sidebar";
-import { KeyholeLogo } from "@/components/icons/keyholeLogo";
+} from "~/components/sidebar";
+import { KeyholeLogo } from "~/components/icons/keyholeLogo";
 import {
   AccordionContentText,
   AccordionDescription,
@@ -43,7 +43,7 @@ import {
 } from "@usekeyhole/nativewind";
 import * as React from "react";
 import { Text, View, useWindowDimensions, useColorScheme } from "react-native";
-import { KeyholeIcon } from "@/components/icons/keyholeIcon";
+import { KeyholeIcon } from "~/components/icons/keyholeIcon";
 import {
   Dialog,
   DialogContent,
@@ -62,17 +62,17 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@usekeyhole/web";
-import { Settings } from "@/components/icons/settings";
-import { Globe } from "@/components/icons/globe";
-import { Sun } from "@/components/icons/sun";
-import { Moon } from "@/components/icons/Moon";
-import { SunMoon } from "@/components/icons/Sun-moon";
+import { Settings } from "~/components/icons/settings";
+import { Globe } from "~/components/icons/globe";
+import { Sun } from "~/components/icons/sun";
+import { Moon } from "~/components/icons/Moon";
+import { SunMoon } from "~/components/icons/Sun-moon";
 import {
   Stepper,
   StepperItem,
   StepperItemProps,
   StepperSeparator,
-} from "@/components/stepper/stepper";
+} from "~/components/stepper/stepper";
 import {
   Accordion,
   AccordionContent,
@@ -81,7 +81,7 @@ import {
   AccordionItem,
   AccordionTrigger,
   AccordionTriggerTitle,
-} from "@/components/accordion/accordion";
+} from "~/components/accordion/accordion";
 import {
   File,
   FileButtons,
@@ -91,7 +91,7 @@ import {
   FileIconProps,
   FileLabel,
   FileProps,
-} from "@/components/file/file-web";
+} from "~/components/file/file-web";
 import { IFile } from "@usekeyhole/utils";
 
 export default function Page() {

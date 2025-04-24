@@ -1,13 +1,20 @@
-import {
+/* import {
   Button,
   ButtonIcon,
   ButtonProps,
   ButtonText,
-} from "../components/button";
+} from "../components/button"; */
 import { DownloadIcon } from "@usekeyhole/ui";
 import { ScrollView, View } from "react-native";
 import * as Crypto from "expo-crypto";
-import { ExternalLink, Star } from "@usekeyhole/nativewind";
+import {
+  ExternalLink,
+  Star,
+  Button,
+  ButtonIcon,
+  ButtonProps,
+  ButtonText,
+} from "@usekeyhole/nativewind";
 import React from "react";
 
 const buttonVariants = {
@@ -72,9 +79,34 @@ export default function Page() {
   );
 }
 
-function Content() {
+function Content({ ...props }) {
   return (
     <View className="p-10">
+      <View className="flex flex-row gap-8">
+        <Button>
+          <ButtonText>Button</ButtonText>
+        </Button>
+        <Button color={"brand"}>
+          <ButtonText>Button</ButtonText>
+        </Button>
+        <Button color={"brand-soft"}>
+          <ButtonText>Button</ButtonText>
+        </Button>
+        ...
+        <Button {...props}>
+          <ButtonText>Button</ButtonText>
+          <ButtonIcon>
+            <ExternalLink />
+          </ButtonIcon>
+        </Button>
+        ...
+        <Button {...props}>
+          <ButtonIcon>
+            <Star />
+          </ButtonIcon>
+        </Button>
+      </View>
+
       <View
         style={{
           display: "flex",

@@ -7,7 +7,7 @@ import {
   MenuIcon,
   MenuItem,
   MenuLabel,
-} from "@/components/navigation-menu";
+} from "~/components/navigation-menu";
 import {
   Avatar,
   AvatarFallback,

@@ -12,12 +12,12 @@ import { Image, ScrollView, Text, View, ViewComponent } from "react-native";
 import {
   ToggleGroup,
   ToggleGroupItem,
-} from "@/components/newToggleVariant/toggle-group";
+} from "~/components/newToggleVariant/toggle-group";
 import {
   Toggle,
   ToggleIcon,
   ToggleText,
-} from "@/components/newToggleVariant/toggle";
+} from "~/components/newToggleVariant/toggle";
 
 import {
   Toast,
@@ -29,7 +29,7 @@ import {
   ToastDescription,
   ToastIcon,
   ToastTitle,
-} from "@/components/toast/toast";
+} from "~/components/toast/toast";
 
 export default function Page() {
   return (

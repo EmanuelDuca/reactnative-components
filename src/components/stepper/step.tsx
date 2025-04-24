@@ -38,7 +38,7 @@ const stepVariants = cva("gap-2", {
       vertical: undefined,
     },
     card: {
-      true: "p-4 rounded-lg bg-neutral-100",
+      true: "rounded-lg bg-gray-50 p-4",
       false: undefined,
     },
   },
@@ -51,7 +51,7 @@ const stepVariants = cva("gap-2", {
     {
       card: true,
       state: "current",
-      className: "bg-brand-50",
+      className: "bg-primary-soft",
     },
   ],
   defaultVariants: {
@@ -179,9 +179,9 @@ const stepStatusVariants = cva(
       state: {
         default: "border-border bg-background",
         current: "border-border bg-background",
-        partialComplete: "border-yellow-600 bg-yellow-600",
-        completed: "border-green-700 bg-green-700",
-        failed: "border-red-700 bg-red-700",
+        partialComplete: "border-warning bg-warning",
+        completed: "border-success bg-success",
+        failed: "border-destructive bg-destructive",
       },
       hovered: {
         true: undefined,
@@ -328,8 +328,8 @@ const stepStatusCircleVariants = cva(
   {
     variants: {
       state: {
-        default: "bg-neutral-100 dark:bg-neutral-600",
-        current: "bg-brand-700",
+        default: "bg-accent",
+        current: "bg-foreground",
         partialComplete: "bg-white",
         completed: "bg-white",
         failed: "bg-white",
@@ -343,30 +343,6 @@ const stepStatusCircleVariants = cva(
         false: undefined,
       },
     },
-    compoundVariants: [
-      // Default
-      {
-        state: "default",
-        hovered: true,
-        className: "bg-neutral-300 dark:bg-neutral-700",
-      },
-      {
-        state: "default",
-        pressed: true,
-        className: "bg-neutral-400 dark:bg-neutral-800",
-      },
-      // Current
-      {
-        state: "current",
-        hovered: true,
-        className: "bg-brand-600 dark:bg-brand-800",
-      },
-      {
-        state: "current",
-        pressed: true,
-        className: "bg-brand-500 dark:bg-brand-900",
-      },
-    ],
     defaultVariants: {
       state: "default",
     },
@@ -436,7 +412,7 @@ const StepEndAdornment = React.forwardRef<View, StepEndAdornmentProps>(
     return (
       <View
         ref={ref}
-        className={cn("justify-center h-full", className)}
+        className={cn("h-full justify-center", className)}
         {...props}
       />
     );
