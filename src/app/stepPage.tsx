@@ -45,8 +45,6 @@ function Content() {
     "failed",
   ];
 
-  function onNextStep();
-
   return (
     <View className="flex-1 bg-white dark:bg-black">
       <View className="py-2 xl:py-2">

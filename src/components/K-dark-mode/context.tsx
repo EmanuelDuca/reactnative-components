@@ -38,28 +38,31 @@ const defaultSearchValue: ISearchValue = {
   loading: false,
 };
 
-export const searchInputVariants = cva("", {
-  variants: {
-    variant: {
-      default: "border-border dark:border-border",
-      destructive: "border-destructive",
+export const searchInputVariants = cva(
+  "relative flex flex-1 flex-col rounded-sm border",
+  {
+    variants: {
+      variant: {
+        default: "border-input",
+        destructive: "border-destructive",
+      },
+      open: {
+        true: "dark:border-border-soft/dark-10 rounded-b-none",
+        false: "",
+      },
     },
-    open: {
-      true: "dark:border-border-soft/dark-10",
-      false: "",
+    compoundVariants: [
+      {
+        variant: "destructive",
+        open: true,
+        className: "border-input",
+      },
+    ],
+    defaultVariants: {
+      variant: "default",
     },
-  },
-  compoundVariants: [
-    {
-      variant: "destructive",
-      open: true,
-      className: "border-border dark:border-border",
-    },
-  ],
-  defaultVariants: {
-    variant: "default",
-  },
-});
+  }
+);
 
 type SearchInputVariantProps = VariantProps<typeof searchInputVariants>;
 

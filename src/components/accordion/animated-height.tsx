@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, ViewProps } from "react-native";
+import { Platform, StyleSheet, View, ViewProps } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -22,8 +22,13 @@ export const AnimatedHeight = React.forwardRef<View, AnimatedHeightProps>(
     const heightValue = useSharedValue(hide ? 0 : measuredHeight + extraHeight);
 
     React.useEffect(() => {
-      opacityValue.value = withTiming(hide ? 0 : 1, { duration });
-      heightValue.value = withTiming(hide ? 0 : 1, { duration });
+      if (Platform.OS === "web") {
+        opacityValue.value = hide ? 0 : 1;
+        heightValue.value = hide ? 0 : 1;
+      } else {
+        opacityValue.value = withTiming(hide ? 0 : 1, { duration });
+        heightValue.value = withTiming(hide ? 0 : 1, { duration });
+      }
     }, [hide, measuredHeight, extraHeight, opacityValue, heightValue]);
 
     const heightStyle = useAnimatedStyle(() => ({
@@ -33,6 +38,15 @@ export const AnimatedHeight = React.forwardRef<View, AnimatedHeightProps>(
     const opacityStyle = useAnimatedStyle(() => ({
       opacity: opacityValue.value,
     }));
+
+    if (Platform.OS === "web") {
+      // No animation, just render the view normally
+      return hide ? null : (
+        <View ref={ref} style={[style]} {...props}>
+          {children}
+        </View>
+      );
+    }
 
     return (
       <Animated.View style={[{ overflow: "hidden" }, heightStyle]}>

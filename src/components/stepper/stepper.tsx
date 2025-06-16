@@ -8,11 +8,13 @@ import {
   StepStatusProps as StepperStatusProps,
   StepContent as StepperContent,
   StepContentProps as StepperContentProps,
-  StepText as StepperText,
-  StepTextProps as StepperTextProps,
+  StepDescription as StepperDescription,
+  StepDescriptionProps as StepperDescriptionProps,
+  StepTitle as StepperTitle,
+  StepTitleProps as StepperTitleProps,
   StepEndAdornment as StepperEndAdornment,
   StepEndAdornmentProps as StepperEndAdornmentProps,
-} from "./step";
+} from "../step";
 import { cva } from "class-variance-authority";
 
 type Direction = "horizontal" | "vertical";
@@ -20,19 +22,18 @@ type Direction = "horizontal" | "vertical";
 type StepperContextProps = {
   direction: Direction;
   card: boolean;
+  weight?: StepProps["weight"];
 };
 
 const StepperContext = React.createContext<StepperContextProps>({
   direction: "horizontal",
   card: false,
+  weight: undefined,
 });
 
-type StepperProps = ViewProps & {
-  direction?: Direction;
-  card?: boolean;
-};
+type StepperProps = ViewProps & Partial<StepperContextProps>;
 
-const stepperVariants = cva("gap-4 ", {
+const stepperVariants = cva("gap-4", {
   variants: {
     direction: {
       horizontal: "flex flex-row",
@@ -50,10 +51,9 @@ const stepperVariants = cva("gap-4 ", {
 });
 
 const Stepper = React.forwardRef<View, StepperProps>(
-  ({ className, direction = "horizontal", card, ...props }, ref) => {
-    const classNameChildren = direction == "horizontal" && "flex flex-row";
+  ({ className, direction = "horizontal", card, weight, ...props }, ref) => {
     return (
-      <StepperContext.Provider value={{ direction, card: !!card }}>
+      <StepperContext.Provider value={{ direction, card: !!card, weight }}>
         <View
           ref={ref}
           className={cn(stepperVariants({ direction, card }), className)}
@@ -71,14 +71,14 @@ Stepper.displayName = "Stepper";
 
 type StepperSeparatorProps = ViewProps;
 
-const stepperSeparatorVariants = cva("bg-neutral-200", {
+const stepperSeparatorVariants = cva("bg-accent-foreground/20", {
   variants: {
     direction: {
-      horizontal: "w-4 h-[1px] mt-[11px]",
-      vertical: "w-[1px] h-4 ml-[11px]",
+      horizontal: "mt-3 h-[1px] w-4",
+      vertical: "h-4 w-[1px]",
     },
     card: {
-      true: "my-[0px] ml-[25px]",
+      true: "my-[0px] ml-6",
       false: undefined,
     },
   },
@@ -91,12 +91,6 @@ const stepperSeparatorVariants = cva("bg-neutral-200", {
 const StepperSeparator = React.forwardRef<View, StepperSeparatorProps>(
   ({ className, children, ...props }, ref) => {
     const { direction, card } = React.useContext(StepperContext);
-
-    const classNameChildren =
-      direction == "vertical"
-        ? "w-[1px] h-4 ml-[11px]"
-        : "w-4 h-[1px] mt-[11px]";
-
     return (
       <View
         ref={ref}
@@ -106,6 +100,7 @@ const StepperSeparator = React.forwardRef<View, StepperSeparatorProps>(
     );
   }
 );
+StepperSeparator.displayName = "StepperSeparator";
 
 /* -------------------------------------------------------------------------------------------------
  * StepperItem
@@ -114,11 +109,20 @@ const StepperSeparator = React.forwardRef<View, StepperSeparatorProps>(
 type StepperItemProps = StepProps;
 
 const StepperItem = React.forwardRef<View, StepperItemProps>(
-  ({ className, ...props }, ref) => {
-    const { card } = React.useContext(StepperContext);
-    return <Step card={card} ref={ref} className={className} {...props} />;
+  ({ className, weight: propWeight, ...props }, ref) => {
+    const { card, weight } = React.useContext(StepperContext);
+    return (
+      <Step
+        card={card}
+        weight={propWeight ?? weight}
+        ref={ref}
+        className={className}
+        {...props}
+      />
+    );
   }
 );
+StepperItem.displayName = "StepperItem";
 
 export {
   Stepper,
@@ -131,8 +135,10 @@ export {
   StepperStatusProps,
   StepperContent,
   StepperContentProps,
-  StepperText,
-  StepperTextProps,
+  StepperDescription,
+  StepperDescriptionProps,
+  StepperTitle,
+  StepperTitleProps,
   StepperEndAdornment,
   StepperEndAdornmentProps,
 };

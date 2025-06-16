@@ -11,20 +11,14 @@ import {
   View,
   ViewProps,
 } from "react-native";
-import {
-  Text,
-  TextProps,
-  CircleAlertBold,
-  XBold,
-  CheckBold,
-} from "@usekeyhole/nativewind";
+import { Text, TextProps, CircleAlertBold, XBold, CheckBold } from "../";
 import { useControllableState } from "@usekeyhole/hooks";
 
 /* -------------------------------------------------------------------------------------------------
  * Step
  * -----------------------------------------------------------------------------------------------*/
 
-const stepVariants = cva("gap-2", {
+const stepVariants = cva("h-fit gap-2 transition-colors", {
   variants: {
     state: {
       default: undefined,
@@ -38,20 +32,43 @@ const stepVariants = cva("gap-2", {
       vertical: undefined,
     },
     card: {
-      true: "rounded-lg bg-gray-50 p-4",
+      true: "bg-muted/25 rounded-lg p-4",
+      false: undefined,
+    },
+    pressed: {
+      true: undefined,
+      false: undefined,
+    },
+    hovered: {
+      true: undefined,
       false: undefined,
     },
   },
   compoundVariants: [
     {
       card: true,
+      pressed: false,
       state: "completed",
       className: "bg-transparent",
     },
     {
       card: true,
+      pressed: false,
+      hovered: false,
       state: "current",
       className: "bg-primary-soft",
+    },
+    {
+      card: true,
+      pressed: true,
+      state: "current",
+      className: "bg-accent",
+    },
+    {
+      card: true,
+      hovered: true,
+      state: "current",
+      className: "bg-accent",
     },
   ],
   defaultVariants: {
@@ -65,16 +82,18 @@ type StepProps = PressableProps &
   VariantProps<typeof stepVariants> & {
     pressed?: boolean;
     hovered?: boolean;
+    weight?: "regular" | "semibold";
   };
 
 // Once group-{modifier} works on web the hovered and pressed classes can be changed to group-hover and group-active
 
 const StepContext = React.createContext<
-  Pick<StepProps, "hovered" | "pressed" | "state">
+  Pick<StepProps, "hovered" | "pressed" | "state" | "weight">
 >({
   hovered: false,
   pressed: false,
   state: "default",
+  weight: "semibold",
 });
 
 const Step = React.forwardRef<View, StepProps>(
@@ -92,6 +111,7 @@ const Step = React.forwardRef<View, StepProps>(
       pressed: isPressed,
       state,
       card,
+      weight,
       ...props
     },
     ref
@@ -143,13 +163,14 @@ const Step = React.forwardRef<View, StepProps>(
           hovered: !!hovered,
           pressed: !!pressed,
           state,
+          weight,
         }}
       >
         <Pressable
           ref={ref}
           className={cn(
-            stepVariants({ direction, state, card }),
-            { "cursor-default": !onPress && disabled },
+            stepVariants({ direction, state, card, pressed, hovered }),
+            !!onPress && !disabled ? "cursor-pointer" : "cursor-default",
             className
           )}
           disabled={disabled}
@@ -383,23 +404,63 @@ const StepContent = React.forwardRef<View, StepContentProps>(
 StepContent.displayName = "StepContent";
 
 /* -------------------------------------------------------------------------------------------------
- * StepText
+ * StepTitle
  * -----------------------------------------------------------------------------------------------*/
 
-type StepTextProps = TextProps;
+const stepTitleVariants = cva("", {
+  variants: {
+    weight: {
+      regular: "font-sans-regular",
+      semibold: "font-sans-semibold",
+    },
+  },
+  defaultVariants: {
+    weight: "semibold",
+  },
+});
 
-const StepText = React.forwardRef<React.ElementRef<typeof Text>, StepTextProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      <Text
-        className={cn("text-foreground text-sm", className)}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
-StepText.displayName = "StepText";
+type StepTitleProps = TextProps & VariantProps<typeof stepTitleVariants>;
+
+const StepTitle = React.forwardRef<
+  React.ElementRef<typeof Text>,
+  StepTitleProps
+>(({ className, weight: propWeight, ...props }, ref) => {
+  const { state, weight } = React.useContext(StepContext);
+  return (
+    <Text
+      className={cn(
+        stepTitleVariants({ weight: propWeight ?? weight }),
+        {
+          "text-muted-foreground": state === "default",
+        },
+        className
+      )}
+      ref={ref}
+      {...props}
+    />
+  );
+});
+StepTitle.displayName = "StepTitle";
+
+/* -------------------------------------------------------------------------------------------------
+ * StepDescription
+ * -----------------------------------------------------------------------------------------------*/
+
+type StepDescriptionProps = TextProps;
+
+const StepDescription = React.forwardRef<
+  React.ElementRef<typeof Text>,
+  StepDescriptionProps
+>(({ className, ...props }, ref) => {
+  return (
+    <Text
+      className={cn("text-muted-foreground", className)}
+      ref={ref}
+      {...props}
+    />
+  );
+});
+StepDescription.displayName = "StepDescription";
 
 /* -------------------------------------------------------------------------------------------------
  * StepEndAdornment
@@ -409,13 +470,7 @@ type StepEndAdornmentProps = ViewProps;
 
 const StepEndAdornment = React.forwardRef<View, StepEndAdornmentProps>(
   ({ className, ...props }, ref) => {
-    return (
-      <View
-        ref={ref}
-        className={cn("h-full justify-center", className)}
-        {...props}
-      />
-    );
+    return <View ref={ref} className={cn("my-auto", className)} {...props} />;
   }
 );
 StepEndAdornment.displayName = "StepEndAdornment";
@@ -431,8 +486,10 @@ export {
   StepStatusIconProps,
   StepContent,
   StepContentProps,
-  StepText,
-  StepTextProps,
+  StepDescription,
+  StepDescriptionProps,
+  StepTitle,
+  StepTitleProps,
   StepEndAdornment,
   StepEndAdornmentProps,
 };

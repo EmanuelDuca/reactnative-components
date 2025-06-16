@@ -1,6 +1,6 @@
 import * as Slot from "@rn-primitives/slot";
 import { cn, ecn } from "@usekeyhole/utils";
-import { useControllableState } from "@usekeyhole/hooks";
+import { useControllableState, useFontClassName } from "@usekeyhole/hooks";
 import { cva, VariantProps } from "class-variance-authority";
 import React from "react";
 import { Pressable, TargetedEvent } from "react-native";
@@ -126,6 +126,8 @@ const Input = React.forwardRef<TextInput, InputProps>(
     },
     ref
   ) => {
+    const fontClassName = useFontClassName(className);
+
     const [focused, setFocused] = useControllableState({
       prop: isFocused,
       defaultProp: false,
@@ -182,12 +184,13 @@ const Input = React.forwardRef<TextInput, InputProps>(
           {!asChild && startAdornment}
           <Element
             className={cn(
-              "text-foreground relative h-full flex-1 flex-row items-center outline-none transition-colors placeholder:text-muted-foreground",
+              "text-foreground placeholder:text-muted-foreground relative h-full flex-1 flex-row items-center outline-none transition-colors",
               (size === "sm" && "px-1 py-0") ||
                 (size === "md" && "px-3 py-2") ||
                 "px-4 py-3",
               { "cursor-not-allowed": disabled },
-              ecn(className, ["font", "text", "cursor"])
+              ecn(className, ["font", "text", "cursor"]),
+              fontClassName
             )}
             ref={ref}
             onBlur={(e) => {
@@ -199,6 +202,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
               onFocus?.(e);
             }}
             editable={!disabled}
+            disabled={disabled}
             {...props}
           />
           {!asChild && endAdornment}

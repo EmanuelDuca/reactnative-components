@@ -17,8 +17,9 @@
     "name": "my-app",
     "slug": "my-app",
     "userInterfaceStyle": "automatic",
-    "experiments": {
-      "typedRoutes": true
+    "experimental": {
+      "typedRoutes": true,
+      "newArchEnabled": true
     }
   }
 }

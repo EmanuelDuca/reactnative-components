@@ -1,3 +1,14 @@
+if (typeof window !== "undefined") {
+  // Prevent Reanimated crashes on web
+  // @ts-ignore
+  global.__reanimatedLoggerConfig = {
+    logFunction: () => {}, // 👈 this is the missing piece
+    disabled: true,
+  };
+  // @ts-ignore
+  global.__reanimatedWorkletInit = () => {};
+}
+
 import { useColorScheme } from "nativewind";
 import "../global.css";
 import { Slot, Stack } from "expo-router";
@@ -16,6 +27,8 @@ import {
   OpenSans_800ExtraBold_Italic,
   useFonts,
 } from "@expo-google-fonts/open-sans";
+import { Button, ButtonText } from "@usekeyhole/nativewind";
+import { Platform } from "react-native";
 
 export default function Layout() {
   const theme = useColorScheme();
@@ -36,10 +49,17 @@ export default function Layout() {
 
   if (!fontsLoaded) return null;
 
+  if (typeof window !== "undefined") {
+    // @ts-ignore
+    global.__reanimatedWorkletInit = () => {};
+  }
+
   return (
     <>
-      <button onClick={theme.toggleColorScheme}>toggle theme</button>
-      <Stack />;
+      <Button onPress={theme.toggleColorScheme}>
+        <ButtonText>toggle theme</ButtonText>
+      </Button>
+      <Stack />
     </>
   );
 }

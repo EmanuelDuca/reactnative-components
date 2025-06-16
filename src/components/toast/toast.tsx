@@ -1,11 +1,11 @@
 import {
   Alert,
-  AlertDescription as ToastDescription,
+  AlertDescription,
   AlertDescriptionProps as ToastDescriptionProps,
   AlertIcon,
   AlertIconProps as ToastIconProps,
   AlertProps,
-  AlertTitle as ToastTitle,
+  AlertTitle,
   AlertTitleProps as ToastTitleProps,
   Button,
   ButtonIcon,
@@ -173,7 +173,6 @@ const Toast = React.forwardRef<View, ToastProps>(
     );
   }
 );
-
 export default Toast;
 
 Toast.displayName = "Toast";
@@ -253,12 +252,13 @@ type ToastAnimatedProgressProps = ViewProps;
 const toastProgressVariants = cva("h-[2px] w-auto", {
   variants: {
     color: {
-      blue: "bg-blue-500 dark:bg-blue-400",
-      brand: "bg-brand-500 dark:bg-brand-400",
-      green: "bg-green-500 dark:bg-green-400",
-      grey: "bg-neutral-200 dark:bg-neutral-400",
-      red: "bg-red-500 dark:bg-red-400",
-      yellow: "bg-yellow-500 dark:bg-yellow-400",
+      blue: "bg-info",
+      brand: "bg-primary",
+      green: "bg-success",
+      grey: "bg-muted",
+      red: "bg-destructive",
+      yellow: "bg-warning",
+      outline: "bg-accent",
     },
   },
   defaultVariants: {
@@ -323,10 +323,19 @@ const ToastIcon = ({
     className,
   });
 
+const ToastTitle = ({ className, ...props }: ToastTitleProps) => {
+  return <AlertTitle className={cn("pr-7", className)} {...props} />;
+};
+ToastTitle.displayName = "ToastTitle";
+
+const ToastDescription = ({ className, ...props }: ToastDescriptionProps) => {
+  return <AlertDescription className={cn("pr-7", className)} {...props} />;
+};
+ToastDescription.displayName = "ToastDesciption";
+
 ToastIcon.displayName = "ToastIcon";
 ToastClose.dispalyName = "ToastClose";
 ToastTitle.displayName = "ToastTitle";
-ToastDescription.displayName = "ToastDesciption";
 
 export {
   useToast,

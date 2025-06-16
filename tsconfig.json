@@ -1,21 +1,25 @@
 {
-  // "extends": "@usekeyhole/ts-config/expo.json",
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "moduleResolution": "bundler",
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
-      "@/*": ["./src/*"]
+      "~/*": [
+        "./src/*"
+      ],
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts",
     "nativewind-env.d.ts"
   ],
-  "exclude": ["client/**/*", "node_modules/**/*"]
+  "exclude": [
+    "client/**/*",
+    "node_modules/**/*"
+  ]
 }

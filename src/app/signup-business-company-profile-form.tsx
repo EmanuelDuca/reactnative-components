@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import {
   Command,
   CommandDialog,
@@ -12,12 +12,15 @@ import {
   CommandShortcut,
 } from "@/components/K-dark-mode/command";
 import {
+  Button,
+  ButtonText,
   Calendar,
   CircleAlert,
   File,
   Settings,
   User,
 } from "@usekeyhole/nativewind";
+import { SignupBusinessCompanyProfileForm } from "~/components/K-dark-mode/signup-business-company-profile-form";
 
 export default function TestPage() {
   const handleSubmit = async (data: any) => {
@@ -26,7 +29,23 @@ export default function TestPage() {
 
   return (
     <View className="bg-background w-full h-full">
-      <View className=" h-full w-1/2 p-6 "></View>
+      <ScrollView>
+        <View className="h-fit w-1/2 p-6 gap-2">
+          <SignupBusinessCompanyProfileForm />
+        </View>
+        <View className="h-full w-full p-6 gap-3">
+          <View className="h-[1px] w-full bg-black" />
+          <View className="h-fit">
+            <CommandExample />
+          </View>
+          <View>
+            <Dialog />
+          </View>
+          <View>
+            <Advanced />
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -106,7 +125,6 @@ function CommandExample() {
           </CommandGroup>
         </CommandList>
       </Command>
-      s
     </>
   );
 }
@@ -116,7 +134,9 @@ function Dialog() {
 
   return (
     <>
-      <button onClick={() => setOpen(true)}>Open</button>
+      <Button onPress={() => setOpen(true)}>
+        <ButtonText>Open Dialog</ButtonText>
+      </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <AdvancedContent />
       </CommandDialog>

@@ -519,11 +519,6 @@ function Content({ stringText }: { stringText: string }) {
                 <FileIcon>
                   <Upload />
                 </FileIcon>
-                {/*  <FileButtons>
-                <Button>
-                  <ButtonText>add file</ButtonText>
-                </Button>
-              </FileButtons> */}
               </File>
             )}
           </>

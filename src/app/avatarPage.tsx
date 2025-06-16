@@ -1,7 +1,4 @@
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/avatar";
-import WelcomeEmail from "~/components/emailLayout/email";
-import YelpRecentLoginEmail from "~/components/emailLayout/emailReactExample";
-import { Link } from "expo-router";
 import * as React from "react";
 import { Text, View } from "react-native";
 import {
@@ -10,7 +7,6 @@ import {
   ButtonText,
   Check,
   ChevronRight,
-  FileKey2,
   X,
 } from "@usekeyhole/nativewind";
 import {
@@ -25,14 +21,6 @@ import {
   AlertDialogTrigger,
 } from "@usekeyhole/web";
 import { Crown } from "~/components/icons/crown";
-import {
-  Step,
-  StepContent,
-  StepEndAdornment,
-  StepProps,
-  StepStatus,
-  StepText,
-} from "~/components/stepper/step";
 import {
   Stepper,
   StepperContent,
@@ -74,27 +62,6 @@ function Content() {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </View>
-          {/* <AlertDialog open>
-            <AlertDialogTrigger>Open</AlertDialogTrigger>
-            <AlertDialogContent className="p-6 gap-4 w-[464px]">
-              <AlertDialogHeader className="items-center gap-3">
-                <ScreenShareOff className="size-12 " strokeWidth={0.75} />
-                <AlertDialogTitle className="font-extrabold uppercase italic text-center">
-                  Unsupported Device
-                </AlertDialogTitle>
-                <AlertDialogDescription className="font-normal text-sm text-center">
-                  Keyhole's Management Portal is optimized for larger screens.
-                  Please use a device with a screen width of at least 1024px for
-                  the best experience.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <View className="items-center">
-                <Button color={"brand"} size={"lg"}>
-                  <ButtonText>Go to usekeyhole.com</ButtonText>
-                </Button>
-              </View>
-            </AlertDialogContent>
-          </AlertDialog> */}
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button>

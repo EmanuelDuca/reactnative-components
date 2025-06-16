@@ -4,21 +4,21 @@ import { cn, IS_WEB, VariantProps } from "@usekeyhole/utils";
 import React, { useCallback, useState } from "react";
 import {
   Pressable,
-  TextProps,
   View,
   ViewProps,
-  Text,
   GestureResponderEvent,
   PressableProps,
   NativeSyntheticEvent,
   NativeMouseEvent,
 } from "react-native";
-import { ChevronLeft } from "@usekeyhole/nativewind";
+import {
+  Button,
+  ButtonIcon,
+  ChevronLeft,
+  Text,
+  TextProps,
+} from "@usekeyhole/nativewind";
 import { useControllableState } from "@usekeyhole/hooks";
-
-/* -------------------------------------------------------------------------------------------------
- * Accordion
- * -----------------------------------------------------------------------------------------------*/
 
 type AccordionContextProps = {
   expanded: string[];
@@ -83,16 +83,11 @@ export const Accordion = React.forwardRef<View, AccordionProps>(
     );
   }
 );
-Accordion.displayName = "Accordion";
 
-/* -------------------------------------------------------------------------------------------------
- * AccordionItem
- * -----------------------------------------------------------------------------------------------*/
-
-const accordionItemVariants = cva("flex flex-col gap-x-2", {
+const accordionItemVariants = cva("flex flex-col gap-x-2 overflow-hidden", {
   variants: {
     variant: {
-      card: "bg-background border-accent rounded-lg border transition-colors transition-shadow",
+      card: "border-accent bg-accent rounded-lg border transition-colors transition-shadow",
     },
     expanded: {
       true: undefined,
@@ -184,17 +179,12 @@ export const AccordionItem = React.forwardRef<View, AccordionItemProps>(
             className
           )}
         >
-          <View className="overflow-hidden rounded-lg">{children}</View>
+          <View className="overflow-hidden">{children}</View>
         </View>
       </AccordionItemContext.Provider>
     );
   }
 );
-AccordionItem.displayName = "AccordionItem";
-
-/* -------------------------------------------------------------------------------------------------
- * AccordionTrigger
- * -----------------------------------------------------------------------------------------------*/
 
 const accordionTriggerVariants = cva(
   "relative flex flex-col gap-2 transition-colors",
@@ -227,7 +217,7 @@ const accordionTriggerVariants = cva(
 );
 
 const accordionTriggerIconVariants = cva(
-  "stroke-foreground absolute right-0 top-0 ml-auto h-6 w-6 transform transition-transform duration-300 ease-in-out",
+  "stroke-foreground absolute right-0 top-0 ml-auto transform transition-transform duration-300 ease-in-out",
   {
     variants: {
       variant: {
@@ -259,7 +249,7 @@ export const AccordionTrigger = React.forwardRef<View, AccordionTriggerProps>(
     ref
   ) => {
     const { toggle } = React.useContext(AccordionContext);
-    const { value, variant, isExpanded, setTriggerHovered } =
+    const { value, variant, isExpanded, setTriggerHovered, triggerHovered } =
       React.useContext(AccordionItemContext);
 
     const handleOnHoverIn = useCallback(
@@ -310,22 +300,26 @@ export const AccordionTrigger = React.forwardRef<View, AccordionTriggerProps>(
         onPressOut={handleOnPressOut}
       >
         {children}
-        <ChevronLeft
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          hovered={triggerHovered}
           className={cn(
+            "pointer-events-none",
             accordionTriggerIconVariants({ variant }),
-            isExpanded ? "rotate-90" : "-rotate-90",
             iconClassName
           )}
-        />
+          // @ts-ignore
+          tabIndex={-1}
+        >
+          <ButtonIcon className={cn(isExpanded ? "rotate-90" : "-rotate-90")}>
+            <ChevronLeft />
+          </ButtonIcon>
+        </Button>
       </Pressable>
     );
   }
 );
-AccordionTrigger.displayName = "AccordionTrigger";
-
-/* -------------------------------------------------------------------------------------------------
- * AccordionHeader
- * -----------------------------------------------------------------------------------------------*/
 
 export interface AccordionHeaderProps extends TextProps {}
 
@@ -341,41 +335,32 @@ export const AccordionHeader = React.forwardRef<View, AccordionHeaderProps>(
     );
   }
 );
-AccordionHeader.displayName = "AccordionHeader";
-
-/* -------------------------------------------------------------------------------------------------
- * AccordionTitle
- * -----------------------------------------------------------------------------------------------*/
 
 export interface AccordionTitleProps extends TextProps {}
 
-export const AccordionTitle = React.forwardRef<Text, AccordionTitleProps>(
-  ({ children, className }, ref) => {
-    return (
-      <Text
-        ref={ref}
-        className={cn(
-          "text-foreground text-base font-semibold transition-colors",
-          className
-        )}
-      >
-        {children}
-      </Text>
-    );
-  }
-);
-AccordionTitle.displayName = "AccordionTitle";
-
-/* -------------------------------------------------------------------------------------------------
- * AccordionTriggerTitle
- * -----------------------------------------------------------------------------------------------*/
+export const AccordionTitle = React.forwardRef<
+  React.ElementRef<typeof Text>,
+  AccordionTitleProps
+>(({ children, className }, ref) => {
+  return (
+    <Text
+      ref={ref}
+      className={cn(
+        "text-foreground text-base font-semibold transition-colors",
+        className
+      )}
+    >
+      {children}
+    </Text>
+  );
+});
 
 const accordionTriggerTitleVariants = cva(
   "text-base font-semibold transition-colors",
   {
     variants: {
       hovered: {
-        true: "text-brand",
+        true: "text-primary",
         false: "text-foreground",
       },
     },
@@ -386,7 +371,7 @@ const accordionTriggerTitleVariants = cva(
 );
 
 export const AccordionTriggerTitle = React.forwardRef<
-  Text,
+  React.ElementRef<typeof Text>,
   AccordionTitleProps
 >(({ children, className }, ref) => {
   const { triggerHovered: hovered } = React.useContext(AccordionItemContext);
@@ -400,20 +385,15 @@ export const AccordionTriggerTitle = React.forwardRef<
     </AccordionTitle>
   );
 });
-AccordionTriggerTitle.displayName = "AccordionTriggerTitle";
-
-/* -------------------------------------------------------------------------------------------------
- * AccordionDescription
- * -----------------------------------------------------------------------------------------------*/
 
 export interface AccordionDescriptionProps extends TextProps {}
 
 export const AccordionDescription = React.forwardRef<
-  Text,
+  React.ElementRef<typeof Text>,
   AccordionDescriptionProps
 >(({ children, className }, ref) => {
   return (
-    <Text ref={ref} className={cn("text-accent-foreground text-sm", className)}>
+    <Text ref={ref} className={cn("text-muted-foreground text-sm", className)}>
       {children}
     </Text>
   );
@@ -422,18 +402,13 @@ export const AccordionDescription = React.forwardRef<
 const accordionContentVariants = cva("mt-2", {
   variants: {
     variant: {
-      card: "mt-0 px-4 pb-4",
+      card: "border-border mt-0 gap-2 border-t p-4 px-4 transition-colors",
     },
   },
   defaultVariants: {
     variant: undefined,
   },
 });
-AccordionDescription.displayName = "AccordionDescription";
-
-/* -------------------------------------------------------------------------------------------------
- * AccordionContent
- * -----------------------------------------------------------------------------------------------*/
 
 export type AccordionContentProps = ViewProps;
 
@@ -453,16 +428,11 @@ export const AccordionContent = React.forwardRef<View, AccordionContentProps>(
     );
   }
 );
-AccordionContent.displayName = "AccordionContent";
-
-/* -------------------------------------------------------------------------------------------------
- * AccordionContentText
- * -----------------------------------------------------------------------------------------------*/
 
 export interface AccordionContentTextProps extends TextProps {}
 
 export const AccordionContentText = React.forwardRef<
-  Text,
+  React.ElementRef<typeof Text>,
   AccordionContentTextProps
 >(({ children, className }, ref) => {
   return (
@@ -474,30 +444,19 @@ export const AccordionContentText = React.forwardRef<
     </Text>
   );
 });
-AccordionContentText.displayName = "AccordionContentText";
 
-/* -------------------------------------------------------------------------------------------------
- * AccordionIcon
- * -----------------------------------------------------------------------------------------------*/
-
-export type AccordionIconProps = ViewProps & {
+export type AccordionIconProps = Omit<ViewProps, "children"> & {
   children: JSX.Element;
 };
 
-export const AccordionIcon = React.forwardRef<View, AccordionIconProps>(
-  ({ children, className, ...props }, ref) => {
-    return (
-      <View
-        ref={ref}
-        className={cn("stroke-foreground fill-foreground h-5 w-5", className)}
-        {...props}
-      >
-        {/* Native Render Issues of SVG */}
-        {React.cloneElement(children, {
-          className: cn(children.props.className),
-        })}
-      </View>
-    );
-  }
-);
+export const AccordionIcon = ({
+  children,
+  className,
+  ...props
+}: AccordionIconProps) => {
+  return React.cloneElement(children, {
+    className: cn("size-8", className),
+    ...props,
+  });
+};
 AccordionIcon.displayName = "AccordionIcon";

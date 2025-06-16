@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import { cn, VariantProps } from "@usekeyhole/utils";
 import {
   Command,
@@ -49,62 +48,6 @@ Search.displayName = "Search";
 
 export type SearchInnerProps = CommandProps;
 
-// the code belllow is experimental
-/* const searchInnerVariants = cva(
-  "bg-background relative cursor-default flex-row items-center rounded-sm border outline-none transition-colors",
-  {
-    variants: {
-      variant: {
-        default: "border-input",
-        clear: "border-transparent bg-transparent",
-        destructive: "border-destructive",
-      },
-      size: {
-        sm: "h-auto",
-        md: "h-9",
-        lg: "h-11",
-      },
-      focused: {
-        false: undefined,
-        true: undefined,
-      },
-      hovered: {
-        false: undefined,
-        true: undefined,
-      },
-    },
-    compoundVariants: [
-      // default
-      {
-        focused: false,
-        hovered: true,
-        variant: "default",
-        className: "border-input/dark-70",
-      },
-      // default
-      {
-        focused: true,
-        variant: "default",
-        className: "border-primary",
-      },
-      // default
-      {
-        focused: true,
-        hovered: true,
-        variant: "default",
-        className: "border-primary",
-      },
-    ],
-    defaultVariants: {
-      size: "lg",
-      variant: "default",
-      focused: false,
-    },
-  }
-); */
-
-// The code abouve is experimental
-
 const SearchInner = React.forwardRef<
   React.ElementRef<typeof Command>,
   SearchInnerProps
@@ -136,16 +79,7 @@ const SearchInner = React.forwardRef<
     React.useImperativeHandle(ref, () => innerRef.current as HTMLDivElement);
 
     return (
-      <div
-        className={cn(
-          "relative flex flex-1 flex-col rounded-t-lg border",
-          searchInputVariants({ open, variant }),
-          {
-            "rounded-b-lg": !open,
-          },
-          className
-        )}
-      >
+      <div className={cn(searchInputVariants({ open, variant }), className)}>
         <Command
           ref={innerRef}
           value={selected}
@@ -281,7 +215,7 @@ const SearchList = React.forwardRef<
     <CommandList
       data-open={open}
       className={cn(
-        "absolute left-[-1px] right-[-1px] top-[100%] rounded-b-lg border bg-popover leading-none",
+        "absolute left-[-1px] right-[-1px] top-[100%] rounded-b-sm border bg-popover leading-none",
         { hidden: !open },
         className
       )}
