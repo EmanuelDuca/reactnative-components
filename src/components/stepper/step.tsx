@@ -11,7 +11,13 @@ import {
   View,
   ViewProps,
 } from "react-native";
-import { Text, TextProps, CircleAlertBold, XBold, CheckBold } from "../";
+import {
+  Text,
+  TextProps,
+  CircleAlertBold,
+  XBold,
+  CheckBold,
+} from "@usekeyhole/nativewind";
 import { useControllableState } from "@usekeyhole/hooks";
 
 /* -------------------------------------------------------------------------------------------------
@@ -83,17 +89,20 @@ type StepProps = PressableProps &
     pressed?: boolean;
     hovered?: boolean;
     weight?: "regular" | "semibold";
+    disabled?: boolean;
+    inactive?: boolean;
   };
 
 // Once group-{modifier} works on web the hovered and pressed classes can be changed to group-hover and group-active
 
 const StepContext = React.createContext<
-  Pick<StepProps, "hovered" | "pressed" | "state" | "weight">
+  Pick<StepProps, "hovered" | "pressed" | "state" | "weight" | "disabled">
 >({
   hovered: false,
   pressed: false,
   state: "default",
   weight: "semibold",
+  disabled: false,
 });
 
 const Step = React.forwardRef<View, StepProps>(
@@ -101,7 +110,6 @@ const Step = React.forwardRef<View, StepProps>(
     {
       className,
       direction,
-      disabled,
       hovered: isHovered,
       onHoverIn,
       onHoverOut,
@@ -116,6 +124,10 @@ const Step = React.forwardRef<View, StepProps>(
     },
     ref
   ) => {
+    const isDisabled = !!props.disabled;
+    const inactive = !!props.inactive;
+    const disabled = isDisabled || inactive;
+
     const [pressed, setPressed] = useControllableState({
       prop: isPressed,
       defaultProp: false,
@@ -127,7 +139,7 @@ const Step = React.forwardRef<View, StepProps>(
 
     const handleHoverIn = React.useCallback(
       (e: NativeSyntheticEvent<NativeMouseEvent>) => {
-        if (!disabled && !!onPress) setHovered(true);
+        if (!disabled) setHovered(true);
         onHoverIn?.(e);
       },
       [onPress, disabled, onHoverIn]
@@ -135,7 +147,7 @@ const Step = React.forwardRef<View, StepProps>(
 
     const handleHoverOut = React.useCallback(
       (e: NativeSyntheticEvent<NativeMouseEvent>) => {
-        if (!disabled && !!onPress) setHovered(false);
+        if (!disabled) setHovered(false);
         onHoverOut?.(e);
       },
       [onPress, disabled, onHoverOut]
@@ -143,7 +155,7 @@ const Step = React.forwardRef<View, StepProps>(
 
     const handlePressIn = React.useCallback(
       (e: GestureResponderEvent) => {
-        if (!disabled && !!onPress) setPressed(true);
+        if (!disabled) setPressed(true);
         onPressIn?.(e);
       },
       [onPress, disabled, onPressIn]
@@ -151,7 +163,7 @@ const Step = React.forwardRef<View, StepProps>(
 
     const handlePressOut = React.useCallback(
       (e: GestureResponderEvent) => {
-        if (!disabled && !!onPress) setPressed(false);
+        if (!disabled) setPressed(false);
         onPressOut?.(e);
       },
       [onPress, disabled, onPressOut]
@@ -164,6 +176,7 @@ const Step = React.forwardRef<View, StepProps>(
           pressed: !!pressed,
           state,
           weight,
+          disabled: isDisabled,
         }}
       >
         <Pressable
@@ -171,6 +184,7 @@ const Step = React.forwardRef<View, StepProps>(
           className={cn(
             stepVariants({ direction, state, card, pressed, hovered }),
             !!onPress && !disabled ? "cursor-pointer" : "cursor-default",
+            isDisabled && "opacity-50",
             className
           )}
           disabled={disabled}
@@ -213,69 +227,6 @@ const stepStatusVariants = cva(
         false: undefined,
       },
     },
-    // compoundVariants: [
-    //   // Default
-    //   {
-    //     state: "default",
-    //     hovered: true,
-    //     className: "bg-accent",
-    //   },
-    //   {
-    //     state: "default",
-    //     pressed: true,
-    //     className: "bg-background",
-    //   },
-    //   // Current
-    //   {
-    //     state: "current",
-    //     hovered: true,
-    //     className: "bg-primary",
-    //   },
-    //   {
-    //     state: "current",
-    //     pressed: true,
-    //     className: "bg-background",
-    //   },
-    //   // Partial complete
-    //   {
-    //     state: "partialComplete",
-    //     hovered: true,
-    //     className:
-    //       "border-yellow-500 bg-yellow-500 dark:border-yellow-700 dark:bg-yellow-700",
-    //   },
-    //   {
-    //     state: "partialComplete",
-    //     pressed: true,
-    //     className:
-    //       "border-yellow-400 bg-yellow-400 dark:border-yellow-800 dark:bg-yellow-800",
-    //   },
-    //   // Completed
-    //   {
-    //     state: "completed",
-    //     hovered: true,
-    //     className:
-    //       "border-green-600 bg-green-600 dark:border-green-800 dark:bg-green-800",
-    //   },
-    //   {
-    //     state: "completed",
-    //     pressed: true,
-    //     className:
-    //       "border-green-500 bg-green-500 dark:border-green-900 dark:bg-green-900",
-    //   },
-    //   // Failed
-    //   {
-    //     state: "failed",
-    //     hovered: true,
-    //     className:
-    //       "border-red-600 bg-red-600 dark:border-red-800 dark:bg-red-800",
-    //   },
-    //   {
-    //     state: "failed",
-    //     pressed: true,
-    //     className:
-    //       "border-red-500 bg-red-500 dark:border-red-900 dark:bg-red-900",
-    //   },
-    // ],
     defaultVariants: {
       state: "default",
     },
@@ -466,11 +417,21 @@ StepDescription.displayName = "StepDescription";
  * StepEndAdornment
  * -----------------------------------------------------------------------------------------------*/
 
-type StepEndAdornmentProps = ViewProps;
+type StepEndAdornmentProps = ViewProps & {
+  children: JSX.Element;
+};
 
 const StepEndAdornment = React.forwardRef<View, StepEndAdornmentProps>(
-  ({ className, ...props }, ref) => {
-    return <View ref={ref} className={cn("my-auto", className)} {...props} />;
+  ({ children, className, ...props }, ref) => {
+    const { disabled, hovered, pressed } = React.useContext(StepContext);
+    return React.cloneElement(children, {
+      disabled: disabled,
+      hovered: hovered,
+      pressed: pressed,
+      className: cn("my-auto", className),
+      ...props,
+      ref,
+    });
   }
 );
 StepEndAdornment.displayName = "StepEndAdornment";

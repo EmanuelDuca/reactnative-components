@@ -86,7 +86,7 @@ function Content({ ...props }) {
         <Button>
           <ButtonText>Button</ButtonText>
         </Button>
-        <Button color={"brand"}>
+        <Button disabled color={"brand"}>
           <ButtonText>Button</ButtonText>
         </Button>
         <Button color={"brand-soft"}>

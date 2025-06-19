@@ -14,8 +14,9 @@ import {
   StepTitleProps as StepperTitleProps,
   StepEndAdornment as StepperEndAdornment,
   StepEndAdornmentProps as StepperEndAdornmentProps,
-} from "../step";
+} from "./step";
 import { cva } from "class-variance-authority";
+import { boolean } from "zod";
 
 type Direction = "horizontal" | "vertical";
 
@@ -23,12 +24,14 @@ type StepperContextProps = {
   direction: Direction;
   card: boolean;
   weight?: StepProps["weight"];
+  disabled?: boolean;
 };
 
 const StepperContext = React.createContext<StepperContextProps>({
   direction: "horizontal",
   card: false,
   weight: undefined,
+  disabled: false,
 });
 
 type StepperProps = ViewProps & Partial<StepperContextProps>;
@@ -52,8 +55,11 @@ const stepperVariants = cva("gap-4", {
 
 const Stepper = React.forwardRef<View, StepperProps>(
   ({ className, direction = "horizontal", card, weight, ...props }, ref) => {
+    const disabled = !!props.disabled;
     return (
-      <StepperContext.Provider value={{ direction, card: !!card, weight }}>
+      <StepperContext.Provider
+        value={{ direction, card: !!card, weight, disabled }}
+      >
         <View
           ref={ref}
           className={cn(stepperVariants({ direction, card }), className)}
@@ -109,10 +115,13 @@ StepperSeparator.displayName = "StepperSeparator";
 type StepperItemProps = StepProps;
 
 const StepperItem = React.forwardRef<View, StepperItemProps>(
-  ({ className, weight: propWeight, ...props }, ref) => {
-    const { card, weight } = React.useContext(StepperContext);
+  ({ className, weight: propWeight, inactive, ...props }, ref) => {
+    const disabledProp = !!props.disabled;
+    const { card, weight, disabled } = React.useContext(StepperContext);
     return (
       <Step
+        disabled={disabled || disabledProp}
+        inactive={inactive}
         card={card}
         weight={propWeight ?? weight}
         ref={ref}
