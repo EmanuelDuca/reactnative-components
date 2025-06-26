@@ -5,6 +5,7 @@ import {
   SelectContent,
   SelectEmpty,
   SelectGroup,
+  SelectGroupHeading,
   SelectInput,
   SelectItem,
   SelectList,
@@ -43,14 +44,17 @@ function Content() {
                 <SelectEmpty>No address found.</SelectEmpty>
                 <SelectGroup
                   heading={
-                    <View className="flex flex-row ml-[-26px] gap-2">
-                      <Badge size={"small"}>
-                        <BadgeText>Admin</BadgeText>
-                      </Badge>
-                      <Text className="border-red-100  text-sm font-semibold italic">
-                        New Text Component
-                      </Text>
-                    </View>
+                    <>
+                      <ExperimentalHeading />
+                      {/* <View className="flex flex-row ml-[-26px] gap-2">
+                        <Badge size={"small"}>
+                          <BadgeText>Admin</BadgeText>
+                        </Badge>
+                        <Text className="border-red-100  text-sm font-semibold italic">
+                          New Text Component
+                        </Text>
+                      </View> */}
+                    </>
                   }
                 >
                   {addresses.map((address) => (
@@ -63,7 +67,21 @@ function Content() {
                     </SelectItem>
                   ))}
                 </SelectGroup>
-                <SelectGroup>
+                <SelectGroup
+                  heading={
+                    <>
+                      <ExperimentalHeading />
+                      {/* <View className="flex flex-row ml-[-26px] gap-2">
+                      <Badge size={"small"}>
+                        <BadgeText>Admin</BadgeText>
+                      </Badge>
+                      <Text className="border-red-100  text-sm font-semibold italic">
+                        New Text Component
+                      </Text>
+                    </View> */}
+                    </>
+                  }
+                >
                   {addresses.map((address) => (
                     <SelectItem
                       className="font-normal"
@@ -82,6 +100,10 @@ function Content() {
     </View>
   );
 }
+
+const ExperimentalHeading = () => {
+  return <SelectGroupHeading>45 Business Park</SelectGroupHeading>;
+};
 
 const addresses: Address[] = [
   {

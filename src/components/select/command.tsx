@@ -5,6 +5,7 @@ import { Search } from "@usekeyhole/nativewind";
 
 import { cn } from "@usekeyhole/utils";
 import { Dialog, DialogContent } from "./dialog";
+import { View, ViewProps } from "react-native";
 
 type CommandProps = React.ComponentPropsWithoutRef<typeof CommandPrimitive>;
 
@@ -36,6 +37,7 @@ const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
     </Dialog>
   );
 };
+CommandDialog.displayName = "CommandDialog";
 
 type CommandLoadingProps = React.ComponentPropsWithoutRef<
   typeof CommandPrimitive.Loading
@@ -141,6 +143,24 @@ const CommandGroup = React.forwardRef<
 
 CommandGroup.displayName = CommandPrimitive.Group.displayName;
 
+type CommandGroupHeadingProps = ViewProps;
+
+const CommandGroupHeading = ({
+  className,
+  ...props
+}: CommandGroupHeadingProps) => {
+  return (
+    <View
+      className={cn(
+        "flex flex-row ml-[-28px] gap-2 text-xs font-bold text-foreground",
+        className
+      )}
+      {...props}
+    />
+  );
+};
+CommandGroupHeading.displayName = "CommandGroupHeading";
+
 type CommandSeparatorProps = React.ComponentPropsWithoutRef<
   typeof CommandPrimitive.Separator
 >;
@@ -209,6 +229,8 @@ export {
   CommandEmptyProps,
   CommandGroup,
   CommandGroupProps,
+  CommandGroupHeading,
+  CommandGroupHeadingProps,
   CommandItem,
   CommandItemProps,
   CommandShortcut,
