@@ -54,9 +54,9 @@ function Content() {
             return data.getDate() < 10;
           }}
         />
-        {/* <Text>Range (Uncontrolled)</Text>
-        <DatePickerInput mode="range" defaultValue={[new Date(), new Date()]} /> */}
-        {/* <Text>Range (Custom Formatter + Dual Mode + Controlled)</Text>
+        <Text>Range (Uncontrolled)</Text>
+        <DatePickerInput mode="range" defaultValue={[new Date(), new Date()]} />
+        <Text>Range (Custom Formatter + Dual Mode + Controlled)</Text>
         <DatePickerInput
           mode="range"
           dualMode
@@ -67,7 +67,7 @@ function Content() {
           disabledFilter={(data) => {
             return data.getDate() < 10 && data.getDate() > 5;
           }}
-        /> */}
+        />
       </View>
     </View>
   );

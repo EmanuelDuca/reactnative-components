@@ -256,13 +256,17 @@ const DatePickerInputTrigger = React.forwardRef<
   ) => {
     const showClearButton = !!valueString && allowClear;
     console.log(`Input trigger disabled: ${disabled}`);
+
+    const [isFocused, setIsFocused] = React.useState<boolean>(false);
+
     return (
       <Input
         ref={ref}
         asChild
         hovered={hovered}
         // @ts-ignore
-        focused={open}
+        focused={open || isFocused}
+        //focused={true}
         focusable={!disabled}
         readOnly
         disabled={disabled}
@@ -273,9 +277,33 @@ const DatePickerInputTrigger = React.forwardRef<
           disabled={disabled}
           focusable={!disabled}
           className="flex flex-row items-center justify-between"
-          onHoverIn={() => setHovered(true)}
-          onHoverOut={() => setHovered(false)}
-          onPress={() => setOpen(true)}
+          onHoverIn={() => {
+            if (!disabled) {
+              setHovered(true);
+              setIsFocused(true);
+            }
+          }}
+          onHoverOut={() => {
+            if (!disabled) {
+              setHovered(false);
+              setIsFocused(false);
+            }
+          }}
+          onPress={() => {
+            if (!disabled) {
+              setOpen(true);
+            }
+          }}
+          onFocus={() => {
+            if (!disabled) {
+              setIsFocused(true);
+            }
+          }}
+          onBlur={() => {
+            if (!disabled) {
+              setIsFocused(false);
+            }
+          }}
         >
           <Text className={cn(!valueString && "text-muted-foreground")}>
             {!!valueString ? valueString : placeholder}
