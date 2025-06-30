@@ -2,6 +2,7 @@ import { Badge, BadgeText, Text } from "@usekeyhole/nativewind";
 import { View } from "react-native";
 import {
   Select,
+  SelectCheck,
   SelectContent,
   SelectEmpty,
   SelectGroup,
@@ -38,50 +39,23 @@ function Content() {
             <SelectTrigger className="w-[200px]">
               <SelectValue placeholder="Select something" />
             </SelectTrigger>
-            <SelectContent align="start" className="w-[300px]">
+            <SelectContent align="start" className="w-[350px]">
               <SelectInput placeholder="Type a command or search..." />
               <SelectList>
                 <SelectEmpty>No address found.</SelectEmpty>
-                <SelectGroup
-                  heading={
-                    <>
-                      <ExperimentalHeading />
-                      {/* <View className="flex flex-row ml-[-26px] gap-2">
-                        <Badge size={"small"}>
-                          <BadgeText>Admin</BadgeText>
-                        </Badge>
-                        <Text className="border-red-100  text-sm font-semibold italic">
-                          New Text Component
-                        </Text>
-                      </View> */}
-                    </>
-                  }
-                >
+                <SelectGroup heading="45 Business Park">
                   {addresses.map((address) => (
                     <SelectItem
                       className="font-normal"
                       key={address.key}
                       value={address.address}
                     >
+                      <SelectCheck value={address.address} />
                       <Text>{address.address}</Text>
                     </SelectItem>
                   ))}
                 </SelectGroup>
-                <SelectGroup
-                  heading={
-                    <>
-                      <ExperimentalHeading />
-                      {/* <View className="flex flex-row ml-[-26px] gap-2">
-                      <Badge size={"small"}>
-                        <BadgeText>Admin</BadgeText>
-                      </Badge>
-                      <Text className="border-red-100  text-sm font-semibold italic">
-                        New Text Component
-                      </Text>
-                    </View> */}
-                    </>
-                  }
-                >
+                <SelectGroup heading="45 Business Park">
                   {addresses.map((address) => (
                     <SelectItem
                       className="font-normal"

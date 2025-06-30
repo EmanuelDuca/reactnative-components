@@ -90,9 +90,10 @@ const DatePickerSingleInput: React.FC<DatePickerSingleInputProps> = ({
   formatter = defaultSingleFormatter,
   allowClear = true,
   inputProps,
-  disabled,
   ...props
 }) => {
+  const disabled = !!props.disabled;
+  console.log(`DatePicker is disabled: ${disabled}`);
   const texts = { ...defaultSingleTexts, ...textsProp };
 
   const [hovered, setHovered] = React.useState(false);
@@ -254,6 +255,7 @@ const DatePickerInputTrigger = React.forwardRef<
     ref
   ) => {
     const showClearButton = !!valueString && allowClear;
+    console.log(`Input trigger disabled: ${disabled}`);
     return (
       <Input
         ref={ref}
@@ -261,6 +263,7 @@ const DatePickerInputTrigger = React.forwardRef<
         hovered={hovered}
         // @ts-ignore
         focused={open}
+        focusable={!disabled}
         readOnly
         disabled={disabled}
         {...inputProps}
@@ -268,6 +271,7 @@ const DatePickerInputTrigger = React.forwardRef<
       >
         <Pressable
           disabled={disabled}
+          focusable={!disabled}
           className="flex flex-row items-center justify-between"
           onHoverIn={() => setHovered(true)}
           onHoverOut={() => setHovered(false)}

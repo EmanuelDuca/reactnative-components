@@ -1,7 +1,7 @@
 import { Text } from "@usekeyhole/nativewind";
-import { DatePickerInput } from "@usekeyhole/web";
 import React from "react";
 import { ScrollView, View } from "react-native";
+import { DatePickerInput } from "~/components/date-picker-innput/date-picker-input";
 
 export default function DatePickerPage() {
   return (
@@ -43,13 +43,10 @@ function Content() {
           }}
         />
         <Text>Single (Uncontrolled)</Text>
-        <DatePickerInput
-          mode="single"
-          defaultValue={new Date()}
-          inputClassName="w-[400px]"
-        />
+        <DatePickerInput mode="single" defaultValue={new Date()} />
         <Text>Range (Controlled)</Text>
         <DatePickerInput
+          disabled
           mode="range"
           value={rangeSelected}
           onChange={setRangeSelected}
@@ -57,9 +54,9 @@ function Content() {
             return data.getDate() < 10;
           }}
         />
-        <Text>Range (Uncontrolled)</Text>
-        <DatePickerInput mode="range" defaultValue={[new Date(), new Date()]} />
-        <Text>Range (Custom Formatter + Dual Mode + Controlled)</Text>
+        {/* <Text>Range (Uncontrolled)</Text>
+        <DatePickerInput mode="range" defaultValue={[new Date(), new Date()]} /> */}
+        {/* <Text>Range (Custom Formatter + Dual Mode + Controlled)</Text>
         <DatePickerInput
           mode="range"
           dualMode
@@ -70,7 +67,7 @@ function Content() {
           disabledFilter={(data) => {
             return data.getDate() < 10 && data.getDate() > 5;
           }}
-        />
+        /> */}
       </View>
     </View>
   );
