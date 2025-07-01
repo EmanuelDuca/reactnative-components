@@ -264,9 +264,7 @@ const DatePickerInputTrigger = React.forwardRef<
         ref={ref}
         asChild
         hovered={hovered}
-        // @ts-ignore
         focused={open || isFocused}
-        //focused={true}
         focusable={!disabled}
         readOnly
         disabled={disabled}
