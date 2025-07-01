@@ -11,6 +11,10 @@ import {
 } from "react-native";
 import { ButtonProps, Text, TextProps } from "@usekeyhole/nativewind";
 
+/* -------------------------------------------------------------------------------------------------
+ * Tabs
+ * -----------------------------------------------------------------------------------------------*/
+
 type Type = "segmented" | "underlined" | "compact";
 type TabsColorProps =
   | "brand-soft"
@@ -78,6 +82,10 @@ const Tabs: React.FC<TabsProps> = ({
 };
 Tabs.displayName = "Tabs";
 
+/* -------------------------------------------------------------------------------------------------
+ * TabsList
+ * -----------------------------------------------------------------------------------------------*/
+
 const tabsListVariants = cva("flex flex-row items-center justify-center", {
   variants: {
     type: {
@@ -104,6 +112,10 @@ const TabsList: React.FC<TabsListProps> = ({ className, ...props }) => {
 };
 TabsList.displayName = "TabsList";
 
+/* -------------------------------------------------------------------------------------------------
+ * TabsTrigger
+ * -----------------------------------------------------------------------------------------------*/
+
 const TabsTriggerContext = React.createContext<{
   value: string;
   active: boolean;
@@ -119,55 +131,74 @@ type TabsTriggerProps = PressableProps & {
   children: React.ReactNode;
 };
 
-// "segmented" | "underlined" | "compact";
-/* //   | "link"
-  | "default"
-  | "brand-soft"
-  | "brand"
-  | "red-soft"
-  | "red"
-  | "green-soft"
-  | "green"
-  | "blue"
-  | "accent"
-  | "transparent"; */
-export const tabsTriggerColorVariants = cva("", {
-  variants: {
-    type: {
-      segmented: undefined,
-      underlined: undefined,
-      compact: undefined,
+export const tabsTriggerColorVariants = cva(
+  "flex flex-row items-center justify-center py-2 transition-colors",
+  {
+    variants: {
+      type: {
+        segmented: "-my-[1px] flex-1 rounded-md ",
+        underlined: "-my-[1px] flex-1 border-b ",
+        compact: "",
+      },
+      color: {
+        "brand-soft": "bg-primary-soft",
+        brand: "bg-primary",
+        "red-soft": "bg-destructive-soft",
+        red: "bg-destructive",
+        "green-soft": "bg-success-soft",
+        green: "bg-success",
+        blue: "bg-info",
+        accent: "bg-accent",
+        transparent: "bg-transparent",
+      },
+      active: {
+        true: undefined,
+        false: "border-transparent",
+      },
     },
-    color: {
-      "brand-soft": "bg-primary-soft",
-      brand: "bg-primary",
-      "red-soft": "bg-destructive-soft",
-      red: "bg-destructive",
-      "green-soft": "bg-success-soft",
-      green: "bg-success",
-      blue: "bg-info",
-      accent: "bg-accent",
-      transparent: "bg-transparent",
-    },
-  },
-  compoundVariants: [
-    /*    // Segmented
-    {
-      type: "segmented",
-      color: "brand-soft",
-      className: "bg-primary-soft",
-    },
-    {
-      type: "segmented",
+    compoundVariants: [
+      { type: "underlined", className: "bg-transparent" },
+      {
+        type: "compact",
+        className: "bg-transparent",
+      },
+      {
+        type: "underlined",
+        active: true,
+        color: "brand",
+        className: "border-primary",
+      },
+      {
+        type: "underlined",
+        active: true,
+        color: "green",
+        className: "border-success",
+      },
+      {
+        type: "underlined",
+        active: true,
+        color: "red",
+        className: "border-destructive",
+      },
+      {
+        type: "underlined",
+        active: true,
+        color: "blue",
+        className: "border-info",
+      },
+      {
+        type: "underlined",
+        active: true,
+        color: "accent",
+        className: "border-accent",
+      },
+    ],
+    defaultVariants: {
       color: "brand",
-      className: "bg-primary",
-    }, */
-  ],
-  defaultVariants: {
-    color: "brand",
-    type: "segmented",
-  },
-});
+      type: "segmented",
+    },
+  }
+);
 
 const TabsTrigger: React.FC<TabsTriggerProps> = ({
   onPress,
@@ -193,79 +224,34 @@ const TabsTrigger: React.FC<TabsTriggerProps> = ({
     <TabsTriggerContext.Provider
       value={{ value, active: isActive, disabled: !!props.disabled }}
     >
-      {(() => {
-        if (ctx.type === "segmented") {
-          return (
-            <Pressable
-              onPress={handleOnPress}
-              className={cn(
-                "-my-[1px] flex flex-1 flex-row items-center justify-center rounded-md py-2 transition-colors",
-                //isActive ? "bg-primary" : "bg-transparent",
-                tabsTriggerColorVariants({ type: "segmented", color: color }),
-                className
-              )}
-              {...props}
-            >
-              {React.Children.map(children, (child) =>
-                typeof child === "string" ? (
-                  <TabsTriggerText>{child}</TabsTriggerText>
-                ) : (
-                  child
-                )
-              )}
-            </Pressable>
-          );
-        }
-
-        if (ctx.type === "underlined") {
-          return (
-            <Pressable
-              onPress={handleOnPress}
-              className={cn(
-                "-my-[1px] flex flex-1 flex-row items-center justify-center border-b py-2 transition-colors",
-                isActive ? "border-primary" : "border-transparent",
-                className
-              )}
-              {...props}
-            >
-              {React.Children.map(children, (child) =>
-                typeof child === "string" ? (
-                  <TabsTriggerText>{child}</TabsTriggerText>
-                ) : (
-                  child
-                )
-              )}
-            </Pressable>
-          );
-        }
-
-        if (ctx.type === "compact") {
-          return (
-            <Pressable
-              onPress={handleOnPress}
-              className={cn(
-                "flex flex-row items-center justify-center py-2",
-                className
-              )}
-              {...props}
-            >
-              {React.Children.map(children, (child) =>
-                typeof child === "string" ? (
-                  <TabsTriggerText>{child}</TabsTriggerText>
-                ) : (
-                  child
-                )
-              )}
-            </Pressable>
-          );
-        }
-
-        return null;
-      })()}
+      <Pressable
+        onPress={handleOnPress}
+        className={cn(
+          tabsTriggerColorVariants({
+            type: ctx.type,
+            color: color,
+            active: isActive,
+          }),
+          className
+        )}
+        {...props}
+      >
+        {React.Children.map(children, (child) =>
+          typeof child === "string" ? (
+            <TabsTriggerText>{child}</TabsTriggerText>
+          ) : (
+            child
+          )
+        )}
+      </Pressable>
     </TabsTriggerContext.Provider>
   );
 };
 TabsTrigger.displayName = "TabsTrigger";
+
+/* -------------------------------------------------------------------------------------------------
+ * TabsTriggerText
+ * -----------------------------------------------------------------------------------------------*/
 
 const tabsTriggerTextVariants = cva("text-sm font-semibold transition-colors", {
   variants: {
@@ -283,11 +269,11 @@ const tabsTriggerTextVariants = cva("text-sm font-semibold transition-colors", {
       false: "opacity-100",
     },
     color: {
-      "brand-soft": "text-primary",
+      "brand-soft": "text-foreground",
       brand: "text-primary-foreground",
-      "red-soft": "text-destructive",
+      "red-soft": " text-foreground",
       red: "text-destructive-foreground",
-      "green-soft": "text-success",
+      "green-soft": " text-foreground",
       green: "text-primary-foreground",
       blue: "text-primary-foreground",
       accent: "text-foreground",
@@ -296,7 +282,6 @@ const tabsTriggerTextVariants = cva("text-sm font-semibold transition-colors", {
   },
   compoundVariants: [
     // ----- Underlined -----
-    { type: "underlined", color: "brand-soft", className: "text-primary-soft" },
     {
       type: "underlined",
       color: "brand",
@@ -304,18 +289,8 @@ const tabsTriggerTextVariants = cva("text-sm font-semibold transition-colors", {
     },
     {
       type: "underlined",
-      color: "red-soft",
-      className: "text-destructive-soft",
-    },
-    {
-      type: "underlined",
       color: "red",
       className: "text-destructive",
-    },
-    {
-      type: "underlined",
-      color: "green-soft",
-      className: "text-success-soft",
     },
     {
       type: "underlined",
@@ -327,11 +302,8 @@ const tabsTriggerTextVariants = cva("text-sm font-semibold transition-colors", {
     { type: "underlined", color: "transparent", className: "text-foreground" },
 
     // ----- Compact -----
-    { type: "compact", color: "brand-soft", className: "text-primary-soft" },
     { type: "compact", color: "brand", className: "text-primary" },
-    { type: "compact", color: "red-soft", className: "text-destructive-soft" },
     { type: "compact", color: "red", className: "text-destructive" },
-    { type: "compact", color: "green-soft", className: "text-success-soft" },
     { type: "compact", color: "green", className: "text-success" },
     { type: "compact", color: "blue", className: "text-info" },
     { type: "compact", color: "accent", className: "text-muted" },
@@ -372,6 +344,10 @@ const TabsTriggerText: React.FC<TabsTriggerTextProps> = ({
   );
 };
 TabsTriggerText.displayName = "TabsTriggerText";
+
+/* -------------------------------------------------------------------------------------------------
+ * TabsContent
+ * -----------------------------------------------------------------------------------------------*/
 
 type TabsContentProps = {
   value: string;
