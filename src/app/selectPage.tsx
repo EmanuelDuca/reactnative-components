@@ -43,7 +43,10 @@ function Content() {
               <SelectInput placeholder="Type a command or search..." />
               <SelectList>
                 <SelectEmpty>No address found.</SelectEmpty>
-                <SelectGroup heading="45 Business Park">
+                <SelectGroup
+                  heading="123 Business Park"
+                  headingClassName="pl-10"
+                >
                   {addresses.map((address) => (
                     <SelectItem
                       className="font-normal"

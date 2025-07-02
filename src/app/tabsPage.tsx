@@ -46,7 +46,7 @@ function Content() {
             {colorList.map((item) => {
               return (
                 <Tabs
-                  //colorPrimary={item}
+                  colorPrimary={item}
                   //colorSecondary="red-soft"
                   defaultValue="account"
                   className="w-[300px]"
@@ -119,7 +119,7 @@ function Content() {
             {colorsGost.map((item) => {
               return (
                 <Tabs
-                  //colorPrimary={item}
+                  colorPrimary={item}
                   //colorSecondary="red-soft"
                   defaultValue="account"
                   className="w-[300px]"
@@ -143,7 +143,7 @@ function Content() {
             {colorsGost.map((item) => {
               return (
                 <Tabs
-                  //colorPrimary={item}
+                  colorPrimary={item}
                   colorSecondary="accent"
                   defaultValue="account"
                   className="w-[300px]"
@@ -194,7 +194,7 @@ function Content() {
             {colorsGost.map((item) => {
               return (
                 <Tabs
-                  //colorPrimary={item}
+                  colorPrimary={item}
                   //colorSecondary="red-soft"
                   defaultValue="account"
                   className="w-[300px]"
@@ -218,7 +218,7 @@ function Content() {
             {colorsGost.map((item) => {
               return (
                 <Tabs
-                  //colorPrimary={item}
+                  colorPrimary={item}
                   colorSecondary="accent"
                   defaultValue="account"
                   className="w-[300px]"

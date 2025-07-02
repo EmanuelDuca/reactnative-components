@@ -1,11 +1,10 @@
 import * as React from "react";
 import { type DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
-import { Search } from "@usekeyhole/nativewind";
+import { Search, TextProps } from "@usekeyhole/nativewind";
 
 import { cn } from "@usekeyhole/utils";
 import { Dialog, DialogContent } from "./dialog";
-import { View, ViewProps } from "react-native";
 
 type CommandProps = React.ComponentPropsWithoutRef<typeof CommandPrimitive>;
 
@@ -123,43 +122,48 @@ const CommandEmpty = React.forwardRef<
 
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
 
+type prefixCNProps = {
+  classNames: string | undefined;
+  prefix: string;
+};
+
+export function prefixCN({ classNames, prefix }: prefixCNProps): string {
+  if (!classNames) return "";
+
+  return classNames
+    .trim()
+    .split(/\s+/)
+    .map((cls) => `${prefix}${cls}`)
+    .join(" ");
+}
+
 type CommandGroupProps = React.ComponentPropsWithoutRef<
   typeof CommandPrimitive.Group
->;
+> & {
+  headingClassName?: TextProps["className"];
+};
 
 const CommandGroup = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Group>,
   CommandGroupProps
->(({ className, ...props }, ref) => (
-  <CommandPrimitive.Group
-    ref={ref}
-    className={cn(
-      "text-foreground [&_[cmdk-group-heading]]:text-muted-foreground border-border overflow-hidden border-t p-2 font-semibold first:border-t-0 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:pl-3 [&_[cmdk-group-heading]]:pr-2 [&_[cmdk-group-heading]]:font-sans [&_[cmdk-group-heading]]:text-[13px] [&_[cmdk-group-heading]]:font-semibold",
-      className
-    )}
-    {...props}
-  />
-));
-
-CommandGroup.displayName = CommandPrimitive.Group.displayName;
-
-type CommandGroupHeadingProps = ViewProps;
-
-const CommandGroupHeading = ({
-  className,
-  ...props
-}: CommandGroupHeadingProps) => {
+>(({ className, headingClassName, ...props }, ref) => {
+  const scopedHeadingClasses = prefixCN({
+    classNames: headingClassName,
+    prefix: "[&_[cmdk-group-heading]]:",
+  });
   return (
-    <View
+    <CommandPrimitive.Group
+      ref={ref}
       className={cn(
-        "flex flex-row ml-[-28px] gap-2 text-xs font-bold text-foreground",
+        "text-foreground [&_[cmdk-group-heading]]:text-muted-foreground border-border overflow-hidden border-t p-2 font-semibold first:border-t-0 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:pl-3 [&_[cmdk-group-heading]]:pr-2 [&_[cmdk-group-heading]]:font-sans [&_[cmdk-group-heading]]:text-[13px] [&_[cmdk-group-heading]]:font-semibold",
+        scopedHeadingClasses,
         className
       )}
       {...props}
     />
   );
-};
-CommandGroupHeading.displayName = "CommandGroupHeading";
+});
+CommandGroup.displayName = CommandPrimitive.Group.displayName;
 
 type CommandSeparatorProps = React.ComponentPropsWithoutRef<
   typeof CommandPrimitive.Separator
@@ -229,8 +233,6 @@ export {
   CommandEmptyProps,
   CommandGroup,
   CommandGroupProps,
-  CommandGroupHeading,
-  CommandGroupHeadingProps,
   CommandItem,
   CommandItemProps,
   CommandShortcut,
