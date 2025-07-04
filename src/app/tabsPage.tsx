@@ -11,7 +11,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "~/components/tabs/tabs";
+} from "~/components/arrow-navigation/experimental-tabs";
 
 export default function Page() {
   return <Content />;
