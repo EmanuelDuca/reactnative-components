@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Dropzone, DropzoneProps } from "../dropzone/dropzone";
+import { Dropzone, DropzoneProps, DropzoneRef } from "../dropzone/dropzone";
 import { useControllableState } from "@usekeyhole/hooks";
 import {
   File as FileNativewind,
@@ -14,58 +14,83 @@ import {
   FileIconProps,
   FileLabel,
   FileLabelProps,
-} from "./file-nativewind";
+} from "@usekeyhole/nativewind";
 
 /* -------------------------------------------------------------------------------------------------
  * File
  * -----------------------------------------------------------------------------------------------*/
 
-type FileProps = FileNativewindProps &
-  Pick<DropzoneProps, "noClick" | "noDrag" | "onFilesAdded">;
+type LiftedDropzoneProps =
+  | "noClick"
+  | "noDrag"
+  | "onFilesAdded"
+  | "noDragEventsBubbling"
+  | "noClickEventsBubbling";
 
-const File: React.FC<FileProps> = ({
-  className,
-  size = "base",
-  hovered: isHovered,
-  variant = "default",
-  onFilesAdded,
-  noClick,
-  noDrag,
-  disabled,
-  ...props
-}) => {
-  const [hovered, setHovered] = useControllableState({
-    prop: isHovered,
-    defaultProp: false,
-  });
-  return (
-    <div
-      onMouseEnter={() => {
-        if (!disabled) setHovered?.(true);
-      }}
-      onMouseLeave={() => {
-        if (!disabled) setHovered?.(false);
-      }}
-    >
-      <Dropzone
-        disabled={disabled}
-        noClick={!!noClick}
-        noDrag={!!noDrag}
-        onFilesAdded={onFilesAdded}
+type FileProps = FileNativewindProps &
+  Pick<DropzoneProps, LiftedDropzoneProps> & {
+    dropzoneOptions?: Omit<DropzoneProps, LiftedDropzoneProps | "children">;
+  };
+
+type FileRef = DropzoneRef;
+
+const File = React.forwardRef<FileRef, FileProps>(
+  (
+    {
+      // @ts-ignore ts not allowing classnames for some reason
+      className,
+      size = "base",
+      hovered: isHovered,
+      variant = "default",
+      onFilesAdded,
+      noClick,
+      noDrag,
+      disabled,
+      noDragEventsBubbling,
+      noClickEventsBubbling,
+      dropzoneOptions,
+      ...props
+    },
+    ref
+  ) => {
+    const [hovered, setHovered] = useControllableState({
+      prop: isHovered,
+      defaultProp: false,
+    });
+    return (
+      <div
+        onMouseEnter={() => {
+          if (!disabled) setHovered?.(true);
+        }}
+        onMouseLeave={() => {
+          if (!disabled) setHovered?.(false);
+        }}
       >
-        <FileNativewind
-          disabled
-          size={size}
-          hovered={hovered}
-          variant={variant}
-          className={className}
-          {...props}
-        />
-      </Dropzone>
-    </div>
-  );
-};
-File.displayName = "File";
+        <Dropzone
+          {...dropzoneOptions}
+          ref={ref}
+          noClick={!!noClick}
+          noDrag={!!noDrag}
+          onFilesAdded={onFilesAdded}
+          noClickEventsBubbling={noClickEventsBubbling}
+          noDragEventsBubbling={noDragEventsBubbling}
+        >
+          <FileNativewind
+            disabled
+            size={size}
+            hovered={hovered}
+            variant={variant}
+            // @ts-ignore ts not allowing classnames for some reason
+            className={className}
+            {...props}
+          />
+        </Dropzone>
+      </div>
+    );
+  }
+);
+
+export default File;
 
 /* -------------------------------------------------------------------------------------------------
  * Export Components

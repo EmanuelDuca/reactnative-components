@@ -1,16 +1,9 @@
 import * as React from "react";
 import { cva, VariantProps } from "class-variance-authority";
-import {
-  Pressable,
-  PressableProps,
-  Text,
-  TextProps,
-  View,
-  ViewProps,
-} from "react-native";
+import { Pressable, PressableProps, View, ViewProps } from "react-native";
 import { useControllableState } from "@usekeyhole/hooks";
 import { cn } from "@usekeyhole/utils";
-import { Button } from "@usekeyhole/nativewind";
+import { Text, TextProps } from "../text";
 
 /* -------------------------------------------------------------------------------------------------
  * File
@@ -22,70 +15,64 @@ const FileContext = React.createContext<{
   variant: VariantProps<typeof fileVariants>["variant"];
 }>({ hovered: false, size: "base", variant: "default" });
 
-const fileVariants = cva(
-  "flex-1 rounded-xl border bg-white dark:bg-neutral-900",
-  {
-    variants: {
-      variant: {
-        default: " border-neutral-200 dark:border-neutral-700",
-        destructive: "border-dashed border-red-400 dark:border-red-400",
-        failed:
-          " ring-offset dark: border-red-800 ring-2 ring-red-400 ring-opacity-50 dark:border-red-300 dark:ring-red-400  ",
-        uploading: "border-brand-50 dark:border-brand-900",
-      },
-      size: {
-        base: "flex flex-row items-center gap-3 px-4 py-3 ",
-        large: "flex flex-col items-center gap-3 p-8 ",
-      },
-      hovered: {
-        false: undefined,
-        true: undefined,
-      },
+const fileVariants = cva("bg-background flex-1 rounded-xl border", {
+  variants: {
+    variant: {
+      default: " border-border",
+      destructive: "border-destructive border-dashed",
+      failed: "ring-offset ring-destructive-soft border-destructive ring-2",
+      uploading: "border-primary",
     },
-    compoundVariants: [
-      {
-        variant: "default",
-        hovered: true,
-        className: "bg-neutral-50 dark:bg-neutral-800",
-      },
-      // Destructive
-      {
-        variant: "destructive",
-        hovered: false,
-        className: "bg-red-50 dark:bg-red-900",
-      },
-      {
-        variant: "destructive",
-        hovered: true,
-        className: "bg-white dark:bg-neutral-900",
-      },
-      // Failed
-      {
-        variant: "failed",
-        hovered: true,
-        className: " bg-neutral-50 dark:bg-neutral-800",
-      },
-      // Large size
-      {
-        variant: "default",
-        size: "large",
-        hovered: false,
-        className: "border-dashed",
-      },
-    ],
-    defaultVariants: {
+    size: {
+      base: "flex flex-row items-center gap-3 px-4 py-3 ",
+      large: "flex flex-col items-center gap-3 p-8 ",
+    },
+    hovered: {
+      false: undefined,
+      true: undefined,
+    },
+  },
+  compoundVariants: [
+    {
       variant: "default",
-      size: "base",
-      hovered: false,
+      hovered: true,
+      className: "bg-accent/light-50",
     },
-  }
-);
+    // Destructive
+    {
+      variant: "destructive",
+      hovered: false,
+      className: "bg-destructive-soft",
+    },
+    {
+      variant: "destructive",
+      hovered: true,
+      className: "bg-background",
+    },
+    // Failed
+    {
+      variant: "failed",
+      hovered: true,
+      className: "bg-background",
+    },
+    // Large size
+    {
+      variant: "default",
+      size: "large",
+      hovered: false,
+      className: "border-dashed",
+    },
+  ],
+  defaultVariants: {
+    variant: "default",
+    size: "base",
+    hovered: false,
+  },
+});
 
 type FileProps = PressableProps &
   VariantProps<typeof fileVariants> & {
     disabled?: boolean;
-    onHoverIn?: () => void;
-    onHoverOut?: () => void;
   };
 
 const File = React.forwardRef<View, FileProps>(
@@ -145,20 +132,17 @@ File.displayName = "File";
 
 type FileIconProps = ViewProps & {
   children?: JSX.Element;
+  onPress?: () => void;
 };
 
 const FileIcon = React.forwardRef<View, FileIconProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, onPress, ...props }, ref) => {
     const { size } = React.useContext(FileContext);
     const sizeClassName = size == "large" ? "size-8" : undefined;
     if (children) {
       return React.cloneElement(children, {
         ref: ref,
-        className: cn(
-          "stroke-neutral-700 dark:stroke-neutral-100",
-          sizeClassName,
-          className
-        ),
+        className: cn("stroke-accent-foreground", sizeClassName, className),
         ...props,
       });
     } else {
@@ -185,78 +169,74 @@ FileContent.displayName = "FileContent";
  * FileLabel
  * -----------------------------------------------------------------------------------------------*/
 
-const fileLabelVariants = cva(
-  "text-sm font-semibold text-neutral-800 dark:text-neutral-100",
-  {
-    variants: {
-      variant: {
-        default: "",
-        destructive: "",
-        failed: "text-red-800 dark:text-red-300",
-        uploading: "",
-      },
-      size: {
-        base: "",
-        large: "text-center",
-      },
+const fileLabelVariants = cva("text-accent-foreground text-sm font-semibold", {
+  variants: {
+    variant: {
+      default: "",
+      destructive: "",
+      failed: "text-destructive",
+      uploading: "",
     },
-    defaultVariants: {
-      variant: "default",
-      size: "base",
+    size: {
+      base: "",
+      large: "text-center",
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "base",
+  },
+});
 
 type FileLabelProps = TextProps;
 
-const FileLabel = React.forwardRef<Text, FileLabelProps>(
-  ({ className, ...props }, ref) => {
-    const { size, variant } = React.useContext(FileContext);
+const FileLabel = React.forwardRef<
+  React.ElementRef<typeof Text>,
+  FileLabelProps
+>(({ className, ...props }, ref) => {
+  const { size, variant } = React.useContext(FileContext);
 
-    return (
-      <Text
-        ref={ref}
-        className={cn(fileLabelVariants({ size, variant }), className)}
-        {...props}
-      />
-    );
-  }
-);
+  return (
+    <Text
+      ref={ref}
+      className={cn(fileLabelVariants({ size, variant }), className)}
+      {...props}
+    />
+  );
+});
 FileLabel.displayName = "FileLabel";
 
 /* -------------------------------------------------------------------------------------------------
  * FileDescription
  * -----------------------------------------------------------------------------------------------*/
 
-const fileDescriptionVariants = cva(
-  "text-sm text-neutral-600 dark:text-neutral-300",
-  {
-    variants: {
-      size: {
-        base: "",
-        large: "text-center",
-      },
+const fileDescriptionVariants = cva("text-muted-foreground text-sm", {
+  variants: {
+    size: {
+      base: "",
+      large: "text-center",
     },
-    defaultVariants: {
-      size: "base",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    size: "base",
+  },
+});
 
 type FileDescriptionProps = TextProps;
 
-const FileDescription = React.forwardRef<Text, FileDescriptionProps>(
-  ({ className, ...props }, ref) => {
-    const { size } = React.useContext(FileContext);
-    return (
-      <Text
-        ref={ref}
-        className={cn(fileDescriptionVariants({ size }), className)}
-        {...props}
-      />
-    );
-  }
-);
+const FileDescription = React.forwardRef<
+  React.ElementRef<typeof Text>,
+  FileDescriptionProps
+>(({ className, ...props }, ref) => {
+  const { size } = React.useContext(FileContext);
+  return (
+    <Text
+      ref={ref}
+      className={cn(fileDescriptionVariants({ size }), className)}
+      {...props}
+    />
+  );
+});
 FileDescription.displayName = "FileDescription";
 
 /* -------------------------------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 import { Building, Search, Text } from "@usekeyhole/nativewind";
+import { getPhoneInputCountries } from "@usekeyhole/web";
 import * as React from "react";
 import { Linking, ScrollView, View, Platform } from "react-native";
 import { AddRentalDialog } from "~/components/input/add-rental-dialog";
@@ -7,6 +8,7 @@ import {
   InputEndAdornment,
   InputStartAdornment,
 } from "~/components/input/input";
+import { PhoneInput } from "~/components/phone-input/phone-input";
 export default function Page() {
   return <Content />;
 }
@@ -18,7 +20,9 @@ function Content() {
   return (
     <View className="h-full w-full bg-background">
       <ScrollView>
-        <View></View>
+        <View className="w-96 p-10">
+          <PhoneInputExample />
+        </View>
       </ScrollView>
     </View>
   );
@@ -36,7 +40,12 @@ export function getCountryCodePhoneLength(countryCode: string): number {
   return lengths[countryCode] ?? 8;
 }
 
-export default function PhoneInputPlayground() {
+export function PhoneInputExample() {
+  const countries = getPhoneInputCountries("da");
+  return <PhoneInput countries={countries} defaultCountry="dk" size="md" />;
+}
+
+/* export default function PhoneInputPlayground() {
   const [countryCode, setCountryCode] = React.useState("DK");
   const [maxLength, setMaxLength] = React.useState(
     getCountryCodePhoneLength("DK")
@@ -80,4 +89,4 @@ export default function PhoneInputPlayground() {
       </Text>
     </View>
   );
-}
+} */
