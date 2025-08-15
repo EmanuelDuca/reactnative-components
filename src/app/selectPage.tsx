@@ -6,7 +6,6 @@ import {
   SelectContent,
   SelectEmpty,
   SelectGroup,
-  SelectGroupHeading,
   SelectInput,
   SelectItem,
   SelectList,
@@ -77,10 +76,6 @@ function Content() {
     </View>
   );
 }
-
-const ExperimentalHeading = () => {
-  return <SelectGroupHeading>45 Business Park</SelectGroupHeading>;
-};
 
 const addresses: Address[] = [
   {

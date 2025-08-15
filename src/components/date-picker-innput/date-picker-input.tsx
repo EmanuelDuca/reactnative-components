@@ -14,7 +14,7 @@ import {
   ButtonIcon,
   InputProps,
 } from "@usekeyhole/nativewind";
-import { DatePicker, DatePickerProps } from "@usekeyhole/nativewind";
+import { DatePicker, DatePickerProps } from "./date-picker-web";
 import { useControllableState } from "@usekeyhole/hooks";
 import { Pressable } from "react-native";
 import { cn } from "@usekeyhole/utils";
@@ -255,8 +255,6 @@ const DatePickerInputTrigger = React.forwardRef<
     ref
   ) => {
     const showClearButton = !!valueString && allowClear;
-    console.log(`Input trigger disabled: ${disabled}`);
-
     const [isFocused, setIsFocused] = React.useState<boolean>(false);
 
     return (

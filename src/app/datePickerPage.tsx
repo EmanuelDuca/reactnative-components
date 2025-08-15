@@ -1,19 +1,32 @@
 import { Text } from "@usekeyhole/nativewind";
 import React from "react";
 import { ScrollView, View } from "react-native";
+import { DatePicker } from "~/components/date-picker-innput/date-picker-web";
 import { DatePickerInput } from "~/components/date-picker-innput/date-picker-input";
 
 export default function DatePickerPage() {
   return (
     <ScrollView>
       <View>
-        <Content />
+        <DumDatePickerComponent />
+        {/*  <Content /> */}
       </View>
     </ScrollView>
   );
 }
+function DumDatePickerComponent() {
+  const [singleValue, setSingleValue] = React.useState<Date | undefined>(
+    undefined
+  );
 
-function Content() {
+  return (
+    <View>
+      <DatePicker mode="single" value={singleValue} onChange={setSingleValue} />
+    </View>
+  );
+}
+
+/* function Content() {
   const [singleSelected, setSingleSelected] = React.useState<
     Date | undefined
   >();
@@ -71,4 +84,4 @@ function Content() {
       </View>
     </View>
   );
-}
+} */
