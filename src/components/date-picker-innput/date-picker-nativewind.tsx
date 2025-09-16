@@ -16,12 +16,7 @@ import { cn } from "@usekeyhole/utils";
 import { useControllableState } from "@usekeyhole/hooks";
 import { cva, VariantProps } from "class-variance-authority";
 import React from "react";
-import { Platform, Pressable, PressableProps, View } from "react-native";
-import {
-  RovingFocusGroup,
-  RovingFocusGroupItem,
-} from "../arrow-navigation/roving-focus-group";
-
+import { Pressable, PressableProps, View, Platform } from "react-native";
 const defaultTexts = {
   days: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
   months: [
@@ -128,13 +123,16 @@ const DatePickerSingle: React.FC<DatePickerSingleProps> = ({
     currentDate: currentDateProp || selected,
     today: todayProp,
   });
-
   const weeks = chunkIntoWeeks(calendar.currentDate.calendarDays); // This is used to separate the date rows.
   const [focusedRow, setFocusedRow] = React.useState(0); // week index
   const [focusedCol, setFocusedCol] = React.useState(0); // day index (0-6)
-  const cellRefs = React.useRef<Array<Array<HTMLDivElement | null>>>([]);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  // Ref matrix for cells (Pressable ref, not HTMLDivElement)
+  const cellRefs = React.useRef<
+    Array<Array<React.ElementRef<typeof Pressable> | null>>
+  >([]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<any>) => {
     e.preventDefault();
 
     const rowCount = weeks.length;
@@ -147,7 +145,7 @@ const DatePickerSingle: React.FC<DatePickerSingleProps> = ({
       const isHidden = date?.getMonth() !== calendar.currentDate.currentMonth;
 
       if (cell && !isDisabled && !isHidden) {
-        cell.focus();
+        if (Platform.OS === "web") (cell as any)?.focus?.();
         setFocusedRow(r);
         setFocusedCol(c);
         return true;
@@ -223,6 +221,11 @@ const DatePickerSingle: React.FC<DatePickerSingleProps> = ({
     };
 
     switch (e.key) {
+      case "Tab": {
+        console.log("Tab was pressed");
+        break;
+      }
+
       case "ArrowDown": {
         const nextRow = focusedRow + 1;
         if (nextRow < rowCount && move(nextRow, focusedCol)) {
@@ -278,6 +281,8 @@ const DatePickerSingle: React.FC<DatePickerSingleProps> = ({
     }
   };
 
+  function onInitialCalendarFocus() {}
+
   return (
     <View className="bg-background border-border flex flex-col rounded-sm border p-4">
       <View className="flex w-[280px] select-none flex-col gap-y-2">
@@ -308,40 +313,30 @@ const DatePickerSingle: React.FC<DatePickerSingleProps> = ({
           ))}
         </View>
       </View>
-
-      <View className="flex flex-col gap-y-2 w-[280px] items-center">
-        {weeks.map((week, weekIndex) => {
-          if (!cellRefs.current[weekIndex]) {
-            cellRefs.current[weekIndex] = [];
-          }
-          return (
-            <View
-              className="flex flex-row justify-between gap-y-2"
-              key={weekIndex}
-            >
-              {week.map((date, colIndex) => (
-                <CalendarCell
-                  key={date.toISOString()}
-                  ref={(el) => {
-                    cellRefs.current[weekIndex][colIndex] = el;
-                  }}
-                  onFocus={() => {
-                    setFocusedRow(weekIndex);
-                    setFocusedCol(colIndex);
-                  }}
-                  day={date.getDate()}
-                  selected={isDateEqual(selected || new Date(), date)}
-                  today={isDateEqual(calendar.today, date)}
-                  disabled={disabledFilter?.(date) || false}
-                  hidden={date.getMonth() !== calendar.currentDate.currentMonth}
-                  onClick={() => setSelected(date)}
-                  onKeyDown={handleKeyDown}
-                />
-              ))}
-            </View>
-          );
-        })}
-      </View>
+      {weeks.map((week, weekIndex) => (
+        <View key={weekIndex} className="flex flex-row justify-between gap-y-2">
+          {week.map((date, colIndex) => (
+            <CalendarCell
+              key={date.toISOString()}
+              ref={(el) => {
+                (cellRefs.current[weekIndex] ??= [])[colIndex] = el;
+              }}
+              onFocus={() => {
+                setFocusedRow(weekIndex);
+                setFocusedCol(colIndex);
+              }}
+              day={date.getDate()}
+              selected={isDateEqual(selected || new Date(), date)}
+              today={isDateEqual(calendar.today, date)}
+              disabled={disabledFilter?.(date) || false}
+              hidden={date.getMonth() !== calendar.currentDate.currentMonth}
+              onPress={() => setSelected(date)} // ✅ cross-platform
+              focusable // delete this line
+              {...(Platform.OS === "web" ? { onKeyDown: handleKeyDown } : {})} // ✅ web only
+            />
+          ))}
+        </View>
+      ))}
     </View>
   );
 };
@@ -353,6 +348,23 @@ function chunkIntoWeeks(days: Date[]): Date[][] {
   }
   return weeks;
 }
+
+// Delete this lines
+/* type PresentButton = {
+  key: "today" | "yesterday" | "lastWeek" | "lastMonth" | "thisQuarter";
+};
+
+type RelativeButton = {
+  direction: "past" | "future";
+  amount: number;
+  unit: "day" | "week" | "month" | "quarter" | "year";
+};
+
+type CustomButtons = PresentButton | RelativeButton;
+
+type DatePicker{
+  customButtons?: CustomButtons[]
+} */
 
 type DatePickerRangeProps = {
   value?: [Date | undefined, Date | undefined];
@@ -386,7 +398,7 @@ const DatePickerRange: React.FC<DatePickerRangeProps> = ({
     today,
     firstCalendar,
     secondCalendar,
-    firstSelection,
+    firstSelection: firstSelectionProp,
     secondSelection,
     hoveringSecondSelection,
     setFirstSelection,
@@ -414,20 +426,189 @@ const DatePickerRange: React.FC<DatePickerRangeProps> = ({
     calcDisabled,
     calcHidden,
   } = useCalendarHelpers({
-    firstSelection,
+    firstSelection: firstSelectionProp,
     secondSelection,
     hoveringSecondSelection,
     disabledFilter,
   });
 
+  const [calendarState, setCalendarState] = React.useState<
+    "none" | "first-selected" | "both-days-selected"
+  >("none");
+
+  const [controledFirstSelection, setControledFirstSelection] =
+    useControllableState({
+      prop: firstSelectionProp,
+      onChange: setFirstSelection,
+      defaultProp: defaultValue?.[0],
+    });
+
+  const firstCalendarWeeks = chunkIntoWeeks(firstCalendar.calendarDays); //experimental
+  const [focusedRow, setFocusedRow] = React.useState(0); // week index
+  const [focusedCol, setFocusedCol] = React.useState(0); // day index (0-6)
+  //experimental
+  const cellRefs = React.useRef<
+    Array<Array<React.ElementRef<typeof Pressable> | null>>
+  >([]);
+
   const handleSave = () => {
-    onChange?.([firstSelection, secondSelection]);
+    onChange?.([controledFirstSelection, secondSelection]);
   };
 
   const handleClear = () => {
     setFirstSelection(undefined);
     setSecondSelection(undefined);
     onChange?.([undefined, undefined]);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<any>) => {
+    e.preventDefault();
+
+    const rowCount = firstCalendarWeeks.length;
+    const colCount = 7;
+
+    const move = (r: number, c: number) => {
+      const date = firstCalendarWeeks[r]?.[c];
+      const cell = cellRefs.current[r]?.[c];
+      const isDisabled = disabledFilter?.(date) ?? false;
+      const isHidden = date?.getMonth() !== firstCalendar.currentMonth;
+
+      if (cell && !isDisabled && !isHidden) {
+        if (Platform.OS === "web") (cell as any)?.focus?.();
+        setFocusedRow(r);
+        setFocusedCol(c);
+        return true;
+      }
+
+      return false;
+    };
+
+    const getNextActiveCell = (
+      weeks: Date[][],
+      col: number
+    ): [number, number] | null => {
+      for (let r = 0; r < weeks.length; r++) {
+        const date = weeks[r][col];
+        if (date.getMonth() === today.getMonth() && !disabledFilter?.(date)) {
+          return [r, col];
+        }
+      }
+      return null;
+    };
+
+    const getPrevActiveCell = (
+      weeks: Date[][],
+      col: number
+    ): [number, number] | null => {
+      for (let r = weeks.length - 1; r >= 0; r--) {
+        const date = weeks[r][col];
+        if (date.getMonth() === today.getMonth() && !disabledFilter?.(date)) {
+          return [r, col];
+        }
+      }
+      return null;
+    };
+
+    const moveToNextMonth = () => {
+      firstCalendar.goToNextMonth();
+      requestAnimationFrame(() => {
+        const newWeeks = chunkIntoWeeks(firstCalendar.calendarDays);
+        const nextCell = getNextActiveCell(newWeeks, focusedCol);
+        if (nextCell) {
+          const [r, c] = nextCell;
+          const cell = cellRefs.current[r]?.[c];
+          if (cell) {
+            cell.focus();
+            setFocusedRow(r);
+            setFocusedCol(c);
+          }
+        }
+      });
+    };
+
+    const moveToPrevMonth = () => {
+      firstCalendar.goTovPrevMonth();
+      requestAnimationFrame(() => {
+        const newWeeks = chunkIntoWeeks(firstCalendar.calendarDays);
+        const prevCell = getPrevActiveCell(newWeeks, focusedCol);
+        if (prevCell) {
+          const [r, c] = prevCell;
+          const cell = cellRefs.current[r]?.[c];
+          if (cell) {
+            (cell as any).focus?.();
+            setFocusedRow(r);
+            setFocusedCol(c);
+          }
+        }
+      });
+    };
+
+    switch (e.key) {
+      case "ArrowDown": {
+        const nextRow = focusedRow + 1;
+        if (nextRow < rowCount && move(nextRow, focusedCol)) {
+          return;
+        }
+        moveToNextMonth();
+        break;
+      }
+
+      case "ArrowUp": {
+        const prevRow = focusedRow - 1;
+        if (prevRow >= 0 && move(prevRow, focusedCol)) {
+          return;
+        }
+        moveToPrevMonth();
+        break;
+      }
+
+      case "ArrowRight": {
+        for (let r = focusedRow, c = focusedCol + 1; r < rowCount; r++, c = 0) {
+          for (; c < colCount; c++) {
+            if (move(r, c)) return;
+          }
+        }
+        moveToNextMonth();
+        break;
+      }
+
+      case "ArrowLeft": {
+        for (
+          let r = focusedRow, c = focusedCol - 1;
+          r >= 0;
+          r--, c = colCount - 1
+        ) {
+          for (; c >= 0; c--) {
+            if (move(r, c)) return;
+          }
+        }
+        moveToPrevMonth();
+        break;
+      }
+
+      case "Enter": {
+        const date = firstCalendarWeeks[focusedRow][focusedCol];
+        if (!disabledFilter?.(date)) {
+          if (
+            calendarState === "none" ||
+            calendarState === "both-days-selected"
+          ) {
+            setFirstSelection(date);
+            setSecondSelection(undefined);
+            setControledFirstSelection(date);
+            setCalendarState("first-selected");
+          }
+          if (calendarState === "first-selected") {
+            onChange?.([controledFirstSelection, date]);
+            setCalendarState("both-days-selected");
+          }
+        }
+        break;
+      }
+
+      default:
+        break;
+    }
   };
 
   return (
@@ -468,26 +649,35 @@ const DatePickerRange: React.FC<DatePickerRangeProps> = ({
               ))}
             </View>
           </View>
-          <View
-            className="flex w-[280px] flex-row flex-wrap items-center justify-between gap-y-2"
-            onPointerLeave={() => setHoveringSecondSelection(undefined)}
-          >
-            {firstCalendar.calendarDays.map((date, index) => (
-              <CalendarCell
-                key={date.toISOString()}
-                day={date.getDate()}
-                selected={calcIsSelected(date)}
-                range={calcIsInRange(date)}
-                today={isDateEqual(today, date)}
-                disabled={calcDisabled(date)}
-                hidden={calcHidden(date, firstCalendar.currentMonth)}
-                mergeLeft={calcMergeLeft(date, index)}
-                mergeRight={calcMergeRight(date, index)}
-                onMouseEnter={() => handleHover(date)}
-                onClick={() => handleSelect(date)}
-              />
-            ))}
-          </View>
+
+          {firstCalendarWeeks.map((week, weekIndex) => (
+            <View
+              key={weekIndex}
+              className="flex flex-row justify-between gap-y-2"
+            >
+              {week.map((date, colIndex) => (
+                <CalendarCell
+                  key={date.toISOString()}
+                  ref={(el) => {
+                    (cellRefs.current[weekIndex] ??= [])[colIndex] = el;
+                  }}
+                  day={date.getDate()}
+                  selected={calcIsSelected(date)}
+                  range={calcIsInRange(date)}
+                  today={isDateEqual(today, date)}
+                  disabled={calcDisabled(date)}
+                  hidden={calcHidden(date, firstCalendar.currentMonth)}
+                  onHoverIn={() => handleHover(date)}
+                  onPress={() => handleSelect(date)}
+                  mergeLeft={calcMergeLeft(date, weekIndex * 7 + colIndex)}
+                  mergeRight={calcMergeRight(date, weekIndex * 7 + colIndex)}
+                  {...(Platform.OS === "web"
+                    ? { onKeyDown: handleKeyDown }
+                    : {})} // ✅ web only
+                />
+              ))}
+            </View>
+          ))}
         </View>
         {dualMode && (
           <View className="flex flex-col">
@@ -604,7 +794,7 @@ const DatePickerRange: React.FC<DatePickerRangeProps> = ({
             size="sm"
             color="brand-soft"
             className="ml-auto"
-            disabled={!firstSelection || !secondSelection}
+            disabled={!controledFirstSelection || !secondSelection}
             onPress={handleSave}
           >
             <ButtonText>{texts.saveDates}</ButtonText>
@@ -664,10 +854,15 @@ const cellTextVariants = cva("text-foreground text-center text-base", {
 
 type CalendarCellProps = {
   day: number;
+  // allow web-only key handlers without augmenting RN types
+  onKeyDown?: (e: React.KeyboardEvent<any>) => void;
+  onKeyUp?: (e: React.KeyboardEvent<any>) => void;
 } & VariantProps<typeof cellVariants> &
-  React.HTMLAttributes<HTMLDivElement>;
+  PressableProps;
 
-const CalendarCell = React.forwardRef<HTMLDivElement, CalendarCellProps>(
+type CalendarCellHandle = React.ElementRef<typeof Pressable>;
+
+const CalendarCell = React.forwardRef<CalendarCellHandle, CalendarCellProps>(
   (
     {
       day,
@@ -712,23 +907,16 @@ const CalendarCell = React.forwardRef<HTMLDivElement, CalendarCellProps>(
             })}
           />
         )}
-
-        <div
+        <Pressable
           ref={ref}
-          tabIndex={0}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          onKeyDown={(e) => {
-            console.log(e.key);
-            onKeyDown?.(e);
-          }}
+          onHoverIn={() => setHovered(true)}
+          onHoverOut={() => setHovered(false)}
           className={cn(
-            "cursor-pointer",
             cellVariants({
               hovered: hovered || hoveredProp,
               today,
               selected,
-              range,
+              range: range,
               disabled: props.disabled,
               mergeLeft,
               mergeRight,
@@ -736,12 +924,12 @@ const CalendarCell = React.forwardRef<HTMLDivElement, CalendarCellProps>(
             }),
             className
           )}
+          {...webOnlyHandlers}
           {...props}
         >
           <Text className={cellTextVariants({ selected })}>{day}</Text>
-        </div>
+        </Pressable>
       </View>
     );
   }
 );
-CalendarCell.displayName = "CalendarCell"; // optional but recommended

@@ -45,11 +45,7 @@ export const Overview: Story = {
           }}
         />
         <Text>Single (Uncontrolled)</Text>
-        <DatePickerInput
-          mode="single"
-          defaultValue={new Date()}
-          inputClassName="w-[400px]"
-        />
+        <DatePickerInput mode="single" defaultValue={new Date()} />
         <Text>Range (Controlled)</Text>
         <DatePickerInput
           mode="range"
@@ -68,7 +64,6 @@ export const Overview: Story = {
           value={rangeSelected}
           onChange={setRangeSelected}
           formatter={formatterRange}
-          inputClassName="w-[400px]"
           disabledFilter={(data) => {
             return data.getDate() < 10 && data.getDate() > 5;
           }}

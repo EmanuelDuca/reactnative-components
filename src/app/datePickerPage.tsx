@@ -7,10 +7,8 @@ import { DatePickerInput } from "~/components/date-picker-innput/date-picker-inp
 export default function DatePickerPage() {
   return (
     <ScrollView>
-      <View>
-        <DumDatePickerComponent />
-        {/*  <Content /> */}
-      </View>
+      {/* <DumDatePickerComponent /> */}
+      <Content />
     </ScrollView>
   );
 }
@@ -21,12 +19,23 @@ function DumDatePickerComponent() {
 
   return (
     <View>
-      <DatePicker mode="single" value={singleValue} onChange={setSingleValue} />
+      {/* <DatePicker mode="single" value={singleValue} onChange={setSingleValue} /> */}
+      <Content />
     </View>
   );
 }
 
-/* function Content() {
+function DatePickerMultipleValue() {
+  const [rangeValue, setRangeValue] = React.useState<
+    [Date | undefined, Date | undefined]
+  >([undefined, undefined]);
+
+  return (
+    <DatePicker mode="range" value={rangeValue} onChange={setRangeValue} />
+  );
+}
+
+function Content() {
   const [singleSelected, setSingleSelected] = React.useState<
     Date | undefined
   >();
@@ -43,21 +52,15 @@ function DumDatePickerComponent() {
   const formatterRange = (dates: [Date, Date]) => {
     return dates.map((d) => formatterSingle(d)).join(" - ");
   };
+
+  // Create the helper function for calculating the first and second date
+
   return (
     <View>
       <View className="flex flex-col items-center justify-center gap-y-8 py-12">
-        <Text>Single (Controlled)</Text>
-        <DatePickerInput
-          mode="range"
-          value={singleSelected}
-          onChange={setSingleSelected}
-          disabledFilter={(data) => {
-            return data.getDate() < 10;
-          }}
-        />
         <Text>Single (Uncontrolled)</Text>
         <DatePickerInput mode="single" defaultValue={new Date()} />
-        <Text>Range (Controlled)</Text>
+        {/* <Text>Range (Controlled)</Text>
         <DatePickerInput
           disabled
           mode="range"
@@ -66,7 +69,7 @@ function DumDatePickerComponent() {
           disabledFilter={(data) => {
             return data.getDate() < 10;
           }}
-        />
+        /> */}
         <Text>Range (Uncontrolled)</Text>
         <DatePickerInput mode="range" defaultValue={[new Date(), new Date()]} />
         <Text>Range (Custom Formatter + Dual Mode + Controlled)</Text>
@@ -76,12 +79,21 @@ function DumDatePickerComponent() {
           value={rangeSelected}
           onChange={setRangeSelected}
           formatter={formatterRange}
-          inputClassName="w-[400px]"
           disabledFilter={(data) => {
             return data.getDate() < 10 && data.getDate() > 5;
           }}
+          /* customButtons={[
+            {
+              label: "thisMonth",
+              range: [date, date],
+            },
+            {
+              label: "thisMonth",
+              range: [date, date],
+            },
+          ]} */
         />
       </View>
     </View>
   );
-} */
+}

@@ -14,7 +14,7 @@ import {
   ButtonIcon,
   InputProps,
 } from "@usekeyhole/nativewind";
-import { DatePicker, DatePickerProps } from "./date-picker-web";
+import { DatePicker, DatePickerProps } from "./date-picker-nativewind";
 import { useControllableState } from "@usekeyhole/hooks";
 import { Pressable } from "react-native";
 import { cn } from "@usekeyhole/utils";
@@ -139,7 +139,6 @@ const DatePickerSingleInput: React.FC<DatePickerSingleInputProps> = ({
           mode="single"
           value={value}
           onChange={(v) => {
-            console.log("onChange", v);
             setValue(v);
             setOpen(false);
           }}
