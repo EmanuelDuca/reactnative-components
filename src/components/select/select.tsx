@@ -18,14 +18,6 @@ import {
 } from "@usekeyhole/nativewind";
 import { cn, ecn } from "@usekeyhole/utils";
 import {
-  Popover,
-  PopoverProps,
-  PopoverContent,
-  PopoverContentProps,
-  PopoverTrigger,
-} from "./popover";
-
-import {
   Command,
   CommandEmpty as SelectEmpty,
   CommandEmptyProps as SelectEmptyProps,
@@ -38,7 +30,13 @@ import {
   CommandList as SelectList,
   CommandListProps as SelectListProps,
   CommandProps,
-} from "./command";
+  Popover,
+  PopoverProps,
+  PopoverContent,
+  PopoverContentProps,
+  PopoverTrigger,
+} from "@usekeyhole/web";
+import { useControllableState } from "@usekeyhole/hooks";
 
 // React context with value of type T
 type SelectContextType = Pick<SelectItemProps, "allowDeselect"> & {
@@ -47,6 +45,8 @@ type SelectContextType = Pick<SelectItemProps, "allowDeselect"> & {
 
   onValueChange: CommandProps["onValueChange"];
   setCurrentOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
+  disabled: boolean;
 };
 
 // Register the context
@@ -55,6 +55,7 @@ const SelectContext = React.createContext<SelectContextType>({
   currentValue: undefined,
   onValueChange: () => {},
   setCurrentOpen: () => false,
+  disabled: false,
 });
 
 type SelectProps = PopoverProps &
@@ -62,6 +63,7 @@ type SelectProps = PopoverProps &
   Pick<CommandProps, "onValueChange" | "value"> & {
     keepOpenOnSelect?: boolean;
     defaultValue?: string;
+    disabled?: boolean;
   };
 
 const Select = ({
@@ -73,6 +75,7 @@ const Select = ({
   onOpenChange,
   open,
   value,
+  disabled,
   ...props
 }: SelectProps) => {
   const [currentOpen, setCurrentOpen] = React.useState(open ?? false);
@@ -108,6 +111,7 @@ const Select = ({
         onValueChange: handleOnSelect,
         currentOpen: open || currentOpen,
         setCurrentOpen,
+        disabled: Boolean(disabled),
       }}
     >
       <Popover
@@ -142,7 +146,7 @@ const SelectTrigger = React.forwardRef<View, SelectTriggerProps>(
       iconClassName,
       children,
       disableFocus,
-      focused,
+      focused: focusedProp,
       hovered,
       onPress,
       size,
@@ -151,7 +155,13 @@ const SelectTrigger = React.forwardRef<View, SelectTriggerProps>(
     },
     ref
   ) => {
-    const { currentOpen, setCurrentOpen } = React.useContext(SelectContext);
+    const { currentOpen, setCurrentOpen, disabled } =
+      React.useContext(SelectContext);
+
+    const [isFocused, setIsFocused] = useControllableState({
+      prop: focusedProp,
+      defaultProp: false,
+    });
 
     const handleOnPress = React.useCallback(
       (event: GestureResponderEvent) => {
@@ -171,12 +181,17 @@ const SelectTrigger = React.forwardRef<View, SelectTriggerProps>(
           variant={variant}
           size={size}
           disableFocus={disableFocus}
-          focused={focused || currentOpen}
+          focused={isFocused || currentOpen}
           hovered={hovered}
+          disabled={disabled}
         >
           <Element
             className={cn("gap-3", className)}
             onPress={handleOnPress}
+            onFocus={() => {
+              setIsFocused(true);
+            }}
+            onBlur={() => setIsFocused(false)}
             ref={ref}
             {...props}
           >

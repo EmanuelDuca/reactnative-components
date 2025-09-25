@@ -93,7 +93,6 @@ const DatePickerSingleInput: React.FC<DatePickerSingleInputProps> = ({
   ...props
 }) => {
   const disabled = !!props.disabled;
-  console.log(`DatePicker is disabled: ${disabled}`);
   const texts = { ...defaultSingleTexts, ...textsProp };
 
   const [hovered, setHovered] = React.useState(false);

@@ -24,7 +24,7 @@
     "@usekeyhole/nativewind": "^0.6.7",
     "@usekeyhole/ui": "^0.2.15",
     "@usekeyhole/utils": "^0.1.12",
-    "@usekeyhole/web": "^0.4.95",
+    "@usekeyhole/web": "^0.5.54",
     "class-variance-authority": "^0.7.1",
     "expo": "^52.0.46",
     "expo-constants": "~17.0.8",

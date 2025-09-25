@@ -18,9 +18,8 @@ function DumDatePickerComponent() {
   );
 
   return (
-    <View>
-      {/* <DatePicker mode="single" value={singleValue} onChange={setSingleValue} /> */}
-      <Content />
+    <View className="p-20">
+      <DatePickerInput mode="single" defaultValue={new Date()} />
     </View>
   );
 }
@@ -79,9 +78,9 @@ function Content() {
           value={rangeSelected}
           onChange={setRangeSelected}
           formatter={formatterRange}
-          disabledFilter={(data) => {
+          /* disabledFilter={(data) => {
             return data.getDate() < 10 && data.getDate() > 5;
-          }}
+          }} */
           /* customButtons={[
             {
               label: "thisMonth",

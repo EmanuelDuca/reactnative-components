@@ -1,5 +1,11 @@
-import { Badge, BadgeText, Text } from "@usekeyhole/nativewind";
-import { View } from "react-native";
+import {
+  Badge,
+  BadgeText,
+  Button,
+  ButtonText,
+  Text,
+} from "@usekeyhole/nativewind";
+import { Pressable, View } from "react-native";
 import {
   Select,
   SelectCheck,
@@ -11,7 +17,7 @@ import {
   SelectList,
   SelectTrigger,
   SelectValue,
-} from "~/components/select/select";
+} from "@usekeyhole/web";
 
 export default function Page() {
   return <Content />;
@@ -25,54 +31,56 @@ type Address = {
 
 function Content() {
   return (
-    <View className="flex-1">
-      <View className="p-10">
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 32,
-          }}
-        >
-          <Select>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Select something" />
-            </SelectTrigger>
-            <SelectContent align="start" className="w-[350px]">
-              <SelectInput placeholder="Type a command or search..." />
-              <SelectList>
-                <SelectEmpty>No address found.</SelectEmpty>
-                <SelectGroup
-                  heading="123 Business Park"
-                  headingClassName="pl-10"
-                >
-                  {addresses.map((address) => (
-                    <SelectItem
-                      className="font-normal"
-                      key={address.key}
-                      value={address.address}
-                    >
-                      <SelectCheck value={address.address} />
-                      <Text>{address.address}</Text>
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-                <SelectGroup heading="45 Business Park">
-                  {addresses.map((address) => (
-                    <SelectItem
-                      className="font-normal"
-                      key={address.key}
-                      value={address.address}
-                    >
-                      <Text>{address.address}</Text>
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectList>
-            </SelectContent>
-          </Select>
-        </View>
+    <View className="flex flex-col items-start p-20 gap-5 flex-1">
+      <Button color={"brand"}>
+        <ButtonText>Demo button</ButtonText>
+      </Button>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 32,
+        }}
+        className="w-[400px]"
+      >
+        <Select>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder="Select something" />
+          </SelectTrigger>
+          <SelectContent align="start" className="w-[350px]">
+            <SelectInput placeholder="Type a command or search..." />
+            <SelectList>
+              <SelectEmpty>No address found.</SelectEmpty>
+              <SelectGroup heading="123 Business Park">
+                {addresses.map((address) => (
+                  <SelectItem
+                    className="font-normal"
+                    key={address.key}
+                    value={address.address}
+                  >
+                    <SelectCheck value={address.address} />
+                    <Text>{address.address}</Text>
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+              <SelectGroup heading="45 Business Park">
+                {addresses.map((address) => (
+                  <SelectItem
+                    className="font-normal"
+                    key={address.key}
+                    value={address.address}
+                  >
+                    <Text>{address.address}</Text>
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectList>
+          </SelectContent>
+        </Select>
       </View>
+      <Button color={"brand"}>
+        <ButtonText>Demo button</ButtonText>
+      </Button>
     </View>
   );
 }
