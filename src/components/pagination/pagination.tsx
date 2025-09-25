@@ -16,10 +16,7 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
     return (
       <View
         ref={ref}
-        className={cn(
-          "flex flex-1 flex-row items-center justify-between",
-          className
-        )}
+        className={cn("flex flex-row items-center justify-between", className)}
         {...props}
       >
         {children}
@@ -35,7 +32,7 @@ export const PaginationContent = React.forwardRef<View, PaginationContentProps>(
     return (
       <View
         ref={ref}
-        className={cn("flex flex-row items-center gap-x-2", className)}
+        className={cn("flex flex-row items-center gap-x-1", className)}
         {...props}
       >
         {children}
@@ -63,7 +60,9 @@ export const PaginationNext: React.FC<PaginationNextProps> = ({
       disabled={disabled}
       {...props}
     >
-      {!!nextText && <ButtonText>{nextText}</ButtonText>}
+      {!!nextText && (
+        <ButtonText className="hidden sm:inline">{nextText}</ButtonText>
+      )}
       <ButtonIcon className="size-5">
         <ChevronRight />
       </ButtonIcon>
@@ -93,7 +92,9 @@ export const PaginationPrevious: React.FC<PaginationPreviousProps> = ({
       <ButtonIcon className="size-5">
         <ChevronLeft />
       </ButtonIcon>
-      {!!previousText && <ButtonText>{previousText}</ButtonText>}
+      {!!previousText && (
+        <ButtonText className=" hidden sm:inline">{previousText}</ButtonText>
+      )}
     </Button>
   );
 };

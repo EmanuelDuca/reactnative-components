@@ -11,7 +11,7 @@ function Content() {
   const totalPages = 40;
 
   return (
-    <View className="w-full h-full p-10">
+    <View className="w-full h-full p-4">
       <TableFooter>
         <TablePagination
           className={cn(totalPages === -1 && "opacity-0")}
@@ -20,7 +20,7 @@ function Content() {
           onPageChange={() => {}}
           previousText={"Previous"}
           nextText={"Next"}
-          maxVisiblePages={3}
+          maxVisiblePages={20}
         />
         <TablePageSizeSelectorV2
           className={cn(totalPages === -1 && "opacity-0")}

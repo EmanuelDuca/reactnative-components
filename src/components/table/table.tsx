@@ -745,7 +745,10 @@ export const TableFooter = React.forwardRef<View, TableFooterProps>(
     return (
       <View
         ref={ref}
-        className={cn("mt-6 flex w-full flex-row justify-between", className)}
+        className={cn(
+          "mt-6 flex w-full flex-row flex-wrap gap-2 justify-between",
+          className
+        )}
         {...props}
       >
         {children}
@@ -854,6 +857,8 @@ export type TablePaginationProps = PaginationProps & {
   maxVisiblePages?: number;
 };
 
+import { useWindowDimensions } from "react-native";
+
 export const TablePagination: React.FC<TablePaginationProps> = ({
   currentPage,
   totalPages,
@@ -863,9 +868,28 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
   maxVisiblePages = 7,
   ...props
 }) => {
+  const { width } = useWindowDimensions();
+
+  // Adjust based on screen width
+  //const responsiveMaxVisible = width < 640 ? 3 : maxVisiblePages;
+
+  const responsiveMaxVisible = React.useMemo(() => {
+    if (width < 200) return 0;
+    if (width < 400) return Math.min(maxVisiblePages, 3); // super small → no numbers, just arrows
+    if (width < 640) return Math.min(maxVisiblePages, 5); // small → only 3 numbers
+    if (width < 768) return Math.min(maxVisiblePages, 5);
+    if (width < 900) return Math.min(maxVisiblePages, 7);
+    if (width < 1024) return Math.min(maxVisiblePages, 9); // medium → up to 5 numbers
+    if (width < 1250) return Math.min(maxVisiblePages, 13);
+
+    return maxVisiblePages; // large → up to 7 numbers
+  }, [width, maxVisiblePages]);
+
+  const displayElipsisIcon = width < 300 ? false : true;
+
   const pageNumbers = React.useMemo(() => {
     if (totalPages <= 0) return [];
-    if (totalPages <= maxVisiblePages) {
+    if (totalPages <= responsiveMaxVisible) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
@@ -874,7 +898,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
     const last = totalPages;
 
     // Always include first & last if maxVisiblePages >= 2
-    const innerSlots = maxVisiblePages - 2; // Space for middle window + possible ellipses
+    const innerSlots = responsiveMaxVisible - 2; // Space for middle window + possible ellipses
     let start = currentPage - Math.floor(innerSlots / 2);
     let end = currentPage + Math.floor(innerSlots / 2);
 
@@ -892,7 +916,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
     pages.push(first);
 
     // Add ellipsis if gap before start
-    if (start > 2) {
+    if (start > 2 && displayElipsisIcon) {
       pages.push("...");
     }
 
@@ -902,7 +926,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
     }
 
     // Add ellipsis if gap after end
-    if (end < totalPages - 1) {
+    if (end < totalPages - 1 && displayElipsisIcon) {
       pages.push("...");
     }
 
@@ -910,23 +934,20 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
     pages.push(last);
 
     return pages;
-  }, [currentPage, totalPages, maxVisiblePages]);
+  }, [currentPage, totalPages, responsiveMaxVisible, displayElipsisIcon]);
 
   return (
     <Pagination {...props}>
-      <PaginationContent>
+      <PaginationContent className="flex flex-row">
         <PaginationPrevious
           previousText={previousText}
           onPress={() => onPageChange?.(currentPage - 1)}
           disabled={currentPage === 1}
         />
-
-        {pageNumbers.map((page, i) => {
-          if (typeof page === "string") {
-            return <PaginationEllipsis key={"ellipsis" + i} />;
-          }
-
-          return (
+        {pageNumbers.map((page, i) =>
+          typeof page === "string" ? (
+            <PaginationEllipsis key={"ellipsis" + i} />
+          ) : (
             <PaginationNumber
               key={page}
               onPress={() => onPageChange?.(page)}
@@ -934,9 +955,8 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
             >
               {page}
             </PaginationNumber>
-          );
-        })}
-
+          )
+        )}
         <PaginationNext
           nextText={nextText}
           onPress={() => onPageChange?.(currentPage + 1)}
