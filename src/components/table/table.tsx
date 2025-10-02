@@ -874,7 +874,6 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
   //const responsiveMaxVisible = width < 640 ? 3 : maxVisiblePages;
 
   const responsiveMaxVisible = React.useMemo(() => {
-    if (width < 200) return 0;
     if (width < 400) return Math.min(maxVisiblePages, 3); // super small → no numbers, just arrows
     if (width < 640) return Math.min(maxVisiblePages, 5); // small → only 3 numbers
     if (width < 768) return Math.min(maxVisiblePages, 5);
@@ -884,8 +883,6 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
 
     return maxVisiblePages; // large → up to 7 numbers
   }, [width, maxVisiblePages]);
-
-  const displayElipsisIcon = width < 300 ? false : true;
 
   const pageNumbers = React.useMemo(() => {
     if (totalPages <= 0) return [];
@@ -916,7 +913,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
     pages.push(first);
 
     // Add ellipsis if gap before start
-    if (start > 2 && displayElipsisIcon) {
+    if (start > 2) {
       pages.push("...");
     }
 
@@ -926,7 +923,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
     }
 
     // Add ellipsis if gap after end
-    if (end < totalPages - 1 && displayElipsisIcon) {
+    if (end < totalPages - 1) {
       pages.push("...");
     }
 
@@ -934,7 +931,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
     pages.push(last);
 
     return pages;
-  }, [currentPage, totalPages, responsiveMaxVisible, displayElipsisIcon]);
+  }, [currentPage, totalPages, responsiveMaxVisible]);
 
   return (
     <Pagination {...props}>

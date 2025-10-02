@@ -20,7 +20,7 @@ function Content() {
           onPageChange={() => {}}
           previousText={"Previous"}
           nextText={"Next"}
-          maxVisiblePages={20}
+          maxVisiblePages={3}
         />
         <TablePageSizeSelectorV2
           className={cn(totalPages === -1 && "opacity-0")}
