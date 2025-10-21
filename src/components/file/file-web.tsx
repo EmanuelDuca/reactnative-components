@@ -58,38 +58,36 @@ const File = React.forwardRef<FileRef, FileProps>(
       defaultProp: false,
     });
     return (
-      <div
-        onMouseEnter={() => {
+      <Dropzone
+        onPointerEnter={() => {
           if (!disabled) setHovered?.(true);
         }}
-        onMouseLeave={() => {
+        onPointerLeave={() => {
           if (!disabled) setHovered?.(false);
         }}
+        disabled={!!disabled}
+        {...dropzoneOptions}
+        ref={ref}
+        noClick={!!noClick}
+        noDrag={!!noDrag}
+        onFilesAdded={onFilesAdded}
+        noClickEventsBubbling={noClickEventsBubbling}
+        noDragEventsBubbling={noDragEventsBubbling}
       >
-        <Dropzone
-          {...dropzoneOptions}
-          ref={ref}
-          noClick={!!noClick}
-          noDrag={!!noDrag}
-          onFilesAdded={onFilesAdded}
-          noClickEventsBubbling={noClickEventsBubbling}
-          noDragEventsBubbling={noDragEventsBubbling}
-        >
-          <FileNativewind
-            disabled
-            size={size}
-            hovered={hovered}
-            variant={variant}
-            // @ts-ignore ts not allowing classnames for some reason
-            className={className}
-            {...props}
-          />
-        </Dropzone>
-      </div>
+        <FileNativewind
+          disabled
+          size={size}
+          hovered={hovered}
+          variant={variant}
+          // @ts-ignore ts not allowing classnames for some reason
+          className={className}
+          {...props}
+        />
+      </Dropzone>
     );
   }
 );
-
+File.displayName = "File";
 export default File;
 
 /* -------------------------------------------------------------------------------------------------

@@ -3,7 +3,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import { Pressable, PressableProps, View, ViewProps } from "react-native";
 import { useControllableState } from "@usekeyhole/hooks";
 import { cn } from "@usekeyhole/utils";
-import { Text, TextProps } from "../text";
+import { Text, TextProps } from "@usekeyhole/nativewind";
 
 /* -------------------------------------------------------------------------------------------------
  * File
