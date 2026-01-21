@@ -21,7 +21,7 @@
     "@tanstack/react-query": "^5.76.1",
     "@tanstack/react-table": "^8.21.3",
     "@usekeyhole/hooks": "^0.0.17",
-    "@usekeyhole/nativewind": "^0.6.7",
+    "@usekeyhole/nativewind": "^0.6.77",
     "@usekeyhole/ui": "^0.2.15",
     "@usekeyhole/utils": "^0.1.12",
     "@usekeyhole/web": "^0.5.54",
