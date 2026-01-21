@@ -9,6 +9,7 @@ import { getPhoneInputCountries } from "@usekeyhole/web";
 import * as React from "react";
 import { Linking, ScrollView, View, Platform } from "react-native";
 import { Bell } from "~/components/icons/bell";
+import { UserRoundCog } from "~/components/icons/user-round-cog";
 import { AddRentalDialog } from "~/components/input/add-rental-dialog";
 import {
   Input,
@@ -27,10 +28,15 @@ function Content() {
   return (
     <View className="h-full w-full bg-background">
       <ScrollView>
-        <View className="flex p-10">
+        <View className="flex flex-row gap-4 p-10">
           <Button size={"icon"} className="w-fit">
             <ButtonIcon className="stroke-2">
               <Bell />
+            </ButtonIcon>
+          </Button>
+          <Button size={"icon"} className="w-fit">
+            <ButtonIcon className="stroke-2">
+              <UserRoundCog />
             </ButtonIcon>
           </Button>
         </View>
