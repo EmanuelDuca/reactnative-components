@@ -17,6 +17,8 @@ import {
   InputStartAdornment,
 } from "~/components/input/input";
 import { PhoneInput } from "~/components/phone-input/phone-input";
+import { Music4 } from "~/icons/Music4";
+import { Music } from "~/icons/MusicNote";
 export default function Page() {
   return <Content />;
 }
@@ -39,6 +41,8 @@ function Content() {
               <UserRoundCog />
             </ButtonIcon>
           </Button>
+          <Music />
+          <Music4 />
         </View>
         <View className="w-96 p-10">
           <PhoneInputExample />
