@@ -1,6 +1,7 @@
 {
   "name": "my-app",
   "version": "1.0.0",
+  "type": "module",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start --clear",
@@ -10,7 +11,10 @@
     "upgrade:keyhole:dep": "pnpm add @usekeyhole/hooks@latest @usekeyhole/nativewind@latest @usekeyhole/ui@latest @usekeyhole/utils@latest @usekeyhole/web@latest",
     "upgrade:keyhole:dev": "pnpm add -D @usekeyhole/prettier-config@latest @usekeyhole/ts-config@latest @usekeyhole/tailwind-config@latest",
     "upgrade:keyhole": "pnpm upgrade:keyhole:dep && pnpm upgrade:keyhole:dev",
-    "expo-doctor": "pnpm dlx expo-doctor"
+    "expo-doctor": "pnpm dlx expo-doctor",
+    "figma:test": "node src/test-figma.js",
+    "figma:inspect": "node src/inspect-icons-frame.js",
+    "figma:export-icons": "node src/export-figma-icons.js"
   },
   "dependencies": {
     "@expo-google-fonts/open-sans": "^0.3.0",
@@ -25,6 +29,7 @@
     "@usekeyhole/ui": "^0.2.15",
     "@usekeyhole/utils": "^0.1.12",
     "@usekeyhole/web": "^0.5.54",
+    "axios": "^1.13.6",
     "class-variance-authority": "^0.7.1",
     "expo": "^52.0.46",
     "expo-constants": "~17.0.8",
@@ -49,6 +54,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.9",
+    "@types/node": "^25.5.0",
     "@types/react": "~18.3.20",
     "@usekeyhole/prettier-config": "^1.0.6",
     "@usekeyhole/tailwind-config": "^1.0.11",
