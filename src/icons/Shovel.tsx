@@ -1,0 +1,60 @@
+import * as React from "react";
+import { Svg, Path, SvgProps } from "react-native-svg";
+import { cssInterop } from "nativewind";
+import { cn, ecn } from "@usekeyhole/utils";
+
+cssInterop(Svg, {
+  className: {
+    target: "style",
+    nativeStyleToProp: { width: true, height: true },
+  },
+});
+
+cssInterop(Path, {
+  className: {
+    // @ts-ignore
+    target: "style",
+    nativeStyleToProp: {
+      stroke: true,
+      // @ts-ignore
+      strokeWidth: true,
+      fill: true,
+    },
+  },
+});
+
+export interface ShovelProps extends SvgProps {
+  className?: string;
+}
+
+export const Shovel: React.FC<ShovelProps> = ({
+  color = "#262626",
+  className: classNameProp,
+  strokeWidth,
+  style,
+  ...props
+}) => {
+  const className = cn("stroke-foreground", classNameProp);
+
+  return (
+    <Svg
+      width={24}
+      height={24}
+      fill="none"
+      viewBox="0 0 24 24"
+      className={className}
+      style={style}
+      {...props}
+    >
+      <Path
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={strokeWidth ? strokeWidth : 1.5}
+        d="M9.5 14.5L16 8M2 22V17L7 12L12 17L7 22H2ZM17 2L22 7L21.5 7.5C21.1721 7.82896 20.7824 8.08997 20.3534 8.26807C19.9244 8.44616 19.4645 8.53783 19 8.53783C18.5355 8.53783 18.0756 8.44616 17.6466 8.26807C17.2176 8.08997 16.8279 7.82896 16.5 7.5C16.171 7.17207 15.91 6.78243 15.7319 6.35343C15.5538 5.92443 15.4622 5.4645 15.4622 5C15.4622 4.5355 15.5538 4.07557 15.7319 3.64657C15.91 3.21757 16.171 2.82793 16.5 2.5L17 2Z"
+        // @ts-ignore
+        className={ecn(className, ["stroke", "fill"])}
+      />
+    </Svg>
+  );
+};

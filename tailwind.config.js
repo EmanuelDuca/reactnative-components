@@ -1,13 +1,20 @@
+import nativewindPresetModule from "nativewind/preset";
+import keyholeTailwindConfigModule from "@usekeyhole/tailwind-config";
+
+const nativewindPreset =
+  nativewindPresetModule.default ?? nativewindPresetModule;
+const keyholeTailwindConfig =
+  keyholeTailwindConfigModule.default ?? keyholeTailwindConfigModule;
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const config = {
   darkMode: "class",
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
     "./node_modules/@usekeyhole/**/dist/*.js",
   ],
-  presets: [
-    require("nativewind/preset"),
-    require("@usekeyhole/tailwind-config"),
-  ],
+  presets: [nativewindPreset, keyholeTailwindConfig],
   plugins: [],
 };
+
+export default config;

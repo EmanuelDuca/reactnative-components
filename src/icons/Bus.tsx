@@ -1,0 +1,60 @@
+import * as React from "react";
+import { Svg, Path, SvgProps } from "react-native-svg";
+import { cssInterop } from "nativewind";
+import { cn, ecn } from "@usekeyhole/utils";
+
+cssInterop(Svg, {
+  className: {
+    target: "style",
+    nativeStyleToProp: { width: true, height: true },
+  },
+});
+
+cssInterop(Path, {
+  className: {
+    // @ts-ignore
+    target: "style",
+    nativeStyleToProp: {
+      stroke: true,
+      // @ts-ignore
+      strokeWidth: true,
+      fill: true,
+    },
+  },
+});
+
+export interface BusProps extends SvgProps {
+  className?: string;
+}
+
+export const Bus: React.FC<BusProps> = ({
+  color = "#262626",
+  className: classNameProp,
+  strokeWidth,
+  style,
+  ...props
+}) => {
+  const className = cn("stroke-foreground", classNameProp);
+
+  return (
+    <Svg
+      width={24}
+      height={24}
+      fill="none"
+      viewBox="0 0 24 24"
+      className={className}
+      style={style}
+      {...props}
+    >
+      <Path
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={strokeWidth ? strokeWidth : 1.5}
+        d="M8 6V12M15 6V12M2 12H21.6M18 18H21C21 18 21.5 16.3 21.8 15.2C21.9 14.8 22 14.4 22 14C22 13.6 21.9 13.2 21.8 12.8L20.4 7.8C20.1 6.8 19.1 6 18 6H4C3.46957 6 2.96086 6.21071 2.58579 6.58579C2.21071 6.96086 2 7.46957 2 8V18H5M18 18C18 19.1046 17.1046 20 16 20C14.8954 20 14 19.1046 14 18M18 18C18 16.8954 17.1046 16 16 16C14.8954 16 14 16.8954 14 18M5 18C5 19.1046 5.89543 20 7 20C8.10457 20 9 19.1046 9 18M5 18C5 16.8954 5.89543 16 7 16C8.10457 16 9 16.8954 9 18M9 18H14"
+        // @ts-ignore
+        className={ecn(className, ["stroke", "fill"])}
+      />
+    </Svg>
+  );
+};

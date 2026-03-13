@@ -1,0 +1,60 @@
+import * as React from "react";
+import { Svg, Path, SvgProps } from "react-native-svg";
+import { cssInterop } from "nativewind";
+import { cn, ecn } from "@usekeyhole/utils";
+
+cssInterop(Svg, {
+  className: {
+    target: "style",
+    nativeStyleToProp: { width: true, height: true },
+  },
+});
+
+cssInterop(Path, {
+  className: {
+    // @ts-ignore
+    target: "style",
+    nativeStyleToProp: {
+      stroke: true,
+      // @ts-ignore
+      strokeWidth: true,
+      fill: true,
+    },
+  },
+});
+
+export interface GlassWaterProps extends SvgProps {
+  className?: string;
+}
+
+export const GlassWater: React.FC<GlassWaterProps> = ({
+  color = "#262626",
+  className: classNameProp,
+  strokeWidth,
+  style,
+  ...props
+}) => {
+  const className = cn("stroke-foreground", classNameProp);
+
+  return (
+    <Svg
+      width={24}
+      height={24}
+      fill="none"
+      viewBox="0 0 24 24"
+      className={className}
+      style={style}
+      {...props}
+    >
+      <Path
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={strokeWidth ? strokeWidth : 1.5}
+        d="M6 12C6.86548 11.3509 7.91815 11 9 11C10.0819 11 11.1345 11.3509 12 12C12.8655 12.6491 13.9181 13 15 13C16.0819 13 17.1345 12.6491 18 12M15.2 22H8.8C8.30402 22.0027 7.82472 21.8211 7.45514 21.4903C7.08556 21.1595 6.85207 20.7032 6.8 20.21L5 3H19L17.19 20.21C17.1381 20.7015 16.906 21.1564 16.5386 21.487C16.1711 21.8175 15.6943 22.0003 15.2 22Z"
+        // @ts-ignore
+        className={ecn(className, ["stroke", "fill"])}
+      />
+    </Svg>
+  );
+};

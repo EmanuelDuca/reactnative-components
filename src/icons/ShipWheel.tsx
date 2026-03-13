@@ -1,0 +1,60 @@
+import * as React from "react";
+import { Svg, Path, SvgProps } from "react-native-svg";
+import { cssInterop } from "nativewind";
+import { cn, ecn } from "@usekeyhole/utils";
+
+cssInterop(Svg, {
+  className: {
+    target: "style",
+    nativeStyleToProp: { width: true, height: true },
+  },
+});
+
+cssInterop(Path, {
+  className: {
+    // @ts-ignore
+    target: "style",
+    nativeStyleToProp: {
+      stroke: true,
+      // @ts-ignore
+      strokeWidth: true,
+      fill: true,
+    },
+  },
+});
+
+export interface ShipWheelProps extends SvgProps {
+  className?: string;
+}
+
+export const ShipWheel: React.FC<ShipWheelProps> = ({
+  color = "#262626",
+  className: classNameProp,
+  strokeWidth,
+  style,
+  ...props
+}) => {
+  const className = cn("stroke-foreground", classNameProp);
+
+  return (
+    <Svg
+      width={24}
+      height={24}
+      fill="none"
+      viewBox="0 0 24 24"
+      className={className}
+      style={style}
+      {...props}
+    >
+      <Path
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={strokeWidth ? strokeWidth : 1.5}
+        d="M12 2V9.5M12 9.5C10.6193 9.5 9.5 10.6193 9.5 12M12 9.5C13.3807 9.5 14.5 10.6193 14.5 12M19 5L13.77 10.23M22 12H14.5M14.5 12C14.5 13.3807 13.3807 14.5 12 14.5M19 19L13.77 13.77M12 14.5V22M12 14.5C10.6193 14.5 9.5 13.3807 9.5 12M10.23 13.77L5 19M9.5 12H2M10.23 10.23L5 5M20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12Z"
+        // @ts-ignore
+        className={ecn(className, ["stroke", "fill"])}
+      />
+    </Svg>
+  );
+};

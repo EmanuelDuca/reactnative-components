@@ -1,0 +1,60 @@
+import * as React from "react";
+import { Svg, Path, SvgProps } from "react-native-svg";
+import { cssInterop } from "nativewind";
+import { cn, ecn } from "@usekeyhole/utils";
+
+cssInterop(Svg, {
+  className: {
+    target: "style",
+    nativeStyleToProp: { width: true, height: true },
+  },
+});
+
+cssInterop(Path, {
+  className: {
+    // @ts-ignore
+    target: "style",
+    nativeStyleToProp: {
+      stroke: true,
+      // @ts-ignore
+      strokeWidth: true,
+      fill: true,
+    },
+  },
+});
+
+export interface CircleOffProps extends SvgProps {
+  className?: string;
+}
+
+export const CircleOff: React.FC<CircleOffProps> = ({
+  color = "#262626",
+  className: classNameProp,
+  strokeWidth,
+  style,
+  ...props
+}) => {
+  const className = cn("stroke-foreground", classNameProp);
+
+  return (
+    <Svg
+      width={24}
+      height={24}
+      fill="none"
+      viewBox="0 0 24 24"
+      className={className}
+      style={style}
+      {...props}
+    >
+      <Path
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={strokeWidth ? strokeWidth : 1.5}
+        d="M2 2L22 22M8.3501 2.6899C10.1607 1.98272 12.1382 1.81858 14.0406 2.21754C15.9431 2.61651 17.688 3.56128 19.062 4.9363C20.4359 6.31133 21.3793 8.05698 21.7768 9.95972C22.1743 11.8625 22.0087 13.8398 21.3001 15.6499M19.0799 19.0799C18.1502 20.0097 17.0464 20.7472 15.8316 21.2504C14.6168 21.7536 13.3148 22.0126 11.9999 22.0126C10.6851 22.0126 9.38306 21.7536 8.16827 21.2504C6.95348 20.7472 5.8497 20.0097 4.91994 19.0799C3.99018 18.1502 3.25265 17.0464 2.74947 15.8316C2.24629 14.6168 1.9873 13.3148 1.9873 11.9999C1.9873 10.685 2.24629 9.38304 2.74947 8.16825C3.25265 6.95346 3.99018 5.84968 4.91994 4.91992"
+        // @ts-ignore
+        className={ecn(className, ["stroke", "fill"])}
+      />
+    </Svg>
+  );
+};

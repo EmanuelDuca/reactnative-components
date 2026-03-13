@@ -1,0 +1,60 @@
+import * as React from "react";
+import { Svg, Path, SvgProps } from "react-native-svg";
+import { cssInterop } from "nativewind";
+import { cn, ecn } from "@usekeyhole/utils";
+
+cssInterop(Svg, {
+  className: {
+    target: "style",
+    nativeStyleToProp: { width: true, height: true },
+  },
+});
+
+cssInterop(Path, {
+  className: {
+    // @ts-ignore
+    target: "style",
+    nativeStyleToProp: {
+      stroke: true,
+      // @ts-ignore
+      strokeWidth: true,
+      fill: true,
+    },
+  },
+});
+
+export interface WineOffProps extends SvgProps {
+  className?: string;
+}
+
+export const WineOff: React.FC<WineOffProps> = ({
+  color = "#262626",
+  className: classNameProp,
+  strokeWidth,
+  style,
+  ...props
+}) => {
+  const className = cn("stroke-foreground", classNameProp);
+
+  return (
+    <Svg
+      width={24}
+      height={24}
+      fill="none"
+      viewBox="0 0 24 24"
+      className={className}
+      style={style}
+      {...props}
+    >
+      <Path
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={strokeWidth ? strokeWidth : 1.5}
+        d="M8 22H16M7 10H10M7 10C7.00306 9.09378 7.10601 8.19066 7.307 7.307M7 10C7.00004 10.8671 7.22557 11.7192 7.65443 12.4728C8.08329 13.2264 8.70075 13.8555 9.44619 14.2984C10.1916 14.7412 11.0394 14.9826 11.9063 14.9989C12.7733 15.0151 13.6295 14.8056 14.391 14.391M17 10H15.657M17 10C17 8 16.5 6 15 2H9C8.872 2.34 8.75 2.668 8.638 2.981M17 10C17 10.407 16.95 10.809 16.855 11.198M12 15V22M2 2L22 22"
+        // @ts-ignore
+        className={ecn(className, ["stroke", "fill"])}
+      />
+    </Svg>
+  );
+};

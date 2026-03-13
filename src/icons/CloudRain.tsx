@@ -1,0 +1,60 @@
+import * as React from "react";
+import { Svg, Path, SvgProps } from "react-native-svg";
+import { cssInterop } from "nativewind";
+import { cn, ecn } from "@usekeyhole/utils";
+
+cssInterop(Svg, {
+  className: {
+    target: "style",
+    nativeStyleToProp: { width: true, height: true },
+  },
+});
+
+cssInterop(Path, {
+  className: {
+    // @ts-ignore
+    target: "style",
+    nativeStyleToProp: {
+      stroke: true,
+      // @ts-ignore
+      strokeWidth: true,
+      fill: true,
+    },
+  },
+});
+
+export interface CloudRainProps extends SvgProps {
+  className?: string;
+}
+
+export const CloudRain: React.FC<CloudRainProps> = ({
+  color = "#262626",
+  className: classNameProp,
+  strokeWidth,
+  style,
+  ...props
+}) => {
+  const className = cn("stroke-foreground", classNameProp);
+
+  return (
+    <Svg
+      width={24}
+      height={24}
+      fill="none"
+      viewBox="0 0 24 24"
+      className={className}
+      style={style}
+      {...props}
+    >
+      <Path
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={strokeWidth ? strokeWidth : 1.5}
+        d="M4.00009 14.899C3.25714 14.1399 2.69666 13.2217 2.36113 12.214C2.0256 11.2062 1.9238 10.1353 2.06346 9.08232C2.20311 8.02938 2.58055 7.02202 3.16719 6.13655C3.75383 5.25109 4.53428 4.51074 5.44943 3.97157C6.36458 3.43241 7.39042 3.10857 8.44926 3.0246C9.5081 2.94062 10.5722 3.09871 11.5609 3.48688C12.5496 3.87505 13.4369 4.48313 14.1558 5.26506C14.8747 6.04698 15.4062 6.98225 15.7101 8.00002H17.5001C18.4656 7.99991 19.4056 8.31034 20.1811 8.88546C20.9566 9.46058 21.5266 10.2699 21.8069 11.1938C22.0871 12.1178 22.0628 13.1074 21.7374 14.0164C21.4121 14.9254 20.803 15.7057 20.0001 16.242M16 14V20M8 14V20M12 16V22"
+        // @ts-ignore
+        className={ecn(className, ["stroke", "fill"])}
+      />
+    </Svg>
+  );
+};
