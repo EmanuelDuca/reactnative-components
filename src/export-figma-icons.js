@@ -196,7 +196,10 @@ async function getSvgUrlsById(fileKey, nodeIds, token) {
 }
 
 async function fetchSvgContent(url) {
-  const response = await axios.get(url, { responseType: "text", timeout: 45000 });
+  const response = await axios.get(url, {
+    responseType: "text",
+    timeout: 45000,
+  });
   return response.data;
 }
 
@@ -214,9 +217,8 @@ async function mapWithConcurrency(items, concurrency, mapper) {
   }
 
   await Promise.all(
-    Array.from(
-      { length: Math.min(normalizedConcurrency, items.length) },
-      () => worker(),
+    Array.from({ length: Math.min(normalizedConcurrency, items.length) }, () =>
+      worker(),
     ),
   );
 
@@ -300,7 +302,11 @@ async function main() {
   const icons = iconResults.filter(Boolean);
 
   await fs.mkdir(path.dirname(args.output), { recursive: true });
-  await fs.writeFile(args.output, `${JSON.stringify(icons, null, 2)}\n`, "utf8");
+  await fs.writeFile(
+    args.output,
+    `${JSON.stringify(icons, null, 2)}\n`,
+    "utf8",
+  );
 
   console.log(`Exported ${icons.length} icons to ${args.output}`);
 }
