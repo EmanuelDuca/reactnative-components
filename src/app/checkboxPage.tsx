@@ -1,13 +1,13 @@
+import { Link } from "expo-router";
+import * as React from "react";
+import { ScrollView, Text, View } from "react-native";
 import {
   Checkbox,
   CheckboxContent,
   CheckboxDescription,
   CheckboxIndicator,
   CheckboxLabel,
-} from "@usekeyhole/nativewind";
-import { Link } from "expo-router";
-import * as React from "react";
-import { ScrollView, Text, View } from "react-native";
+} from "~/components/checkbox/checkbox";
 
 export default function Page() {
   return (
@@ -107,6 +107,8 @@ function Content() {
                   <CheckboxLabel>Checked Disabled</CheckboxLabel>
                 </CheckboxContent>
               </Checkbox>
+
+              <Text selectable={false}>My text</Text>
             </View>
           </View>
         </View>

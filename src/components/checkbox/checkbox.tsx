@@ -123,7 +123,7 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
       >
         <Pressable
           ref={ref}
-          className={cn("relative flex flex-row gap-4", className)}
+          className={cn("relative flex flex-row gap-4 select-none", className)}
           delayLongPress={200}
           onHoverIn={handleHoverIn}
           onHoverOut={handleHoverOut}
