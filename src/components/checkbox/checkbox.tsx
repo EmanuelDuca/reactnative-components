@@ -1,8 +1,8 @@
 import { cn } from "@usekeyhole/utils";
 import { cva, VariantProps } from "class-variance-authority";
+import { useControllableState } from "@usekeyhole/hooks";
 import React from "react";
 import {
-  Text,
   View,
   Pressable,
   PressableProps,
@@ -13,10 +13,12 @@ import {
   MouseEvent,
   GestureResponderEvent,
 } from "react-native";
+import { Text } from "../text/text";
 import { Check } from "@usekeyhole/nativewind";
 
 export type CheckboxProps = PressableProps &
   VariantProps<typeof checkboxIndicatorVariants> & {
+    checked?: boolean;
     defaultValue?: boolean;
     onChange?: (checked: boolean) => void;
   };
@@ -32,7 +34,6 @@ const CheckboxContext = React.createContext<{
   onPress?: PressableProps["onPress"];
   onPressIn?: PressableProps["onPressIn"];
   onPressOut?: PressableProps["onPressOut"];
-  pressed: boolean;
   variant: CheckboxProps["variant"];
 }>({
   checked: false,
@@ -45,7 +46,6 @@ const CheckboxContext = React.createContext<{
   onPress: undefined,
   onPressIn: undefined,
   onPressOut: undefined,
-  pressed: false,
   variant: "default",
 });
 
@@ -63,25 +63,18 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
       onBlur,
       checked: isChecked,
       hovered: isHovered,
-      pressed: isPressed,
       variant = "default",
       ...props
     },
-    ref
+    ref,
   ) => {
     const disabled = !!props.disabled;
-    const [internalChecked, setInternalChecked] = React.useState<boolean>(
-      defaultValue || false
-    );
+    const [checked, setChecked] = useControllableState({
+      prop: isChecked,
+      defaultProp: defaultValue,
+      onChange,
+    });
     const [hovered, setHovered] = React.useState<boolean>(!!isHovered);
-    const [pressed, setPressed] = React.useState<boolean>(!!isPressed);
-
-    const checked = isChecked ?? internalChecked;
-
-    const handleChange = (newValue: boolean) => {
-      isChecked ?? setInternalChecked(newValue);
-      onChange?.(newValue); // Still trigger onChange for external listeners
-    };
 
     const handleFocus = (e: NativeSyntheticEvent<TargetedEvent>) => {
       setHovered(true);
@@ -104,13 +97,11 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
     };
 
     const handleLongPressIn = (e: GestureResponderEvent) => {
-      setPressed(true);
       onLongPress?.(e);
     };
 
     const handlePressOut = (e: GestureResponderEvent) => {
-      setPressed(false);
-      handleChange(!checked);
+      setChecked((v) => !v);
       onPressOut?.(e);
     };
 
@@ -119,8 +110,7 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
         value={{
           disabled,
           hovered: isHovered ?? hovered,
-          checked,
-          pressed: isPressed ?? pressed,
+          checked: !!checked,
           onFocus: handleFocus,
           onBlur: handleBlur,
           onHoverIn: handleHoverIn,
@@ -148,7 +138,7 @@ export const Checkbox = React.forwardRef<View, CheckboxProps>(
         />
       </CheckboxContext.Provider>
     );
-  }
+  },
 );
 
 Checkbox.displayName = "Checkbox";
@@ -158,13 +148,12 @@ export const checkboxIndicatorVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-neutral-200 dark:border-neutral-500",
-        destructive:
-          "border-destructive-foreground dark:border-destructive-foreground",
+        default: "border-border",
+        destructive: "border-destructive",
       },
       checked: {
         false: undefined,
-        true: "border-2",
+        true: undefined,
       },
       hovered: {
         false: undefined,
@@ -172,11 +161,7 @@ export const checkboxIndicatorVariants = cva(
       },
       disabled: {
         false: undefined,
-        true: undefined,
-      },
-      pressed: {
-        false: undefined,
-        true: "border-2",
+        true: "opacity-50",
       },
     },
     compoundVariants: [
@@ -184,48 +169,31 @@ export const checkboxIndicatorVariants = cva(
       {
         hovered: true,
         disabled: false,
-        className: "border-neutral-400 dark:border-neutral-600",
-      },
-      //Pressed
-      {
-        pressed: true,
-        disabled: false,
-        className: "border-brand-200 bg-background dark:border-brand-600",
+        className: "border-border/dark-70",
       },
       //Checked
       {
         checked: true,
-        pressed: false,
-        disabled: false,
-        className:
-          "border-brand-200 bg-brand-700 dark:border-brand-600 dark:bg-brand-700",
+        className: "bg-primary border-primary",
       },
       //Checked hover
       {
         checked: true,
         hovered: true,
-        pressed: false,
         disabled: false,
-        className:
-          "border-brand-200 bg-brand-600 dark:border-brand-600 dark:bg-brand-800",
+        className: "bg-primary/dark-70 border-primary/dark-70",
       },
       //Disabled
       {
         disabled: true,
-        className: "bg-neutral-100 dark:bg-neutral-500",
-      },
-      //Disabled Checked
-      {
-        disabled: true,
-        checked: true,
-        className:
-          "border-brand-200 bg-brand-700 dark:border-brand-600 dark:bg-brand-700 opacity-50",
+        checked: false,
+        className: "bg-accent",
       },
     ],
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 export type CheckboxIndicatorProps = ViewProps &
@@ -237,7 +205,6 @@ export const CheckboxIndicator = React.forwardRef<View, CheckboxIndicatorProps>(
       checked,
       hovered,
       disabled,
-      pressed,
       onFocus,
       onBlur,
       onHoverIn,
@@ -257,10 +224,9 @@ export const CheckboxIndicator = React.forwardRef<View, CheckboxIndicatorProps>(
             hovered,
             checked,
             disabled,
-            pressed,
             variant,
           }),
-          className
+          className,
         )}
         onFocus={onFocus}
         onBlur={onBlur}
@@ -272,52 +238,46 @@ export const CheckboxIndicator = React.forwardRef<View, CheckboxIndicatorProps>(
         disabled={disabled}
         {...props}
       >
-        {(pressed || checked) && (
+        {checked && (
           <Check
             className={cn("size-4 stroke-2", {
-              "stroke-white": checked,
-              "stroke-brand-200 dark:stroke-brand-600": pressed,
+              "stroke-primary-foreground": checked,
             })}
           />
         )}
       </Pressable>
     );
-  }
+  },
 );
 
 CheckboxIndicator.displayName = "CheckboxIndicator";
 
 export type CheckboxLabelProps = TextProps;
 
-export const CheckboxLabel = React.forwardRef<Text, CheckboxLabelProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      <Text
-        ref={ref}
-        className={cn(
-          "text-sm font-semibold text-neutral-800 dark:text-neutral-100",
-          className
-        )}
-        {...props}
-      />
-    );
-  }
-);
+export const CheckboxLabel = React.forwardRef<
+  React.ElementRef<typeof Text>,
+  CheckboxLabelProps
+>(({ className, ...props }, ref) => {
+  return (
+    <Text
+      ref={ref}
+      className={cn("text-foreground text-sm font-semibold", className)}
+      {...props}
+    />
+  );
+});
 CheckboxLabel.displayName = "CheckboxLabel";
 
 export type CheckboxDescriptionProps = TextProps;
 
 export const CheckboxDescription = React.forwardRef<
-  Text,
+  React.ElementRef<typeof Text>,
   CheckboxDescriptionProps
 >(({ className, ...props }, ref) => {
   return (
     <Text
       ref={ref}
-      className={cn(
-        "text-accent-foreground text-sm font-normal text-neutral-600 dark:text-neutral-300",
-        className
-      )}
+      className={cn("text-muted-foreground text-sm font-normal", className)}
       {...props}
     />
   );
@@ -329,7 +289,11 @@ export type CheckboxContentProps = ViewProps;
 export const CheckboxContent = React.forwardRef<View, CheckboxContentProps>(
   ({ className, ...props }, ref) => {
     return (
-      <View ref={ref} className={cn("gap-1 py-0.5", className)} {...props} />
+      <View
+        ref={ref}
+        className={cn("flex-1 gap-1 py-0.5", className)}
+        {...props}
+      />
     );
-  }
+  },
 );
