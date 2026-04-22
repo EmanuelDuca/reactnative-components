@@ -7,52 +7,49 @@ import {
 } from "@usekeyhole/nativewind";
 import { Link } from "expo-router";
 import * as React from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 export default function Page() {
   return (
-    <View className="flex flex-1 bg-white dark:bg-black">
-      <View className="h-32 w-full px-4 bg-purple-500 dark:bg-yellow-500 justify-center items-center">
-        <Text className="text-white font-mono font-bold text-2xl">
-          Replace Table Page
-        </Text>
+    <ScrollView className="flex-1 bg-white dark:bg-black">
+      <View className="flex flex-1 bg-white dark:bg-black">
+        <Content />
       </View>
-      <Content />
-    </View>
+    </ScrollView>
   );
 }
 
-function Event() {
-  console.log("Event - CheckboxPage");
-}
-
 function Content() {
+  const [accepted, setAccepted] = React.useState(false);
+
   return (
     <View className="flex-1">
       <View className="py-12 md:py-24 lg:py-32 xl:py-48">
         <View className="px-4 md:px-6">
-          <View className="flex flex-col items-center gap-4 text-center">
+          <View className="flex flex-col items-center gap-5 text-center">
             <Text
               role="heading"
               className="text-black dark:text-yellow-500 text-3xl text-center native:text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl"
             >
-              Replace table Page
+              Checkbox Page
             </Text>
             <Text className="mx-auto max-w-[700px] text-lg text-center text-gray-500 md:text-xl dark:text-gray-400">
-              Discover and collaborate on amce. Explore our services now.
+              Interactive checkbox examples for states, variants and a
+              controlled checkbox.
             </Text>
 
-            <View className="gap-4">
+            <View className="gap-4 flex-row">
               <Link
                 suppressHighlighting
                 className="flex h-9 items-center justify-center overflow-hidden rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 web:shadow ios:shadow transition-colors hover:bg-gray-900/90 active:bg-gray-400/90 web:focus-visible:outline-none web:focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
                 href="/"
               >
-                Go to first page
+                Go to Home
               </Link>
             </View>
-            <View className="gap-6 flex">
-              <Checkbox onChange={Event}>
+
+            <View className="w-full max-w-[720px] gap-6 pt-2">
+              <Checkbox checked={accepted} onChange={setAccepted}>
                 <CheckboxIndicator />
                 <CheckboxContent>
                   <CheckboxLabel>Accept terms and conditions</CheckboxLabel>
@@ -61,47 +58,53 @@ function Content() {
                   </CheckboxDescription>
                 </CheckboxContent>
               </Checkbox>
+              <Text className="text-sm text-gray-500 dark:text-gray-400 text-left">
+                Current value: {accepted ? "Checked" : "Unchecked"}
+              </Text>
 
-              <Text>List of Variants of Checkbox</Text>
-              <Checkbox onChange={Event}>
+              <Text className="text-base font-semibold text-foreground text-left">
+                Visual States
+              </Text>
+
+              <Checkbox>
                 <CheckboxIndicator />
                 <CheckboxContent>
                   <CheckboxLabel>Default</CheckboxLabel>
                 </CheckboxContent>
               </Checkbox>
 
-              <Checkbox defaultValue={true} onChange={Event}>
-                <CheckboxIndicator />
-                <CheckboxContent>
-                  <CheckboxLabel>Checked</CheckboxLabel>
-                </CheckboxContent>
-              </Checkbox>
-
-              <Checkbox defaultValue={true} hovered onChange={Event}>
+              <Checkbox checked hovered>
                 <CheckboxIndicator />
                 <CheckboxContent>
                   <CheckboxLabel>Checked Hovered</CheckboxLabel>
                 </CheckboxContent>
               </Checkbox>
 
-              <Checkbox disabled onChange={Event}>
+              <Checkbox pressed>
                 <CheckboxIndicator />
                 <CheckboxContent>
-                  <CheckboxLabel>Disabled </CheckboxLabel>
+                  <CheckboxLabel>Pressed</CheckboxLabel>
                 </CheckboxContent>
               </Checkbox>
 
-              <Checkbox onChange={Event}>
+              <Checkbox disabled>
                 <CheckboxIndicator />
                 <CheckboxContent>
-                  <CheckboxLabel>Destructive Validation </CheckboxLabel>
+                  <CheckboxLabel>Disabled</CheckboxLabel>
                 </CheckboxContent>
               </Checkbox>
 
-              <Checkbox onChange={Event} checked disabled>
+              <Checkbox variant="destructive">
                 <CheckboxIndicator />
                 <CheckboxContent>
-                  <CheckboxLabel>Chcecked disabled</CheckboxLabel>
+                  <CheckboxLabel>Destructive Validation</CheckboxLabel>
+                </CheckboxContent>
+              </Checkbox>
+
+              <Checkbox checked disabled>
+                <CheckboxIndicator />
+                <CheckboxContent>
+                  <CheckboxLabel>Checked Disabled</CheckboxLabel>
                 </CheckboxContent>
               </Checkbox>
             </View>
