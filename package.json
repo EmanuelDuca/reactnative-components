@@ -14,7 +14,8 @@
     "expo-doctor": "pnpm dlx expo-doctor",
     "figma:test": "node src/test-figma.js",
     "figma:inspect": "node src/inspect-icons-frame.js",
-    "figma:export-icons": "node src/export-figma-icons.js"
+    "figma:export-icons": "node src/export-figma-icons.js",
+    "clean": "rm -rf node_modules && rm -rf .expo"
   },
   "dependencies": {
     "@expo-google-fonts/open-sans": "^0.3.0",

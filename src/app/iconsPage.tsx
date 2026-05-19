@@ -11,7 +11,12 @@ type IconComponent = React.ComponentType<{
 
 const iconEntries = Object.entries(Icons)
   .filter(([, Icon]) => typeof Icon === "function")
-  .sort(([nameA], [nameB]) => nameA.localeCompare(nameB));
+  .sort(([nameA], [nameB]) => {
+    if (nameA === "QasaLogo") return 1;
+    if (nameB === "QasaLogo") return -1;
+
+    return nameA.localeCompare(nameB);
+  });
 
 const iconData = iconEntries.map(([name, Icon]) => ({
   name,
@@ -56,6 +61,9 @@ export default function IconsPage() {
           </View>
         )}
       />
+      <View className="flex flex-row items-center justify-center p-10">
+        <Icons.QasaLogo width={148} height={48} />
+      </View>
     </View>
   );
 }

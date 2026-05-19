@@ -1036,6 +1036,7 @@ export { Proportions } from "./Proportions";
 export { Puzzle } from "./Puzzle";
 export { Pyramid } from "./Pyramid";
 export { QrCode } from "./QrCode";
+export { QasaLogo } from "./QasaLogo";
 export { Quote } from "./Quote";
 export { Rabbit } from "./Rabbit";
 export { Radar } from "./Radar";
